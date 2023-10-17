@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import { useNavigate } from 'react-router-dom';
 import { AUTHORIZATION_API_URL } from '../scripts/apiLinks';
+import { signInToken } from '../scripts/AuthorizationApiRequests';
 
 function SignIn() {
   const navigate = useNavigate();
@@ -29,14 +30,7 @@ function SignIn() {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    const response = await fetch(`${AUTHORIZATION_API_URL}/sign_in`, {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const response = await signInToken(email, password);
 
     const data = await response.json();
     if (response.ok) {
@@ -50,8 +44,6 @@ function SignIn() {
 
   return (
     <div>
-      {console.log(localStorage.getItem('refresh_token'))}
-      {console.log(authorizationData)}
       <p>Sign in</p>
       <form onSubmit={handleSubmit}>
         <div>
