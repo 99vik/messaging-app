@@ -1,13 +1,25 @@
-import { useContext, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import { useNavigate } from 'react-router-dom';
 import { AUTHORIZATION_API_URL } from '../scripts/apiLinks';
 
 function SignIn() {
   const navigate = useNavigate();
-  const { authorizationData, setAuthorizationData } = useContext(
+  const { authorizationData, authorization } = useContext(
     AuthorizationDataContext
   );
+
+  useEffect(() => {
+    checkAuthorization();
+  }, []);
+
+  function checkAuthorization() {
+    const refresh_token = localStorage.getItem('refresh_token');
+    if (refresh_token) {
+      console.log('setting tokens');
+      navigate('/');
+    }
+  }
 
   const emailRef = useRef(0);
   const passwordRef = useRef(0);
@@ -28,12 +40,7 @@ function SignIn() {
 
     const data = await response.json();
     if (response.ok) {
-      const newAuthorizationData = {
-        token: data.token,
-        refresh_token: data.refresh_token,
-        resource_owner: data.resource_owner,
-      };
-      setAuthorizationData(newAuthorizationData);
+      authorization(data);
       navigate('/');
     } else {
       console.log('error');
@@ -43,6 +50,8 @@ function SignIn() {
 
   return (
     <div>
+      {console.log(localStorage.getItem('refresh_token'))}
+      {console.log(authorizationData)}
       <p>Sign in</p>
       <form onSubmit={handleSubmit}>
         <div>
