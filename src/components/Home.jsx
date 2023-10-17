@@ -40,7 +40,6 @@ function Home() {
 
   return (
     <>
-      {console.log(authorizationData)}
       <button onClick={logOut}>Log Out</button>
       <h1> Home</h1>
     </>
