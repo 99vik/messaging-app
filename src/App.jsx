@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import ApplicationRoutes from './components/ApplicationRoutes';
 import { useState } from 'react';
 import { AuthorizationDataContext } from './scripts/AuthorizationDataContext';

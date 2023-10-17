@@ -1,26 +1,17 @@
 import { useContext, useEffect, useRef } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import { useNavigate } from 'react-router-dom';
-import { AUTHORIZATION_API_URL } from '../scripts/apiLinks';
 import { signInToken } from '../scripts/AuthorizationApiRequests';
 
 function SignIn() {
   const navigate = useNavigate();
-  const { authorizationData, authorization } = useContext(
-    AuthorizationDataContext
-  );
+  const { authorization } = useContext(AuthorizationDataContext);
 
   useEffect(() => {
-    checkAuthorization();
-  }, []);
-
-  function checkAuthorization() {
-    const refresh_token = localStorage.getItem('refresh_token');
-    if (refresh_token) {
-      console.log('setting tokens');
+    if (localStorage.getItem('refresh_token')) {
       navigate('/');
     }
-  }
+  }, []);
 
   const emailRef = useRef(0);
   const passwordRef = useRef(0);

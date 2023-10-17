@@ -1,14 +1,13 @@
-import { useContext, useEffect, useLayoutEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import { useNavigate } from 'react-router-dom';
-import { AUTHORIZATION_API_URL } from '../scripts/apiLinks';
-import { refreshToken } from '../scripts/AuthorizationApiRequests';
+import { refreshToken, revokeToken } from '../scripts/AuthorizationApiRequests';
 
 function Home() {
   const { authorizationData, authorization } = useContext(
     AuthorizationDataContext
   );
-  const [loader, setLoader] = useState(true);
+  const [authorizationLoader, setAuthorizationLoader] = useState(true);
 
   const navigate = useNavigate();
 
@@ -22,20 +21,20 @@ function Home() {
           authorization(data);
         }
       } else {
-        console.log('redirecting');
         navigate('sign-in');
       }
-      setLoader(false);
+      setAuthorizationLoader(false);
     }
     checkAuthorization();
   }, []);
 
   function logOut() {
+    revokeToken(authorizationData.token);
     authorization();
     navigate('sign-in');
   }
 
-  if (loader) {
+  if (authorizationLoader) {
     return <h1>Loading</h1>;
   }
 

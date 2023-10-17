@@ -11,6 +11,17 @@ async function refreshToken(refresh_token) {
   return response;
 }
 
+async function revokeToken(access_token) {
+  const response = await fetch(`${AUTHORIZATION_API_URL}/revoke`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return response;
+}
+
 async function signUpToken(email, password) {
   const response = await fetch(`${AUTHORIZATION_API_URL}/sign_up`, {
     method: 'POST',
@@ -35,4 +46,4 @@ async function signInToken(email, password) {
   return response;
 }
 
-export { refreshToken, signUpToken, signInToken };
+export { refreshToken, revokeToken, signUpToken, signInToken };
