@@ -3,6 +3,8 @@ import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import { useNavigate } from 'react-router-dom';
 import { refreshToken, revokeToken } from '../scripts/AuthorizationApiRequests';
 import { fetchHomeData } from '../scripts/FetchData';
+import Sidebar from './Sidebar';
+import Main from './Main';
 
 function Home() {
   const [chats, setChats] = useState(null);
@@ -16,7 +18,6 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('use effect');
     async function checkAuthorization() {
       const refresh_token = localStorage.getItem('refresh_token');
       if (refresh_token) {
@@ -57,33 +58,31 @@ function Home() {
     navigate('sign-in');
   }
 
-  if (authorizationLoader) {
+  if (authorizationLoader || loader) {
     return (
       <>
-        <h1> Loading</h1>
+        <Loader />
       </>
     );
   }
 
   return (
     <>
-      <button onClick={logOut}>Log Out</button>
-      <h1> Home</h1>
-      {loader ? (
-        <h1>Loading chats</h1>
-      ) : (
-        <>
-          {chats.map((chat, index) => {
-            return (
-              <div key={index}>
-                <h1>{chat.name}</h1>
-                <h1>{chat.type}</h1>
-              </div>
-            );
-          })}
-        </>
-      )}
+      <div className="flex p-1">
+        <Sidebar logOut={logOut} data={chats} />
+        <Main />
+      </div>
     </>
+  );
+}
+
+function Loader() {
+  return (
+    <div className="flex gap-2 h-full w-full items-center justify-cente">
+      <div className="w-6 h-6 rounded-full animate-[1s_pulse_infinite_ease-in-out] bg-sky-500"></div>
+      <div className="w-6 h-6 rounded-full animate-[1s_pulse_0.2s_infinite_ease-in-out] bg-sky-500"></div>
+      <div className="w-6 h-6 rounded-full animate-[1s_pulse_0.4s_infinite_ease-in-out] bg-sky-500"></div>
+    </div>
   );
 }
 
