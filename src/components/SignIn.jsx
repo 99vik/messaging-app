@@ -75,6 +75,9 @@ function SignIn() {
         >
           Log in
         </button>
+        <button className="bg-white border border-sky-500 p-2 rounded-lg text-sky-500 font-semibold hover:bg-neutral-200 transition">
+          Try demo login
+        </button>
         <Link to="/sign-up">
           <p className="text-sm text-sky-500 font-semibold text-center -mb-3 -mt-1 hover:text-sky-700 transition">
             Don't have an account? Sign up.
