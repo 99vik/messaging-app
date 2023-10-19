@@ -1,7 +1,18 @@
+import { useState } from 'react';
+import ProfileMenu from './ProfileMenu';
+
 function Sidebar({ logOut, data, setMainDisplay }) {
+  const [profileMenu, setProfileMenu] = useState(false);
+  function toggleProfileMenu() {
+    setProfileMenu(!profileMenu);
+  }
   return (
-    <div className="w-[360px] border-r-2 border-neutral-200">
-      <TopMenu setMainDisplay={setMainDisplay} />
+    <div className="w-[360px] border-r-2 border-neutral-200 relative overflow-hidden">
+      {profileMenu && <ProfileMenu toggleProfileMenu={toggleProfileMenu} />}
+      <TopMenu
+        setMainDisplay={setMainDisplay}
+        toggleProfileMenu={toggleProfileMenu}
+      />
       <button onClick={logOut}>Log Out</button>
       {data.map((chat, index) => {
         return (
@@ -15,10 +26,10 @@ function Sidebar({ logOut, data, setMainDisplay }) {
   );
 }
 
-function TopMenu({ setMainDisplay }) {
+function TopMenu({ setMainDisplay, toggleProfileMenu }) {
   return (
     <div className="flex items-center justify-between border-b-2 border-neutral-200 px-3 py-2">
-      <button>
+      <button onClick={toggleProfileMenu}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
