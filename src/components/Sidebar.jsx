@@ -12,8 +12,8 @@ function Sidebar({ logOut, data, setMainDisplay }) {
       <TopMenu
         setMainDisplay={setMainDisplay}
         toggleProfileMenu={toggleProfileMenu}
+        logOut={logOut}
       />
-      <button onClick={logOut}>Log Out</button>
       {data.map((chat, index) => {
         return (
           <div key={index} onClick={() => setMainDisplay('chat')}>
@@ -26,7 +26,7 @@ function Sidebar({ logOut, data, setMainDisplay }) {
   );
 }
 
-function TopMenu({ setMainDisplay, toggleProfileMenu }) {
+function TopMenu({ setMainDisplay, toggleProfileMenu, logOut }) {
   const [settingsPopup, setSettingsPopup] = useState(false);
 
   return (
@@ -64,7 +64,7 @@ function TopMenu({ setMainDisplay, toggleProfileMenu }) {
           </svg>
         </button>
         <div className="relative flex justify-center items-center">
-          {settingsPopup && <SettingsPopup />}
+          {settingsPopup && <SettingsPopup logOut={logOut} />}
           <button onClick={() => setSettingsPopup(!settingsPopup)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -81,11 +81,28 @@ function TopMenu({ setMainDisplay, toggleProfileMenu }) {
   );
 }
 
-function SettingsPopup() {
+function SettingsPopup({ logOut }) {
   return (
-    <div className="absolute bg-slate-100 -bottom-[150%] left-[100%]">
-      <p>Dark mode</p>
-      <p>Logout</p>
+    <div className="absolute w-[220px] bg-white px-3 py-1 pb-2 -bottom-[250%] left-[100%] rounded-lg border border-sky-400 shadow-[0_0_6px_3px_rgba(0,160,255,0.2)]">
+      <p className="text-sm text-neutral-500 font-semibold mb-2">Settings</p>
+      <div className="flex flex-col gap-2 items-start justify-center">
+        <button className="bg-blue-950 hover:bg-black transition py-1 px-2 rounded-lg flex items-center gap-2 text-white">
+          Toggle dark mode
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="w-5 fill-white"
+          >
+            <path d="M7.5,2C5.71,3.15 4.5,5.18 4.5,7.5C4.5,9.82 5.71,11.85 7.53,13C4.46,13 2,10.54 2,7.5A5.5,5.5 0 0,1 7.5,2M19.07,3.5L20.5,4.93L4.93,20.5L3.5,19.07L19.07,3.5M12.89,5.93L11.41,5L9.97,6L10.39,4.3L9,3.24L10.75,3.12L11.33,1.47L12,3.1L13.73,3.13L12.38,4.26L12.89,5.93M9.59,9.54L8.43,8.81L7.31,9.59L7.65,8.27L6.56,7.44L7.92,7.35L8.37,6.06L8.88,7.33L10.24,7.36L9.19,8.23L9.59,9.54M19,13.5A5.5,5.5 0 0,1 13.5,19C12.28,19 11.15,18.6 10.24,17.93L17.93,10.24C18.6,11.15 19,12.28 19,13.5M14.6,20.08L17.37,18.93L17.13,22.28L14.6,20.08M18.93,17.38L20.08,14.61L22.28,17.15L18.93,17.38M20.08,12.42L18.94,9.64L22.28,9.88L20.08,12.42M9.63,18.93L12.4,20.08L9.87,22.27L9.63,18.93Z" />
+          </svg>
+        </button>
+        <button
+          className="bg-red-500 hover:bg-red-700 transition py-1 px-2 rounded-lg text-white"
+          onClick={logOut}
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 }
