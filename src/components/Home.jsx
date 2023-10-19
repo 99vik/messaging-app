@@ -9,6 +9,7 @@ import Main from './Main';
 function Home() {
   const [chats, setChats] = useState(null);
   const [loader, setLoader] = useState(true);
+  const [mainDisplay, setMainDisplay] = useState(null);
 
   const { authorizationData, authorization } = useContext(
     AuthorizationDataContext
@@ -68,9 +69,9 @@ function Home() {
 
   return (
     <>
-      <div className="flex p-1">
+      <div className="flex p-1 h-full">
         <Sidebar logOut={logOut} data={chats} />
-        <Main />
+        <Main mainDisplay={mainDisplay} />
       </div>
     </>
   );
@@ -78,7 +79,7 @@ function Home() {
 
 function Loader() {
   return (
-    <div className="flex gap-2 h-full w-full items-center justify-cente">
+    <div className="flex gap-2 h-full w-full items-center justify-center">
       <div className="w-6 h-6 rounded-full animate-[1s_pulse_infinite_ease-in-out] bg-sky-500"></div>
       <div className="w-6 h-6 rounded-full animate-[1s_pulse_0.2s_infinite_ease-in-out] bg-sky-500"></div>
       <div className="w-6 h-6 rounded-full animate-[1s_pulse_0.4s_infinite_ease-in-out] bg-sky-500"></div>

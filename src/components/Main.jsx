@@ -1,5 +1,7 @@
-function Main() {
-  return <div className="bg-red-500 flex-1"></div>;
+function Main({ mainDisplay }) {
+  return (
+    <div className="bg-neutral-50 flex-1 rounded-tr-lg rounded-br-lg"></div>
+  );
 }
 
 export default Main;
