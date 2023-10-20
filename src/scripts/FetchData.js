@@ -19,6 +19,7 @@ async function fetchAllPublicChats(access_token) {
       Authorization: `Bearer ${access_token}`,
     },
   });
+  console.log(response);
   return await response.json();
 }
 

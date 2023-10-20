@@ -14,12 +14,14 @@ function GroupsDisplay() {
       setLoader(false);
     }
     fetchData();
-  });
+  }, []);
 
   return (
     <div className="h-full w-full">
       <div className="flex justify-between items-center px-5 pt-4 pb-2">
-        <p className="text-3xl text-neutral-500">Find public chats</p>
+        <p className="text-3xl text-neutral-500 dark:text-neutral-300">
+          Find public chats
+        </p>
         <button className="flex justify-center items-center gap-3 font-semibold hover:bg-sky-700 transition bg-sky-500 text-white py-2 px-4 rounded-xl">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +34,7 @@ function GroupsDisplay() {
         </button>
       </div>
       <div className="px-5">
-        <div className="h-[1px] w-full bg-slate-300"></div>
+        <div className="h-[1px] w-full bg-slate-300 dark:bg-slate-600"></div>
       </div>
       {loader ? <h1>Loading</h1> : <PublicChats publicChats={publicChats} />}
     </div>
@@ -42,9 +44,17 @@ function GroupsDisplay() {
 function PublicChats({ publicChats }) {
   const chatsElement = publicChats.map((chat) => {
     return (
-      <div key={chat.id}>
-        <p>{chat.name}</p>
-        <p>{chat.type}</p>
+      <div
+        key={chat.id}
+        className="flex items-center justify-between px-4 dark:bg-slate-700 transition bg-slate-200 border-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 cursor-pointer border dark:border-slate-600 my-2 mx-5 p-1 rounded"
+      >
+        <div>
+          <p>{chat.name}</p>
+          <p>{chat.type}</p>
+        </div>
+        <button className="bg-sky-500 hover:bg-sky-600 transition font-semibold h-fit px-8 py-1 rounded-lg text-white">
+          Join
+        </button>
       </div>
     );
   });
