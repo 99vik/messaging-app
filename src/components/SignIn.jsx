@@ -34,19 +34,22 @@ function SignIn() {
   }
 
   return (
-    <div className="h-full w-full flex max-[780px]:flex-col max-sm:justify-start justify-around items-center">
+    <div className="h-full w-full flex max-[780px]:flex-col max-sm:justify-start justify-around items-center dark:bg-slate-900">
       <p className="text-sky-500 text-6xl font-extrabold max-[920px]:text-5xl max-sm:my-20">
         MessageApp
       </p>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4 w-[350px] max-sm:gap-8 max-sm:px-4 max-sm:bg-white  max-sm:border-none max-sm:w-full max-sm:gap max-[920px]:w-[320px] max-[920px]:p-4 p-8 border-neutral-200 rounded-lg bg-neutral-50 border"
+        className="flex flex-col gap-4 w-[350px] max-sm:gap-8 max-sm:px-4 dark:bg-slate-800 dark:border-slate-700 max-sm:bg-white  max-sm:border-none max-sm:w-full max-sm:gap max-[920px]:w-[320px] max-[920px]:p-4 p-8 border-neutral-200 rounded-lg bg-neutral-50 border"
       >
         <p className="text-sky-500 text-lg max-sm:text-3xl font-semibold text-center">
           Sign in
         </p>
         <div className="flex flex-col">
-          <label htmlFor="email" className="text-sm text-neutral-500">
+          <label
+            htmlFor="email"
+            className="text-sm text-neutral-500 dark:text-neutral-300"
+          >
             Email
           </label>
           <input
@@ -54,11 +57,14 @@ function SignIn() {
             type="text"
             name="email"
             id="email"
-            className="border-2 outline-none px-2 py-1 rounded-lg focus:border-sky-500 transition"
+            className="border-2 outline-none px-2 py-1 rounded-lg dark:bg-slate-200 focus:border-sky-500 transition"
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="password" className="text-sm text-neutral-500">
+          <label
+            htmlFor="password"
+            className="text-sm text-neutral-500 dark:text-neutral-300"
+          >
             Password
           </label>
           <input
@@ -66,7 +72,7 @@ function SignIn() {
             type="password"
             name="password"
             id="password"
-            className="border-2 outline-none px-2 py-1 rounded-lg focus:border-sky-500 transition"
+            className="border-2 outline-none px-2 py-1 rounded-lg focus:border-sky-500 transition dark:bg-slate-200"
           />
         </div>
         <button
@@ -75,7 +81,7 @@ function SignIn() {
         >
           Log in
         </button>
-        <button className="bg-white border border-sky-500 p-2 rounded-lg text-sky-500 font-semibold hover:bg-neutral-200 transition">
+        <button className="bg-white border border-sky-500 p-2 rounded-lg text-sky-500 font-semibold dark:hover:bg-slate-900 dark:bg-slate-800 hover:bg-neutral-200 transition">
           Try demo login
         </button>
         <Link to="/sign-up">
