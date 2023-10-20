@@ -8,7 +8,7 @@ function Sidebar({ logOut, chats, setMainDisplay }) {
     setProfileMenu(!profileMenu);
   }
   return (
-    <div className="w-[360px] border-r-2 border-neutral-200 dark:border-slate-700 relative ">
+    <div className="w-[360px] border-r-2 z-10 border-neutral-200 dark:border-slate-700 relative ">
       {profileMenu && <ProfileMenu toggleProfileMenu={toggleProfileMenu} />}
       <TopMenu
         setMainDisplay={setMainDisplay}

@@ -1,10 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
-import { fetchAllPublicChats } from '../scripts/FetchData';
+import { createChat, fetchAllPublicChats } from '../scripts/FetchData';
+import CloseIcon from '../assets/icons/CloseIcon.svg';
 
 function GroupsDisplay() {
   const [loader, setLoader] = useState(true);
   const [publicChats, setPublicChats] = useState(null);
+  const [createForm, setCreateForm] = useState(false);
   const { authorizationData } = useContext(AuthorizationDataContext);
 
   useEffect(() => {
@@ -16,13 +18,25 @@ function GroupsDisplay() {
     fetchData();
   }, []);
 
+  if (createForm) {
+    return (
+      <CreateChatForm
+        token={authorizationData.token}
+        close={() => setCreateForm(false)}
+      />
+    );
+  }
+
   return (
     <div className="h-full w-full">
       <div className="flex justify-between items-center px-5 pt-4 pb-2">
         <p className="text-3xl text-neutral-500 dark:text-neutral-300">
           Find public chats
         </p>
-        <button className="flex justify-center items-center gap-3 font-semibold hover:bg-sky-700 transition bg-sky-500 text-white py-2 px-4 rounded-xl">
+        <button
+          onClick={() => setCreateForm(true)}
+          className="flex justify-center items-center gap-3 font-semibold hover:bg-sky-700 transition bg-sky-500 text-white py-2 px-4 rounded-xl"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -60,6 +74,94 @@ function PublicChats({ publicChats }) {
   });
 
   return chatsElement;
+}
+
+function CreateChatForm({ close, token }) {
+  const nameRef = useRef(0);
+  const typeRef = useRef(0);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const name = nameRef.current.value;
+    const type = typeRef.current.value;
+
+    const response = await createChat(token, name, type);
+    if (response.ok) {
+      console.log('chat created');
+      console.log(await response.json());
+    } else {
+      console.log('error');
+      console.log(await response.json());
+    }
+  }
+
+  return (
+    <div className="relative w-full h-full">
+      <div className="flex justify-between items-center px-5 pt-4 pb-2">
+        <p className="text-3xl text-neutral-500 dark:text-neutral-300">
+          Create new chat
+        </p>
+      </div>
+      <div className="px-5">
+        <div className="h-[1px] w-full bg-slate-300 dark:bg-slate-600"></div>
+      </div>
+      <button
+        onClick={close}
+        className="absolute top-2 right-2 hover:scale-105 transition"
+      >
+        <img src={CloseIcon} alt="close" className="w-11" />
+      </button>
+      <div className="flex justify-center">
+        <form
+          onSubmit={handleSubmit}
+          className="w-[280px] mx-5 mt-6 flex flex-col gap-4"
+        >
+          <div className="flex flex-col">
+            <label htmlFor="name" className="text-sky-600 font-semibold">
+              Name
+            </label>
+            <input
+              ref={nameRef}
+              type="text"
+              name="name"
+              id="name"
+              className="outline-none border p-1 rounded border-slate-300 focus:border-sky-500 transition"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="name" className="text-sky-600 font-semibold">
+              Type
+            </label>
+            <select
+              ref={typeRef}
+              name="type"
+              id="type"
+              className="outline-none border p-1 rounded border-slate-300 focus:border-sky-500 transition "
+            >
+              <option
+                className="text-sm text-neutral-500 bg-slate-100"
+                value="null"
+              >
+                Select type
+              </option>
+              <option value="private" className="bg-slate-100">
+                Private
+              </option>
+              <option value="public" className="bg-slate-100">
+                Public
+              </option>
+            </select>
+          </div>
+          <button
+            type="submit"
+            className="bg-sky-500 hover:bg-sky-600 transition text-white rounded-lg py-1 mt-4"
+          >
+            Create
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default GroupsDisplay;

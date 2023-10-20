@@ -19,8 +19,22 @@ async function fetchAllPublicChats(access_token) {
       Authorization: `Bearer ${access_token}`,
     },
   });
-  console.log(response);
   return await response.json();
 }
 
-export { fetchUserChats, fetchAllPublicChats };
+async function createChat(access_token, name, type) {
+  const chat = { name, type };
+  const response = await fetch(`${API_URL}/create_chat`, {
+    method: 'POST',
+    body: JSON.stringify({
+      chat,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return response;
+}
+
+export { fetchUserChats, fetchAllPublicChats, createChat };
