@@ -7,7 +7,7 @@ function Sidebar({ logOut, data, setMainDisplay }) {
     setProfileMenu(!profileMenu);
   }
   return (
-    <div className="w-[360px] border-r-2 border-neutral-200 relative ">
+    <div className="w-[360px] border-r-2 border-neutral-200 dark:border-slate-700 relative ">
       {profileMenu && <ProfileMenu toggleProfileMenu={toggleProfileMenu} />}
       <TopMenu
         setMainDisplay={setMainDisplay}
@@ -30,7 +30,7 @@ function TopMenu({ setMainDisplay, toggleProfileMenu, logOut }) {
   const [settingsPopup, setSettingsPopup] = useState(false);
 
   return (
-    <div className="flex items-center justify-between border-b-2 border-neutral-200 px-3 py-2">
+    <div className="flex items-center justify-between border-b-2 border-neutral-200 dark:border-slate-700 px-3 py-2">
       <button onClick={toggleProfileMenu}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -82,11 +82,24 @@ function TopMenu({ setMainDisplay, toggleProfileMenu, logOut }) {
 }
 
 function SettingsPopup({ logOut }) {
+  function toggleDarkMode() {
+    const documentSelector = document.documentElement;
+    if (!documentSelector.classList.contains('dark')) {
+      localStorage.theme = 'dark';
+    } else {
+      localStorage.removeItem('theme');
+    }
+    documentSelector.classList.toggle('dark');
+  }
+
   return (
     <div className="absolute w-[220px] bg-white px-3 py-1 pb-2 -bottom-[250%] left-[100%] rounded-lg border border-sky-400 shadow-[0_0_6px_3px_rgba(0,160,255,0.2)]">
       <p className="text-sm text-neutral-500 font-semibold mb-2">Settings</p>
       <div className="flex flex-col gap-2 items-start justify-center">
-        <button className="bg-blue-950 hover:bg-black transition py-1 px-2 rounded-lg flex items-center gap-2 text-white">
+        <button
+          className="bg-blue-950 hover:bg-black transition py-1 px-2 rounded-lg flex items-center gap-2 text-white"
+          onClick={toggleDarkMode}
+        >
           Toggle dark mode
           <svg
             xmlns="http://www.w3.org/2000/svg"

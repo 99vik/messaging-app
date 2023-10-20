@@ -1,6 +1,6 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import ApplicationRoutes from './components/ApplicationRoutes';
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { AuthorizationDataContext } from './scripts/AuthorizationDataContext';
 import HandleAuthorizationData from './scripts/HandleAuthorizationData';
 
@@ -11,8 +11,16 @@ export default function App() {
     setAuthorizationData(HandleAuthorizationData(data));
   }
 
+  useLayoutEffect(() => {
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      const documentSelector = document.documentElement;
+      documentSelector.classList.add('dark');
+    }
+  });
+
   return (
-    <div className="bg-neutral-200 w-screen h-screen p-7 max-[920px]:p-5 max-sm:p-0">
+    <div className="bg-neutral-200 dark:bg-slate-950 w-screen h-screen p-7 max-[920px]:p-5 max-sm:p-0 transition-colors">
       <div className="bg-white w-full h-full rounded-lg shadow-[0_0_10px_5px_rgba(0,160,255,0.2)]">
         <AuthorizationDataContext.Provider
           value={{ authorizationData, authorization }}

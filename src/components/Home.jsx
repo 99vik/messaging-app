@@ -69,7 +69,7 @@ function Home() {
 
   return (
     <>
-      <div className="flex p-1 h-full overflow-hidden">
+      <div className="flex h-full rounded-lg overflow-hidden dark:bg-slate-900 dark:text-white ">
         <Sidebar logOut={logOut} data={chats} setMainDisplay={setMainDisplay} />
         <Main mainDisplay={mainDisplay} />
       </div>
