@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ProfileMenu from './ProfileMenu';
+import Chats from './Chats';
 
 function Sidebar({ logOut, data, setMainDisplay }) {
   const [profileMenu, setProfileMenu] = useState(false);
@@ -14,14 +15,7 @@ function Sidebar({ logOut, data, setMainDisplay }) {
         toggleProfileMenu={toggleProfileMenu}
         logOut={logOut}
       />
-      {data.map((chat, index) => {
-        return (
-          <div key={index} onClick={() => setMainDisplay('chat')}>
-            <h1>{chat.name}</h1>
-            <h1>{chat.type}</h1>
-          </div>
-        );
-      })}
+      <Chats data={data} setMainDisplay={setMainDisplay} />
     </div>
   );
 }
