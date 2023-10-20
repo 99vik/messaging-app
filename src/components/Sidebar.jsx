@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ProfileMenu from './ProfileMenu';
 import Chats from './Chats';
 
-function Sidebar({ logOut, data, setMainDisplay }) {
+function Sidebar({ logOut, chats, setMainDisplay }) {
   const [profileMenu, setProfileMenu] = useState(false);
   function toggleProfileMenu() {
     setProfileMenu(!profileMenu);
@@ -15,7 +15,7 @@ function Sidebar({ logOut, data, setMainDisplay }) {
         toggleProfileMenu={toggleProfileMenu}
         logOut={logOut}
       />
-      <Chats data={data} setMainDisplay={setMainDisplay} />
+      <Chats chats={chats} setMainDisplay={setMainDisplay} />
     </div>
   );
 }

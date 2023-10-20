@@ -2,7 +2,7 @@ import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import { useNavigate } from 'react-router-dom';
 import { refreshToken, revokeToken } from '../scripts/AuthorizationApiRequests';
-import { fetchHomeData } from '../scripts/FetchData';
+import { fetchUserChats } from '../scripts/FetchData';
 import Sidebar from './Sidebar';
 import Main from './Main';
 
@@ -43,7 +43,7 @@ function Home() {
   useEffect(() => {
     async function getData() {
       if (authorizationData) {
-        const data = await fetchHomeData(authorizationData.token);
+        const data = await fetchUserChats(authorizationData.token);
         setChats(data);
         setLoader(false);
       }
@@ -70,7 +70,11 @@ function Home() {
   return (
     <>
       <div className="flex h-full rounded-lg overflow-hidden dark:bg-slate-900 dark:text-white ">
-        <Sidebar logOut={logOut} data={chats} setMainDisplay={setMainDisplay} />
+        <Sidebar
+          logOut={logOut}
+          chats={chats}
+          setMainDisplay={setMainDisplay}
+        />
         <Main mainDisplay={mainDisplay} />
       </div>
     </>

@@ -1,5 +1,5 @@
-function Chats({ data, setMainDisplay }) {
-  const chats = data.map((chat, index) => (
+function Chats({ chats, setMainDisplay }) {
+  const userChat = chats.map((chat, index) => (
     <Chat key={index} chat={chat} setMainDisplay={setMainDisplay} />
   ));
   return (
@@ -7,7 +7,7 @@ function Chats({ data, setMainDisplay }) {
       <div className="flex justify-center">
         <label
           htmlFor="search"
-          className="p-1 pl-3 flex justify-center items-center bg-slate-200 dark:bg-slate-600 rounded-tl-lg rounded-bl-lg my-1 ml-3"
+          className="p-1 pl-3 flex justify-center items-center bg-slate-200 dark:bg-slate-600 rounded-tl-lg rounded-bl-lg mt-1 ml-3"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -22,10 +22,10 @@ function Chats({ data, setMainDisplay }) {
           id="search"
           type="text"
           placeholder="Search.."
-          className="bg-slate-200 outline-none dark:placeholder:text-white dark:text-white dark:bg-slate-600 placeholder:text-neutral-500 text-neutral-800 w-full p-1 pl-3 rounded-tr-lg rounded-br-lg my-1 mr-3"
+          className="bg-slate-200 outline-none dark:placeholder:text-white dark:text-white dark:bg-slate-600 placeholder:text-neutral-500 text-neutral-800 w-full p-1 pl-3 rounded-tr-lg rounded-br-lg mt-1 mr-3"
         />
       </div>
-      {chats}
+      {userChat}
     </>
   );
 }
