@@ -34,7 +34,7 @@ function Chat({ chat, setMainDisplay }) {
   return (
     <div
       className="bg-slate-100 m-1 rounded-sm border dark:hover:bg-slate-700 dark:bg-slate-800 dark:border-slate-700 border-slate-200 p-1 hover:bg-slate-200 cursor-pointer transition"
-      onClick={() => setMainDisplay('chat')}
+      onClick={() => setMainDisplay(['chat', chat.id])}
     >
       <h1>{chat.name}</h1>
       <h1>{chat.type}</h1>

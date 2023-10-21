@@ -4,11 +4,11 @@ import GroupsDisplay from './GroupsDisplay';
 
 function Main({ mainDisplay }) {
   function switchResult() {
-    switch (mainDisplay) {
+    switch (mainDisplay[0]) {
       case 'friends':
         return <FriendsDisplay />;
       case 'chat':
-        return <ChatDisplay />;
+        return <ChatDisplay chatID={mainDisplay[1]} />;
       case 'groups':
         return <GroupsDisplay />;
       default:

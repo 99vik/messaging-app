@@ -9,7 +9,7 @@ import Main from './Main';
 function Home() {
   const [chats, setChats] = useState(null);
   const [loader, setLoader] = useState(true);
-  const [mainDisplay, setMainDisplay] = useState(null);
+  const [mainDisplay, setMainDisplay] = useState([]);
 
   const { authorizationData, authorization } = useContext(
     AuthorizationDataContext
