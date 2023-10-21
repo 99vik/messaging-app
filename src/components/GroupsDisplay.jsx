@@ -1,6 +1,10 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
-import { createChat, fetchAllPublicChats } from '../scripts/FetchData';
+import {
+  createChat,
+  fetchAllPublicChats,
+  joinPublicChat,
+} from '../scripts/FetchChatData';
 import CloseIcon from '../assets/icons/CloseIcon.svg';
 
 function GroupsDisplay() {
@@ -50,12 +54,28 @@ function GroupsDisplay() {
       <div className="px-5">
         <div className="h-[1px] w-full bg-slate-300 dark:bg-slate-600"></div>
       </div>
-      {loader ? <h1>Loading</h1> : <PublicChats publicChats={publicChats} />}
+      {loader ? (
+        <h1>Loading</h1>
+      ) : (
+        <PublicChats
+          publicChats={publicChats}
+          token={authorizationData.token}
+        />
+      )}
     </div>
   );
 }
 
-function PublicChats({ publicChats }) {
+function PublicChats({ publicChats, token }) {
+  async function joinChat(id) {
+    const response = await joinPublicChat(token, id);
+    if (response.ok) {
+      console.log('added to chat');
+    } else {
+      console.log('error adding to chat');
+    }
+  }
+
   const chatsElement = publicChats.map((chat) => {
     return (
       <div
@@ -66,7 +86,10 @@ function PublicChats({ publicChats }) {
           <p>{chat.name}</p>
           <p>{chat.type}</p>
         </div>
-        <button className="bg-sky-500 hover:bg-sky-600 transition font-semibold h-fit px-8 py-1 rounded-lg text-white">
+        <button
+          onClick={() => joinChat(chat.id)}
+          className="bg-sky-500 hover:bg-sky-600 transition font-semibold h-fit px-8 py-1 rounded-lg text-white"
+        >
           Join
         </button>
       </div>
@@ -114,7 +137,7 @@ function CreateChatForm({ close, token }) {
       <div className="flex justify-center">
         <form
           onSubmit={handleSubmit}
-          className="w-[280px] mx-5 mt-6 flex flex-col gap-4"
+          className="w-[280px] mx-5 mt-10 flex flex-col gap-4"
         >
           <div className="flex flex-col">
             <label htmlFor="name" className="text-sky-600 font-semibold">
@@ -125,7 +148,7 @@ function CreateChatForm({ close, token }) {
               type="text"
               name="name"
               id="name"
-              className="outline-none border p-1 rounded border-slate-300 focus:border-sky-500 transition"
+              className="outline-none border p-1 rounded border-slate-400 dark:bg-slate-200 dark:text-black focus:border-sky-400 transition"
             />
           </div>
           <div className="flex flex-col">
@@ -136,7 +159,7 @@ function CreateChatForm({ close, token }) {
               ref={typeRef}
               name="type"
               id="type"
-              className="outline-none border p-1 rounded border-slate-300 focus:border-sky-500 transition "
+              className="outline-none border p-1 rounded border-slate-400 dark:text-black dark:bg-slate-200 focus:border-sky-400 transition "
             >
               <option
                 className="text-sm text-neutral-500 bg-slate-100"

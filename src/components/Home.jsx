@@ -2,7 +2,7 @@ import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import { useNavigate } from 'react-router-dom';
 import { refreshToken, revokeToken } from '../scripts/AuthorizationApiRequests';
-import { fetchUserChats } from '../scripts/FetchData';
+import { fetchUserChats } from '../scripts/FetchChatData';
 import Sidebar from './Sidebar';
 import Main from './Main';
 
@@ -83,7 +83,7 @@ function Home() {
 
 function Loader() {
   return (
-    <div className="flex gap-2 h-full w-full items-center justify-center">
+    <div className="flex gap-2 h-full w-full items-center justify-center dark:bg-slate-900">
       <div className="w-6 h-6 rounded-full animate-[1s_pulse_infinite_ease-in-out] bg-sky-500"></div>
       <div className="w-6 h-6 rounded-full animate-[1s_pulse_0.2s_infinite_ease-in-out] bg-sky-500"></div>
       <div className="w-6 h-6 rounded-full animate-[1s_pulse_0.4s_infinite_ease-in-out] bg-sky-500"></div>

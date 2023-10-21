@@ -37,4 +37,18 @@ async function createChat(access_token, name, type) {
   return response;
 }
 
-export { fetchUserChats, fetchAllPublicChats, createChat };
+async function joinPublicChat(access_token, id) {
+  const response = await fetch(`${API_URL}/join_public_chat`, {
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return response;
+}
+
+export { fetchUserChats, fetchAllPublicChats, createChat, joinPublicChat };
