@@ -31,10 +31,10 @@ function ChatDisplay({ chat }) {
         } w-fit min-w-[200px] text-white p-2 rounded-lg`}
       >
         {authorizationData.resource_owner.id !== message.user_id && (
-          <p className="">{message.username}</p>
+          <p className="font-semibold mb-1 text-sky-100">{message.username}</p>
         )}
         <p>{message.body}</p>
-        <p>{message.created_at}</p>
+        <p className="text-sm text-end text-gray-200">{message.created_at}</p>
       </div>
     );
   }
@@ -44,7 +44,7 @@ function ChatDisplay({ chat }) {
       <Message key={index} message={message} />
     ));
     return (
-      <div className="relative flex-1 flex flex-col justify-end gap-2 py-2 px-4 bg-gradient-to-r from-slate-100 to-sky-100">
+      <div className="relative flex-1 flex flex-col justify-end gap-2 py-2 px-4 bg-gradient-to-r from-slate-200 to-sky-200 dark:from-slate-950 dark:to-sky-950">
         {displayedMessages}
       </div>
     );
@@ -70,11 +70,11 @@ function ChatDisplay({ chat }) {
     }
 
     return (
-      <div className="flex bg-white py-3 px-4 gap-4">
+      <div className="flex bg-slate-50 dark:bg-slate-800 py-3 px-4 gap-4">
         <input
           ref={messageRef}
           type="text"
-          className="flex-1 rounded-full outline-none py-1 px-3 bg-slate-200 border border-slate-300"
+          className="flex-1 rounded-full outline-none py-1 px-3 dark:bg-slate-300 dark:text-black bg-slate-200 border border-slate-300 dark:border-slate-950 transition focus:border-sky-300 dark:focus:border-sky-300"
         />
         <button
           disabled={loader}
