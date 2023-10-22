@@ -2,7 +2,7 @@ import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import { useNavigate } from 'react-router-dom';
 import { refreshToken, revokeToken } from '../scripts/AuthorizationApiRequests';
-import { fetchUserChats } from '../scripts/FetchChatData';
+import { fetchUserChats } from '../scripts/ChatApiCalls';
 import Sidebar from './Sidebar';
 import Main from './Main';
 

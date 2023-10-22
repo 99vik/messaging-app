@@ -4,7 +4,7 @@ import {
   createChat,
   fetchAllPublicChats,
   joinPublicChat,
-} from '../scripts/FetchChatData';
+} from '../scripts/ChatApiCalls';
 import CloseIcon from '../assets/icons/CloseIcon.svg';
 
 function GroupsDisplay() {
