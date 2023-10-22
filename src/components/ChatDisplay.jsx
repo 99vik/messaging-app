@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
-import { GetChatMessages } from '../scripts/MessageApiCalls';
+import { GetChatMessages, SendMessage } from '../scripts/MessageApiCalls';
 
 function ChatDisplay({ chat }) {
   const [messages, setMessages] = useState(null);
@@ -26,9 +26,9 @@ function ChatDisplay({ chat }) {
       <div
         className={`${
           authorizationData.resource_owner.id === message.user_id
-            ? 'bg-sky-500 text-white self-end'
-            : 'bg-slate-300'
-        } w-fit min-w-[200px] p-2 rounded-lg`}
+            ? 'bg-sky-500 self-end'
+            : 'bg-slate-500'
+        } w-fit min-w-[200px] text-white p-2 rounded-lg`}
       >
         {authorizationData.resource_owner.id !== message.user_id && (
           <p className="">{message.username}</p>
@@ -44,17 +44,44 @@ function ChatDisplay({ chat }) {
       <Message key={index} message={message} />
     ));
     return (
-      <div className="flex-1 flex flex-col justify-end gap-2 py-2 px-4">
+      <div className="relative flex-1 flex flex-col justify-end gap-2 py-2 px-4 bg-gradient-to-r from-slate-100 to-sky-100">
         {displayedMessages}
       </div>
     );
   }
 
-  function SendMessage() {
+  function SendMessageInput() {
+    const [loader, setLoader] = useState(false);
+    const messageRef = useRef(0);
+
+    async function sendMessage() {
+      setLoader(true);
+      const response = await SendMessage(
+        authorizationData.token,
+        messageRef.current.value,
+        chat.id
+      );
+      if (!response.ok) {
+        console.log(response);
+      } else {
+        messageRef.current.value = '';
+      }
+      setLoader(false);
+    }
+
     return (
-      <div className="flex bg-gray-500 p-2">
-        <input type="text" />
-        <button>Send</button>
+      <div className="flex bg-white py-3 px-4 gap-4">
+        <input
+          ref={messageRef}
+          type="text"
+          className="flex-1 rounded-full outline-none py-1 px-3 bg-slate-200 border border-slate-300"
+        />
+        <button
+          onClick={sendMessage}
+          className="font-semibold w-[80px] hover:bg-sky-700 transition bg-sky-500 text-white py-1 px-4 rounded-lg"
+        >
+          {loader ? 'loading' : 'Send'}
+        </button>
       </div>
     );
   }
@@ -76,7 +103,7 @@ function ChatDisplay({ chat }) {
           </svg>
         </button>
       </div>
-      <div className="px-5">
+      <div>
         <div className="h-[1px] w-full bg-slate-300 dark:bg-slate-600"></div>
       </div>
       {loader ? (
@@ -86,7 +113,7 @@ function ChatDisplay({ chat }) {
           <div className="flex-1 flex flex-col-reverse overflow-y-scroll">
             <Messages />
           </div>
-          <SendMessage />
+          <SendMessageInput />
         </>
       )}
     </div>

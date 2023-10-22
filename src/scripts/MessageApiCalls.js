@@ -11,4 +11,19 @@ async function GetChatMessages(chatID, access_token) {
   return response;
 }
 
-export { GetChatMessages };
+async function SendMessage(access_token, body, chatID) {
+  const message = { body, chatID };
+  const response = await fetch(`${API_URL}/send_message`, {
+    method: 'POST',
+    body: JSON.stringify({
+      message,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return response;
+}
+
+export { GetChatMessages, SendMessage };
