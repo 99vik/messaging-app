@@ -23,9 +23,18 @@ function ChatDisplay({ chat }) {
 
   function Message({ message }) {
     return (
-      <div>
-        <p>{message.username}</p>
+      <div
+        className={`${
+          authorizationData.resource_owner.id === message.user_id
+            ? 'bg-sky-500 text-white self-end'
+            : 'bg-slate-300'
+        } w-fit min-w-[200px] p-2 rounded-lg`}
+      >
+        {authorizationData.resource_owner.id !== message.user_id && (
+          <p className="">{message.username}</p>
+        )}
         <p>{message.body}</p>
+        <p>{message.created_at}</p>
       </div>
     );
   }
@@ -34,7 +43,20 @@ function ChatDisplay({ chat }) {
     const displayedMessages = messages.map((message, index) => (
       <Message key={index} message={message} />
     ));
-    return displayedMessages;
+    return (
+      <div className="flex-1 flex flex-col justify-end gap-2 py-2 px-4">
+        {displayedMessages}
+      </div>
+    );
+  }
+
+  function SendMessage() {
+    return (
+      <div className="flex bg-gray-500 p-2">
+        <input type="text" />
+        <button>Send</button>
+      </div>
+    );
   }
 
   return (
@@ -57,7 +79,16 @@ function ChatDisplay({ chat }) {
       <div className="px-5">
         <div className="h-[1px] w-full bg-slate-300 dark:bg-slate-600"></div>
       </div>
-      {loader ? <Loader /> : <Messages />}
+      {loader ? (
+        <Loader />
+      ) : (
+        <>
+          <div className="flex-1 flex flex-col-reverse overflow-y-scroll">
+            <Messages />
+          </div>
+          <SendMessage />
+        </>
+      )}
     </div>
   );
 }
