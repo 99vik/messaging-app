@@ -8,7 +8,7 @@ function Main({ mainDisplay }) {
       case 'friends':
         return <FriendsDisplay />;
       case 'chat':
-        return <ChatDisplay chatID={mainDisplay[1]} />;
+        return <ChatDisplay chat={mainDisplay[1]} />;
       case 'groups':
         return <GroupsDisplay />;
       default:
