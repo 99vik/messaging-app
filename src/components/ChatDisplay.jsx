@@ -70,7 +70,7 @@ function ChatDisplay({ chat }) {
     }
 
     return (
-      <div className="flex bg-slate-50 dark:bg-slate-800 py-3 px-4 gap-4">
+      <div className="flex bg-slate-50 dark:bg-slate-800 py-3 px-4 gap-4 dark:border-t dark:border-slate-700">
         <input
           ref={messageRef}
           type="text"
@@ -82,7 +82,7 @@ function ChatDisplay({ chat }) {
           className="font-semibold w-[80px] hover:bg-sky-700 transition bg-sky-500 text-white py-1 px-4 rounded-lg"
         >
           {loader ? (
-            <div className="h-full w-full flex items-center justify-center">
+            <div className="h-full w-full flex items-center justify-center ">
               <svg
                 aria-hidden="true"
                 className="w-5 h-5 text-gray-300 animate-spin fill-white"
@@ -144,7 +144,7 @@ function ChatDisplay({ chat }) {
 
 function Loader() {
   return (
-    <div className="flex flex-1 justify-center items-center gap-2">
+    <div className="flex flex-1 justify-center items-center gap-2 bg-gradient-to-r from-slate-200 to-sky-200 dark:from-slate-950 dark:to-sky-950">
       <div className="h-6 w-6 bg-sky-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
       <div className="h-6 w-6 bg-sky-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
       <div className="h-6 w-6 bg-sky-500 rounded-full animate-bounce"></div>
