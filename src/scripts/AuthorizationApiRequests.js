@@ -22,11 +22,12 @@ async function revokeToken(access_token) {
   return response;
 }
 
-async function signUpToken(email, password) {
+async function signUpToken(email, username, password) {
   const response = await fetch(`${AUTHORIZATION_API_URL}/sign_up`, {
     method: 'POST',
     body: JSON.stringify({
       email,
+      username,
       password,
     }),
     headers: { 'Content-Type': 'application/json' },

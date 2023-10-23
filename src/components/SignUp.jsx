@@ -8,6 +8,7 @@ function SignUp() {
   const { authorization } = useContext(AuthorizationDataContext);
 
   const emailRef = useRef(0);
+  const usernameRef = useRef(0);
   const passwordRef = useRef(0);
   const confirmPasswordRef = useRef(0);
 
@@ -20,6 +21,7 @@ function SignUp() {
   async function handleSubmit(e) {
     e.preventDefault();
     const email = emailRef.current.value;
+    const username = usernameRef.current.value;
     const password = passwordRef.current.value;
     const confirmPassword = confirmPasswordRef.current.value;
 
@@ -28,7 +30,7 @@ function SignUp() {
       return;
     }
 
-    const response = await signUpToken(email, password);
+    const response = await signUpToken(email, username, password);
 
     const data = await response.json();
     if (response.ok) {
@@ -64,6 +66,21 @@ function SignUp() {
             type="text"
             name="email"
             id="email"
+            className="border-2 outline-none px-2 py-1 rounded-lg focus:border-sky-500 transition dark:bg-slate-200"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label
+            htmlFor="username"
+            className="text-sm text-neutral-500 dark:text-neutral-300"
+          >
+            Username
+          </label>
+          <input
+            ref={usernameRef}
+            type="text"
+            name="username"
+            id="username"
             className="border-2 outline-none px-2 py-1 rounded-lg focus:border-sky-500 transition dark:bg-slate-200"
           />
         </div>
