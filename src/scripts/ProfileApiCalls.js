@@ -41,4 +41,19 @@ async function changeDescription(access_token, description) {
   return response;
 }
 
-export { getCurrentUser, changeUsername, changeDescription };
+async function searchForProfiles(access_token, query) {
+  const profiles = { query };
+  const response = await fetch(`${API_URL}/search_for_profiles`, {
+    method: 'POST',
+    body: JSON.stringify({
+      profiles,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return response;
+}
+
+export { getCurrentUser, changeUsername, changeDescription, searchForProfiles };

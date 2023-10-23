@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import CloseIcon from '../assets/icons/CloseIcon.svg';
+import { searchForProfiles } from '../scripts/ProfileApiCalls';
+import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 
 function FriendsDisplay() {
   const [findFriends, setFindFriends] = useState(false);
@@ -36,6 +38,29 @@ function FriendsDisplay() {
 }
 
 function FindFriends({ close }) {
+  const [profiles, setProfiles] = useState(null);
+  const { authorizationData } = useContext(AuthorizationDataContext);
+  const searchDebounceRef = useRef(null);
+
+  async function handleSearch(searchValue) {
+    const response = await searchForProfiles(
+      authorizationData.token,
+      searchValue
+    );
+  }
+
+  const handleSearchChange = (e) => {
+    const searchValue = e.target.value;
+
+    if (searchDebounceRef.current) {
+      clearTimeout(searchDebounceRef.current);
+    }
+
+    searchDebounceRef.current = setTimeout(() => {
+      handleSearch(searchValue);
+    }, 500);
+  };
+
   return (
     <div className="relative w-full h-full">
       <div className="flex justify-between items-center px-5 pt-4 pb-2">
@@ -52,6 +77,15 @@ function FindFriends({ close }) {
       >
         <img src={CloseIcon} alt="close" className="w-11" />
       </button>
+      <div className="flex py-2 px-10">
+        <input
+          ref={searchDebounceRef}
+          type="text"
+          placeholder="Search for people..."
+          onChange={handleSearchChange}
+          className="flex-1 rounded-full outline-none py-1 px-3 dark:bg-slate-300 dark:text-black bg-slate-200 border border-slate-300 dark:border-slate-950 transition focus:border-sky-300 dark:focus:border-sky-300"
+        />
+      </div>
     </div>
   );
 }
