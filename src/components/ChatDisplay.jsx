@@ -2,6 +2,10 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import { GetChatMessages, SendMessage } from '../scripts/MessageApiCalls';
 
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
+TimeAgo.addDefaultLocale(en);
+
 function ChatDisplay({ chat }) {
   const [messages, setMessages] = useState(null);
   const [loader, setLoader] = useState(true);
@@ -22,6 +26,10 @@ function ChatDisplay({ chat }) {
   }, [chat]);
 
   function Message({ message }) {
+    const timeAgo = new TimeAgo('en-US');
+    const messageDate = new Date(message.created_at);
+    const difference = timeAgo.format(messageDate);
+
     return (
       <div
         className={`${
@@ -34,7 +42,9 @@ function ChatDisplay({ chat }) {
           <p className="font-semibold mb-1 text-sky-100">{message.username}</p>
         )}
         <p>{message.body}</p>
-        <p className="text-sm text-end text-gray-200">{message.created_at}</p>
+        <p className="text-sm text-end -mb-1 -mr-1 text-gray-200">
+          {difference}
+        </p>
       </div>
     );
   }
@@ -44,7 +54,7 @@ function ChatDisplay({ chat }) {
       <Message key={index} message={message} />
     ));
     return (
-      <div className="relative flex-1 flex flex-col justify-end gap-2 py-2 px-4 bg-gradient-to-r from-slate-200 to-sky-200 dark:from-slate-950 dark:to-sky-950">
+      <div className="relative flex-1 flex flex-col justify-end gap-3 py-2 px-4 bg-gradient-to-r from-slate-200 to-sky-200 dark:from-slate-950 dark:to-sky-950">
         {displayedMessages}
       </div>
     );
