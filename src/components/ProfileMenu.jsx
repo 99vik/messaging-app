@@ -1,6 +1,10 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
-import { changeUsername, getCurrentUser } from '../scripts/ProfileApiCalls';
+import {
+  changeDescription,
+  changeUsername,
+  getCurrentUser,
+} from '../scripts/ProfileApiCalls';
 
 function ProfileMenu({ toggleProfileMenu }) {
   const [data, setData] = useState(null);
@@ -40,7 +44,7 @@ function ProfileMenu({ toggleProfileMenu }) {
 
   async function handleDescriptionUpdate() {
     setDescriptionLoader(true);
-    const response = await changeUsername(
+    const response = await changeDescription(
       authorizationData.token,
       descriptionRef.current.value
     );
