@@ -18,14 +18,14 @@
     .home-background-animated {
       background: linear-gradient(-45deg, rgb(187, 255, 243), rgb(184, 229, 255), #e7f5fb, rgb(188, 234, 255) ,rgb(254, 198, 253));
 	    background-size: 400% 400%;
-	    animation: gradient 20s ease infinite;
+	    animation: gradient 25s ease infinite;
       color: rgb(74, 74, 74);
     }
 
     .home-background-animated-dark {
       background: linear-gradient(-45deg, rgb(1, 12, 59), rgb(2 6 23), #001720, rgb(1, 32, 46) ,rgb(80, 7, 78));
 	    background-size: 400% 400%;
-	    animation: gradient 20s ease infinite;
+	    animation: gradient 25s ease infinite;
       color: rgb(234, 234, 234);
     }
 
@@ -39,6 +39,23 @@
       100% {
         background-position: 0% 50%;
       }
+    }
+
+    .appear-fast {
+      animation-name: appear-animation;
+      animation-timing-function: ease-out;
+      animation-duration: 0.2s;
+    }
+
+    .appear {
+      animation-name: appear-animation;
+      animation-timing-function: ease-out;
+      animation-duration: 1.2s;
+    }
+    
+    @keyframes appear-animation {
+      0%   {opacity: 0;}
+      100% {opacity: 1;}
     }
 
     * {

@@ -75,7 +75,7 @@ function ProfileMenu({ toggleProfileMenu }) {
       <div className="h-[1px] mt-1 mx-4 bg-neutral-300 dark:bg-slate-700"></div>
       {data && (
         <>
-          <div className="flex flex-col gap-5 pt-5 items-center">
+          <div className="flex flex-col gap-5 pt-5 items-center appear-fast">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

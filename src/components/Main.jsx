@@ -22,8 +22,8 @@ function Main({ mainDisplay }) {
       <div className="h-full w-full flex flex-col justify-center dark:home-background-animated-dark home-background-animated">
         {username && (
           <>
-            <p className="ml-[35%] font-bold mb-2 text-3xl">Welcome,</p>
-            <p className="ml-[35%] font-bold text-6xl">{username}</p>
+            <p className="ml-[35%] font-bold mb-2 text-3xl appear">Welcome,</p>
+            <p className="ml-[35%] font-bold text-6xl appear">{username}</p>
           </>
         )}
       </div>

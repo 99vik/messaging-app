@@ -87,7 +87,7 @@ function SettingsPopup({ logOut }) {
   }
 
   return (
-    <div className="absolute w-[220px] bg-white px-3 py-1 pb-2 -bottom-[250%] left-[100%] rounded-lg border border-sky-400 shadow-[0_0_6px_3px_rgba(0,160,255,0.2)]">
+    <div className="absolute w-[220px] appear-fast bg-white px-3 py-1 pb-2 -bottom-[250%] left-[100%] rounded-lg border border-sky-400 shadow-[0_0_6px_3px_rgba(0,160,255,0.2)]">
       <p className="text-sm text-neutral-500 font-semibold mb-2">Settings</p>
       <div className="flex flex-col gap-2 items-start justify-center">
         <button
