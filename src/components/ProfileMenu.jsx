@@ -1,10 +1,19 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
-import { getCurrentUser } from '../scripts/ProfileApiCalls';
+import { changeUsername, getCurrentUser } from '../scripts/ProfileApiCalls';
 
 function ProfileMenu({ toggleProfileMenu }) {
-  const { authorizationData } = useContext(AuthorizationDataContext);
   const [data, setData] = useState(null);
+  const [usernameLoader, setUsernameLoader] = useState(false);
+  const [descriptionLoader, setDescriptionLoader] = useState(false);
+  const { authorizationData } = useContext(AuthorizationDataContext);
+
+  const usernameRef = useRef(0);
+  const usernameLabelRef = useRef(0);
+  const usernameSubmitRef = useRef(0);
+  const descriptionRef = useRef(0);
+  const descriptionLabelRef = useRef(0);
+  const descriptionSubmitRef = useRef(0);
 
   useEffect(() => {
     async function getData() {
@@ -13,6 +22,36 @@ function ProfileMenu({ toggleProfileMenu }) {
     }
     getData();
   }, []);
+
+  async function handleUsernameUpdate() {
+    setUsernameLoader(true);
+    const response = await changeUsername(
+      authorizationData.token,
+      usernameRef.current.value
+    );
+
+    if (response.ok) {
+      console.log(await response.json());
+    } else {
+      console.log(await response.json());
+    }
+    setUsernameLoader(false);
+  }
+
+  async function handleDescriptionUpdate() {
+    setDescriptionLoader(true);
+    const response = await changeUsername(
+      authorizationData.token,
+      descriptionRef.current.value
+    );
+
+    if (response.ok) {
+      console.log(await response.json());
+    } else {
+      console.log(await response.json());
+    }
+    setDescriptionLoader(false);
+  }
 
   return (
     <div className="absolute bg-slate-100 border-r flex flex-col border-slate-200 w-full h-full z-10 profile-menu transition-all">
@@ -44,13 +83,143 @@ function ProfileMenu({ toggleProfileMenu }) {
             </div>
             <div className="w-full px-10">
               <p className="text-sm text-neutral-500">Your username</p>
-              <p className="font-semibold">{data.username}</p>
+              <div className="flex items-center w-full hover:opacity-80">
+                <input
+                  onFocus={() => {
+                    usernameLabelRef.current.hidden = true;
+                    usernameSubmitRef.current.hidden = false;
+                  }}
+                  onBlur={() => {
+                    setTimeout(() => {
+                      usernameLabelRef.current.hidden = false;
+                      usernameSubmitRef.current.hidden = true;
+                    }, 200);
+                  }}
+                  ref={usernameRef}
+                  type="text"
+                  name="username"
+                  id="username"
+                  className="flex-1 font-semibold bg-slate-300 rounded-tl-md rounded-bl-md p-1 outline-none"
+                  defaultValue={data.username}
+                />
+
+                <label
+                  htmlFor="username"
+                  ref={usernameLabelRef}
+                  className="bg-slate-300 rounded-tr-md rounded-br-md p-1 font-semibold"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    className="w-6"
+                  >
+                    <path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                  </svg>
+                </label>
+                <button
+                  disabled={usernameLoader}
+                  onClick={handleUsernameUpdate}
+                  hidden={true}
+                  ref={usernameSubmitRef}
+                  className="bg-slate-300 rounded-tr-md rounded-br-md p-1 font-semibold"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    className="w-6"
+                  >
+                    <path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
+                  </svg>
+                </button>
+                <div hidden={!usernameLoader} className="absolute right-2">
+                  <svg
+                    aria-hidden="true"
+                    className="w-6 h-6 text-gray-400 animate-spin fill-sky-500"
+                    viewBox="0 0 100 101"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                      fill="currentColor"
+                    />
+                    <path
+                      d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                      fill="currentFill"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
             <div className="w-full px-10">
               <p className="text-sm text-neutral-500">Description</p>
-              <p className="font-semibold">
-                {data.description ? data.description : '-'}
-              </p>
+              <div className="flex items-center w-full hover:opacity-80">
+                <input
+                  onFocus={() => {
+                    descriptionLabelRef.current.hidden = true;
+                    descriptionSubmitRef.current.hidden = false;
+                  }}
+                  onBlur={() => {
+                    setTimeout(() => {
+                      descriptionLabelRef.current.hidden = false;
+                      descriptionSubmitRef.current.hidden = true;
+                    }, 200);
+                  }}
+                  ref={descriptionRef}
+                  type="text"
+                  name="description"
+                  id="description"
+                  className="flex-1 font-semibold bg-slate-300 rounded-tl-md rounded-bl-md p-1 outline-none"
+                  defaultValue={data.description}
+                />
+
+                <label
+                  htmlFor="description"
+                  ref={descriptionLabelRef}
+                  className="bg-slate-300 rounded-tr-md rounded-br-md p-1 font-semibold"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    className="w-6"
+                  >
+                    <path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                  </svg>
+                </label>
+                <button
+                  disabled={descriptionLoader}
+                  onClick={handleDescriptionUpdate}
+                  hidden={true}
+                  ref={descriptionSubmitRef}
+                  className="bg-slate-300 rounded-tr-md rounded-br-md p-1 font-semibold"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    className="w-6"
+                  >
+                    <path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
+                  </svg>
+                </button>
+                <div hidden={!descriptionLoader} className="absolute right-2">
+                  <svg
+                    aria-hidden="true"
+                    className="w-6 h-6 text-gray-400 animate-spin fill-sky-500"
+                    viewBox="0 0 100 101"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                      fill="currentColor"
+                    />
+                    <path
+                      d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                      fill="currentFill"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
         </>
