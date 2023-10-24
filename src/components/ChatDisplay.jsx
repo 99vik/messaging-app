@@ -42,7 +42,7 @@ function ChatDisplay({ chat }) {
       >
         {authorizationData.resource_owner.id !== message.user_id && (
           <div
-            className="hover:opacity-80 transition cursor-pointer"
+            className="hover:opacity-70 transition cursor-pointer"
             onClick={() => setUserProfile(message.user)}
           >
             <svg
@@ -62,7 +62,10 @@ function ChatDisplay({ chat }) {
           } w-fit min-w-[200px] text-white p-2 rounded-lg`}
         >
           {authorizationData.resource_owner.id !== message.user_id && (
-            <p className="font-semibold mb-1 text-sky-100">
+            <p
+              className="font-semibold mb-1 text-sky-100 hover:opacity-70 transition cursor-pointer"
+              onClick={() => setUserProfile(message.user)}
+            >
               {message.user.username}
             </p>
           )}

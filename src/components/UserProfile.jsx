@@ -1,11 +1,28 @@
+import { useContext, useEffect } from 'react';
+import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
+import { checkFriendshipStatus } from '../scripts/FriendshipsApiCalls';
+
 function UserProfile({ close, profile }) {
+  const { authorizationData } = useContext(AuthorizationDataContext);
+
+  useEffect(() => {
+    async function getStatus() {
+      const response = await checkFriendshipStatus(
+        authorizationData.token,
+        profile.id
+      );
+      console.log(response);
+    }
+    getStatus();
+  }, []);
+
   return (
     <>
       <div
         onClick={close}
-        className="h-screen w-screen -translate-x-[50%] absolute z-30 bg-gray-400/30 dark:bg-gray-900/30 appear-fast"
+        className="h-screen w-screen -translate-x-[360px] absolute z-30 bg-gray-400/30 dark:bg-gray-900/30 appear-fast"
       ></div>
-      <div className="absolute user-profile right-0 z-40 bg-slate-100 dark:bg-slate-900 border-r flex flex-col border-slate-200 dark:border-slate-700 w-[360px] h-full transition-all">
+      <div className="absolute user-profile rounded-lg right-0 z-40 bg-slate-100 dark:bg-slate-900 border-r flex flex-col border-slate-200 dark:border-slate-700 w-[360px] h-full transition-all">
         <button onClick={close} className="absolute top-1 left-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"

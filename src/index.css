@@ -6,7 +6,7 @@
     .profile-menu {
       animation-name: profile-menu-slide;
       animation-timing-function: ease-out;
-      animation-duration: 0.2s;
+      animation-duration: 0.25s;
     }
     
     @keyframes profile-menu-slide {
@@ -17,7 +17,7 @@
     .user-profile {
       animation-name: user-profile-slide;
       animation-timing-function: ease-out;
-      animation-duration: 0.2s;
+      animation-duration: 0.25s;
     }
     
     @keyframes user-profile-slide {
