@@ -76,4 +76,5 @@ export {
   sendFriendRequest,
   cancelFriendRequest,
   removeFriend,
+  acceptFriendRequest,
 };

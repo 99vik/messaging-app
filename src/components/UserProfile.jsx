@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import {
+  acceptFriendRequest,
   cancelFriendRequest,
   checkFriendshipStatus,
   removeFriend,
@@ -32,6 +33,8 @@ function UserProfile({ close, profile }) {
           return await sendFriendRequest(authorizationData.token, profile.id);
         case 'cancel':
           return await cancelFriendRequest(authorizationData.token, profile.id);
+        case 'accept':
+          return await acceptFriendRequest(authorizationData.token, profile.id);
         case 'remove':
           return await removeFriend(authorizationData.token, profile.id);
       }
@@ -52,7 +55,10 @@ function UserProfile({ close, profile }) {
       );
     } else if (status === 'incoming') {
       return (
-        <button className="appear-fast w-full font-semibold bg-green-600 hover:bg-green-800 transition text-white py-2 rounded-lg">
+        <button
+          onClick={() => friendshipAction('accept')}
+          className="appear-fast w-full font-semibold bg-green-600 hover:bg-green-800 transition text-white py-2 rounded-lg"
+        >
           Accept friend request
         </button>
       );
