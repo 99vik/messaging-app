@@ -11,19 +11,19 @@ async function checkFriendshipStatus(access_token, id) {
   return await response.json();
 }
 
-// async function createChat(access_token, name, type) {
-//   const chat = { name, type };
-//   const response = await fetch(`${API_URL}/create_chat`, {
-//     method: 'POST',
-//     body: JSON.stringify({
-//       chat,
-//     }),
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: `Bearer ${access_token}`,
-//     },
-//   });
-//   return response;
-// }
+async function sendFriendRequest(access_token, id) {
+  const friendship = { id };
+  const response = await fetch(`${API_URL}/send_friend_request`, {
+    method: 'POST',
+    body: JSON.stringify({
+      friendship,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return response;
+}
 
-export { checkFriendshipStatus };
+export { checkFriendshipStatus, sendFriendRequest };
