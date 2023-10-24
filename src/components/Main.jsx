@@ -44,7 +44,7 @@ function Main({ mainDisplay }) {
 
   const display = switchResult();
   return (
-    <div className="bg-slate-50 dark:bg-slate-800 flex-1 rounded-tr-lg rounded-br-lg">
+    <div className="bg-slate-50 relative dark:bg-slate-800 flex-1 rounded-tr-lg rounded-br-lg">
       {display}
     </div>
   );

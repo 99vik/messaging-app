@@ -2,10 +2,10 @@ import { useContext, useRef, useState } from 'react';
 import CloseIcon from '../assets/icons/CloseIcon.svg';
 import { searchForProfiles } from '../scripts/ProfileApiCalls';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
+import UserProfile from './UserProfile';
 
 function FriendsDisplay() {
   const [findFriends, setFindFriends] = useState(false);
-
   if (findFriends) {
     return <FindFriends close={() => setFindFriends(false)} />;
   }
@@ -38,6 +38,7 @@ function FriendsDisplay() {
 }
 
 function FindFriends({ close }) {
+  const [userProfile, setUserProfile] = useState(null);
   const [profiles, setProfiles] = useState(null);
   const [loader, setLoader] = useState(false);
   const { authorizationData } = useContext(AuthorizationDataContext);
@@ -108,7 +109,10 @@ function FindFriends({ close }) {
           <p className="font-semibold text-md mb-2 text-center">
             {profile.username}
           </p>
-          <button className="bg-sky-500 rounded-lg whitespace-nowrap text-white py-1 px-2 hover:bg-sky-700 transition">
+          <button
+            onClick={() => setUserProfile(profile)}
+            className="bg-sky-500 rounded-lg whitespace-nowrap text-white py-1 px-2 hover:bg-sky-700 transition"
+          >
             View profile
           </button>
         </div>
@@ -118,6 +122,9 @@ function FindFriends({ close }) {
 
   return (
     <div className="relative w-full h-full flex flex-col">
+      {userProfile && (
+        <UserProfile profile={userProfile} close={() => setUserProfile(null)} />
+      )}
       <div className="flex justify-between items-center px-5 pt-4 pb-2">
         <p className="text-3xl text-neutral-500 dark:text-neutral-300">
           Find new friends
