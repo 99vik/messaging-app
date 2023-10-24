@@ -14,7 +14,6 @@ function UserProfile({ close, profile }) {
   const [friendshipLoader, setFrienshipLoader] = useState(true);
 
   useEffect(() => {
-    setFrienshipLoader(true);
     async function getStatus() {
       const response = await checkFriendshipStatus(
         authorizationData.token,
@@ -27,6 +26,7 @@ function UserProfile({ close, profile }) {
   }, [friendshipStatus]);
 
   async function friendshipAction(type) {
+    setFrienshipLoader(true);
     async function switchResult() {
       switch (type) {
         case 'send':
