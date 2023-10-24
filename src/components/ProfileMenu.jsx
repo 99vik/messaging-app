@@ -61,7 +61,7 @@ function ProfileMenu({ toggleProfileMenu }) {
     <>
       <div
         onClick={toggleProfileMenu}
-        className="h-screen w-screen absolute bg-gray-400/30 appear-fast z-10"
+        className="h-screen w-screen absolute dark:bg-gray-900/30 bg-gray-400/30 appear-fast z-10"
       ></div>
       <div className="absolute z-20 bg-slate-100 dark:bg-slate-900 border-r flex flex-col border-slate-200 dark:border-slate-700 w-full h-full profile-menu transition-all">
         <button onClick={toggleProfileMenu} className="absolute top-1 right-1">

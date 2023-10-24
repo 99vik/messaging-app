@@ -4,9 +4,11 @@ import { GetChatMessages, SendMessage } from '../scripts/MessageApiCalls';
 
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
+import UserProfile from './UserProfile';
 TimeAgo.addDefaultLocale(en);
 
 function ChatDisplay({ chat }) {
+  const [userProfile, setUserProfile] = useState(null);
   const [messages, setMessages] = useState(null);
   const [loader, setLoader] = useState(true);
   const { authorizationData } = useContext(AuthorizationDataContext);
@@ -39,7 +41,10 @@ function ChatDisplay({ chat }) {
         }`}
       >
         {authorizationData.resource_owner.id !== message.user_id && (
-          <div>
+          <div
+            className="hover:opacity-80 transition cursor-pointer"
+            onClick={() => setUserProfile(message.user)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -58,7 +63,7 @@ function ChatDisplay({ chat }) {
         >
           {authorizationData.resource_owner.id !== message.user_id && (
             <p className="font-semibold mb-1 text-sky-100">
-              {message.username}
+              {message.user.username}
             </p>
           )}
           <p>{message.body}</p>
@@ -140,7 +145,10 @@ function ChatDisplay({ chat }) {
   }
 
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="h-full w-full flex flex-col relative">
+      {userProfile && (
+        <UserProfile profile={userProfile} close={() => setUserProfile(null)} />
+      )}
       <div className="flex justify-between items-center px-5 pt-4 pb-2">
         <p className="text-3xl text-neutral-500 dark:text-neutral-300">
           {chat.name}
