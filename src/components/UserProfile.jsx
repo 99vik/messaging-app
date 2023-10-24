@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import {
+  cancelFriendRequest,
   checkFriendshipStatus,
   sendFriendRequest,
 } from '../scripts/FriendshipsApiCalls';
@@ -28,6 +29,8 @@ function UserProfile({ close, profile }) {
       switch (type) {
         case 'send':
           return await sendFriendRequest(authorizationData.token, profile.id);
+        case 'cancel':
+          return await cancelFriendRequest(authorizationData.token, profile.id);
       }
     }
     const response = await switchResult();
@@ -37,19 +40,22 @@ function UserProfile({ close, profile }) {
   function FriendshipLogicDisplay({ status }) {
     if (status === 'friends') {
       return (
-        <button className="w-full font-semibold bg-red-700 hover:bg-red-800 transition text-white py-2 rounded-lg">
+        <button className="appear-fast w-full font-semibold bg-red-700 hover:bg-red-800 transition text-white py-2 rounded-lg">
           Remove friend
         </button>
       );
     } else if (status === 'incoming') {
       return (
-        <button className="w-full font-semibold bg-green-600 hover:bg-green-800 transition text-white py-2 rounded-lg">
+        <button className="appear-fast w-full font-semibold bg-green-600 hover:bg-green-800 transition text-white py-2 rounded-lg">
           Accept friend request
         </button>
       );
     } else if (status === 'outgoing') {
       return (
-        <button className="w-full font-semibold bg-red-700 hover:bg-red-800 transition text-white py-2 rounded-lg">
+        <button
+          onClick={() => friendshipAction('cancel')}
+          className="appear-fast w-full font-semibold bg-red-700 hover:bg-red-800 transition text-white py-2 rounded-lg"
+        >
           Cancel friend request
         </button>
       );
@@ -57,7 +63,7 @@ function UserProfile({ close, profile }) {
       return (
         <button
           onClick={() => friendshipAction('send')}
-          className="w-full font-semibold bg-sky-500 hover:bg-sky-700 transition text-white py-2 rounded-lg"
+          className="appear-fast w-full font-semibold bg-sky-500 hover:bg-sky-700 transition text-white py-2 rounded-lg"
         >
           Add friend
         </button>
