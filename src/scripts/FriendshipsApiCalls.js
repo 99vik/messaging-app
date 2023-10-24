@@ -71,4 +71,9 @@ async function removeFriend(access_token, id) {
   return response;
 }
 
-export { checkFriendshipStatus, sendFriendRequest, cancelFriendRequest };
+export {
+  checkFriendshipStatus,
+  sendFriendRequest,
+  cancelFriendRequest,
+  removeFriend,
+};

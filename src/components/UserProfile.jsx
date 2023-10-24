@@ -3,6 +3,7 @@ import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import {
   cancelFriendRequest,
   checkFriendshipStatus,
+  removeFriend,
   sendFriendRequest,
 } from '../scripts/FriendshipsApiCalls';
 
@@ -31,6 +32,8 @@ function UserProfile({ close, profile }) {
           return await sendFriendRequest(authorizationData.token, profile.id);
         case 'cancel':
           return await cancelFriendRequest(authorizationData.token, profile.id);
+        case 'remove':
+          return await removeFriend(authorizationData.token, profile.id);
       }
     }
     const response = await switchResult();
@@ -40,7 +43,10 @@ function UserProfile({ close, profile }) {
   function FriendshipLogicDisplay({ status }) {
     if (status === 'friends') {
       return (
-        <button className="appear-fast w-full font-semibold bg-red-700 hover:bg-red-800 transition text-white py-2 rounded-lg">
+        <button
+          onClick={() => friendshipAction('remove')}
+          className="appear-fast w-full font-semibold bg-red-700 hover:bg-red-800 transition text-white py-2 rounded-lg"
+        >
           Remove friend
         </button>
       );
