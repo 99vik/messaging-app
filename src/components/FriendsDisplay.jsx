@@ -44,7 +44,7 @@ function FindFriends({ close }) {
   const searchDebounceRef = useRef(null);
 
   async function handleSearch(searchValue) {
-    if (searchValue.length < 3) {
+    if (searchValue.length < 2) {
       return;
     }
     setLoader(true);
@@ -94,7 +94,7 @@ function FindFriends({ close }) {
 
   function Profile({ profile }) {
     return (
-      <div className="bg-slate-200 border border-slate-300 rounded-lg py-2 px-4 flex justify-around items-center max-[1180px]:w-[260px] max-[1000px]:w-full w-[220px]">
+      <div className="bg-slate-200 dark:bg-slate-700 dark:border-slate-600 border border-slate-300 rounded-lg py-2 px-4 flex gap-4 justify-around items-center max-[1180px]:w-[260px] max-[1000px]:w-full w-[220px]">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"

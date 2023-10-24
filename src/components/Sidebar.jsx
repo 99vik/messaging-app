@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ProfileMenu from './ProfileMenu';
 import Chats from './Chats';
 
@@ -22,6 +22,7 @@ function Sidebar({ logOut, chats, setMainDisplay }) {
 
 function TopMenu({ setMainDisplay, toggleProfileMenu, logOut }) {
   const [settingsPopup, setSettingsPopup] = useState(false);
+  const settingsBtnRef = useRef(0);
 
   return (
     <div className="flex items-center justify-between border-b-2 border-neutral-200 dark:border-slate-700 px-3 py-2">
@@ -58,9 +59,16 @@ function TopMenu({ setMainDisplay, toggleProfileMenu, logOut }) {
           </svg>
         </button>
         <div className="relative flex justify-center items-center">
-          {settingsPopup && <SettingsPopup logOut={logOut} />}
+          {settingsPopup && (
+            <SettingsPopup
+              settingsBtnRef={settingsBtnRef}
+              logOut={logOut}
+              close={() => setSettingsPopup(false)}
+            />
+          )}
           <button onClick={() => setSettingsPopup(!settingsPopup)}>
             <svg
+              ref={settingsBtnRef}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               className="w-9 fill-sky-500 hover:fill-sky-700 transition"
@@ -75,7 +83,26 @@ function TopMenu({ setMainDisplay, toggleProfileMenu, logOut }) {
   );
 }
 
-function SettingsPopup({ logOut }) {
+function SettingsPopup({ settingsBtnRef, logOut, close }) {
+  const settingsDiv = useRef(0);
+
+  useEffect(() => {
+    function listenForClick(e) {
+      if (
+        e.target === settingsDiv.current ||
+        Array.from(settingsDiv.current.children).includes(e.target) ||
+        e.target === settingsBtnRef.current ||
+        e.target.parentNode === settingsBtnRef.current
+      ) {
+        return;
+      }
+      close();
+    }
+    document.addEventListener('click', listenForClick);
+
+    return () => document.removeEventListener('click', listenForClick);
+  }, []);
+
   function toggleDarkMode() {
     const documentSelector = document.documentElement;
     if (!documentSelector.classList.contains('dark')) {
@@ -87,12 +114,20 @@ function SettingsPopup({ logOut }) {
   }
 
   return (
-    <div className="absolute w-[220px] appear-fast bg-white px-3 py-1 pb-2 -bottom-[250%] left-[100%] rounded-lg border border-sky-400 shadow-[0_0_6px_3px_rgba(0,160,255,0.2)]">
-      <p className="text-sm text-neutral-500 font-semibold mb-2">Settings</p>
+    <div
+      ref={settingsDiv}
+      className="absolute w-[220px] appear-fast bg-white dark:bg-slate-700 px-3 py-1 pb-2 -bottom-[250%] left-[100%] rounded-lg border border-sky-400 dark:border-sky-900 dark:shadow-[0_0_6px_3px_rgba(0,160,255,0.1)] shadow-[0_0_6px_3px_rgba(0,160,255,0.2)]"
+    >
+      <p className="text-sm text-neutral-500 dark:text-neutral-300 font-semibold mb-2">
+        Settings
+      </p>
       <div className="flex flex-col gap-2 items-start justify-center">
         <button
           className="bg-blue-950 hover:bg-black transition py-1 px-2 rounded-lg flex items-center gap-2 text-white"
-          onClick={toggleDarkMode}
+          onClick={() => {
+            toggleDarkMode();
+            close();
+          }}
         >
           Toggle dark mode
           <svg

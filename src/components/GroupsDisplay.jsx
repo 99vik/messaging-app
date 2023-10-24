@@ -32,7 +32,7 @@ function GroupsDisplay() {
   }
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full flex flex-col">
       <div className="flex justify-between items-center px-5 pt-4 pb-2">
         <p className="text-3xl text-neutral-500 dark:text-neutral-300">
           Find public chats
@@ -55,7 +55,7 @@ function GroupsDisplay() {
         <div className="h-[1px] w-full bg-slate-300 dark:bg-slate-600"></div>
       </div>
       {loader ? (
-        <h1>Loading</h1>
+        <Loader />
       ) : (
         <PublicChats
           publicChats={publicChats}
@@ -183,6 +183,16 @@ function CreateChatForm({ close, token }) {
           </button>
         </form>
       </div>
+    </div>
+  );
+}
+
+function Loader() {
+  return (
+    <div className="flex flex-1 justify-center items-center gap-2">
+      <div className="h-6 w-6 bg-sky-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+      <div className="h-6 w-6 bg-sky-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+      <div className="h-6 w-6 bg-sky-500 rounded-full animate-bounce"></div>
     </div>
   );
 }
