@@ -42,12 +42,8 @@ async function changeDescription(access_token, description) {
 }
 
 async function searchForProfiles(access_token, query) {
-  const profiles = { query };
-  const response = await fetch(`${API_URL}/search_for_profiles`, {
-    method: 'POST',
-    body: JSON.stringify({
-      profiles,
-    }),
+  const response = await fetch(`${API_URL}/search_profiles/${query}`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${access_token}`,

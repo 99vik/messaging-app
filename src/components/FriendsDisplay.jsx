@@ -39,14 +39,27 @@ function FriendsDisplay() {
 
 function FindFriends({ close }) {
   const [profiles, setProfiles] = useState(null);
+  const [loader, setLoader] = useState(false);
   const { authorizationData } = useContext(AuthorizationDataContext);
   const searchDebounceRef = useRef(null);
 
   async function handleSearch(searchValue) {
+    if (searchValue.length < 3) {
+      return;
+    }
+    setLoader(true);
     const response = await searchForProfiles(
       authorizationData.token,
       searchValue
     );
+
+    if (response.ok) {
+      setProfiles(await response.json());
+    } else {
+      console.log('error');
+      console.log(response);
+    }
+    setLoader(false);
   }
 
   const handleSearchChange = (e) => {
@@ -61,8 +74,50 @@ function FindFriends({ close }) {
     }, 500);
   };
 
+  function ProfileList() {
+    if (!profiles) {
+      return;
+    } else if (profiles.length === 0) {
+      return (
+        <p className="text-center mt-6 text-lg appear-fast">No users found.</p>
+      );
+    }
+    const profilesDisplay = profiles.map((profile) => (
+      <Profile key={profile.id} profile={profile} />
+    ));
+    return (
+      <div className="p-4 grid grid-cols-4 gap-4 max-[1420px]:grid-cols-3 max-[1180px]:grid-cols-2 max-[1000px]:grid-cols-1 overflow-y-scroll justify-items-center">
+        {profilesDisplay}
+      </div>
+    );
+  }
+
+  function Profile({ profile }) {
+    return (
+      <div className="bg-slate-200 border border-slate-300 rounded-lg py-2 px-4 flex justify-around items-center max-[1180px]:w-[260px] max-[1000px]:w-full w-[220px]">
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="w-[60px] fill-sky-500"
+          >
+            <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
+          </svg>
+        </div>
+        <div>
+          <p className="font-semibold text-md mb-2 text-center">
+            {profile.username}
+          </p>
+          <button className="bg-sky-500 rounded-lg whitespace-nowrap text-white py-1 px-2 hover:bg-sky-700 transition">
+            View profile
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full flex flex-col">
       <div className="flex justify-between items-center px-5 pt-4 pb-2">
         <p className="text-3xl text-neutral-500 dark:text-neutral-300">
           Find new friends
@@ -86,6 +141,17 @@ function FindFriends({ close }) {
           className="flex-1 rounded-full outline-none py-1 px-3 dark:bg-slate-300 dark:text-black bg-slate-200 border border-slate-300 dark:border-slate-950 transition focus:border-sky-300 dark:focus:border-sky-300"
         />
       </div>
+      {loader ? <Loader /> : <ProfileList />}
+    </div>
+  );
+}
+
+function Loader() {
+  return (
+    <div className="flex flex-1 justify-center items-center gap-2">
+      <div className="h-6 w-6 bg-sky-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+      <div className="h-6 w-6 bg-sky-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+      <div className="h-6 w-6 bg-sky-500 rounded-full animate-bounce"></div>
     </div>
   );
 }
