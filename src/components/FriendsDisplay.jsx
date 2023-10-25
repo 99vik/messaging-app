@@ -1,11 +1,31 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import CloseIcon from '../assets/icons/CloseIcon.svg';
 import { searchForProfiles } from '../scripts/ProfileApiCalls';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import UserProfile from './UserProfile';
+import { getCurrentUserFriends } from '../scripts/FriendshipsApiCalls';
 
 function FriendsDisplay() {
+  const [friends, setFriends] = useState(null);
+  const [friendsLoader, setFriendsLoader] = useState(true);
   const [findFriends, setFindFriends] = useState(false);
+  const { authorizationData } = useContext(AuthorizationDataContext);
+
+  useEffect(() => {
+    async function getFriends() {
+      const response = await getCurrentUserFriends(authorizationData.token);
+      if (response.ok) {
+        const data = await response.json();
+        setFriends(data);
+        console.log(data);
+      } else {
+        console.log('error loading friends');
+      }
+      setFriendsLoader(false);
+    }
+    getFriends();
+  }, []);
+
   if (findFriends) {
     return <FindFriends close={() => setFindFriends(false)} />;
   }

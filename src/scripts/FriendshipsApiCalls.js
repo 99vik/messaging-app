@@ -1,5 +1,16 @@
 import { API_URL } from './apiLinks';
 
+async function getCurrentUserFriends(access_token) {
+  const response = await fetch(`${API_URL}/get_current_user_friends`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return response;
+}
+
 async function checkFriendshipStatus(access_token, id) {
   const response = await fetch(`${API_URL}/check_friendship_status/${id}`, {
     method: 'GET',
@@ -77,4 +88,5 @@ export {
   cancelFriendRequest,
   removeFriend,
   acceptFriendRequest,
+  getCurrentUserFriends,
 };
