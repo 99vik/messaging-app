@@ -7,7 +7,7 @@ import {
 } from '../scripts/ChatApiCalls';
 import CloseIcon from '../assets/icons/CloseIcon.svg';
 
-function GroupsDisplay() {
+function GroupsDisplay({ setMainDisplay }) {
   const [loader, setLoader] = useState(true);
   const [publicChats, setPublicChats] = useState(null);
   const [createForm, setCreateForm] = useState(false);
@@ -26,6 +26,7 @@ function GroupsDisplay() {
     return (
       <CreateChatForm
         token={authorizationData.token}
+        setMainDisplay={setMainDisplay}
         close={() => setCreateForm(false)}
       />
     );
@@ -59,6 +60,7 @@ function GroupsDisplay() {
       ) : (
         <PublicChats
           publicChats={publicChats}
+          setMainDisplay={setMainDisplay}
           token={authorizationData.token}
         />
       )}
@@ -66,11 +68,13 @@ function GroupsDisplay() {
   );
 }
 
-function PublicChats({ publicChats, token }) {
+function PublicChats({ publicChats, setMainDisplay, token }) {
   async function joinChat(id) {
     const response = await joinPublicChat(token, id);
     if (response.ok) {
+      const chat = await response.json();
       console.log('added to chat');
+      setMainDisplay(['chat', chat]);
     } else {
       console.log('error adding to chat');
     }
@@ -99,7 +103,7 @@ function PublicChats({ publicChats, token }) {
   return chatsElement;
 }
 
-function CreateChatForm({ close, token }) {
+function CreateChatForm({ close, setMainDisplay, token }) {
   const nameRef = useRef(0);
   const typeRef = useRef(0);
 
@@ -110,8 +114,8 @@ function CreateChatForm({ close, token }) {
 
     const response = await createChat(token, name, type);
     if (response.ok) {
-      console.log('chat created');
-      console.log(await response.json());
+      const chat = await response.json();
+      setMainDisplay(['chat', chat]);
     } else {
       console.log('error');
       console.log(await response.json());

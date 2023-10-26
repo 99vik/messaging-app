@@ -12,7 +12,6 @@ function ChatDisplay({ chat }) {
   const [messages, setMessages] = useState(null);
   const [loader, setLoader] = useState(true);
   const { authorizationData } = useContext(AuthorizationDataContext);
-
   useEffect(() => {
     async function getMessages() {
       const response = await GetChatMessages(chat.id, authorizationData.token);

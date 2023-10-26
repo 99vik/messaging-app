@@ -18,7 +18,6 @@ function FriendsDisplay() {
       if (response.ok) {
         const data = await response.json();
         setFriends(data);
-        console.log(data);
       } else {
         console.log('error loading friends');
       }

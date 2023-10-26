@@ -75,7 +75,7 @@ function Home() {
           chats={chats}
           setMainDisplay={setMainDisplay}
         />
-        <Main mainDisplay={mainDisplay} />
+        <Main setMainDisplay={setMainDisplay} mainDisplay={mainDisplay} />
       </div>
     </>
   );
