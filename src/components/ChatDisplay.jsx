@@ -83,7 +83,13 @@ function ChatDisplay({ chat }) {
     ));
     return (
       <div className="relative flex-1 flex flex-col justify-end gap-3 py-2 px-4 bg-gradient-to-r from-slate-200 to-sky-200 dark:from-slate-950 dark:to-sky-950">
-        {displayedMessages}
+        {displayedMessages.length === 0 ? (
+          <p className="self-center font-semibold text-lg absolute top-[50%]">
+            No messages.
+          </p>
+        ) : (
+          displayedMessages
+        )}
       </div>
     );
   }

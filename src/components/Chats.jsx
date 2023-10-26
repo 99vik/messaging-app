@@ -31,7 +31,6 @@ function Chats({ chats, setMainDisplay }) {
 }
 
 function Chat({ chat, setMainDisplay }) {
-  console.log(chat);
   return (
     <div
       className="bg-slate-100 m-1 rounded-sm border dark:hover:bg-slate-700 dark:bg-slate-800 dark:border-slate-700 border-slate-200 p-1 hover:bg-slate-200 cursor-pointer transition"
