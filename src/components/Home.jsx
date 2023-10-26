@@ -10,11 +10,11 @@ function Home() {
   const [chats, setChats] = useState(null);
   const [loader, setLoader] = useState(true);
   const [mainDisplay, setMainDisplay] = useState([]);
+  const [authorizationLoader, setAuthorizationLoader] = useState(true);
 
   const { authorizationData, authorization } = useContext(
     AuthorizationDataContext
   );
-  const [authorizationLoader, setAuthorizationLoader] = useState(true);
 
   const navigate = useNavigate();
 

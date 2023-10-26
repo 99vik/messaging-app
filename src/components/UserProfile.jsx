@@ -8,10 +8,10 @@ import {
   sendFriendRequest,
 } from '../scripts/FriendshipsApiCalls';
 
-function UserProfile({ close, profile }) {
-  const { authorizationData } = useContext(AuthorizationDataContext);
+function UserProfile({ setMainDisplay, close, profile }) {
   const [friendshipStatus, setFriendshipStatus] = useState(null);
   const [friendshipLoader, setFrienshipLoader] = useState(true);
+  const { authorizationData } = useContext(AuthorizationDataContext);
 
   useEffect(() => {
     async function getStatus() {
@@ -46,12 +46,20 @@ function UserProfile({ close, profile }) {
   function FriendshipLogicDisplay({ status }) {
     if (status === 'friends') {
       return (
-        <button
-          onClick={() => friendshipAction('remove')}
-          className="appear-fast w-full font-semibold bg-red-700 hover:bg-red-800 transition text-white py-2 rounded-lg"
-        >
-          Remove friend
-        </button>
+        <div className="flex flex-col w-full justify-center pb-16">
+          <button
+            onClick={() => setMainDisplay(['-'])}
+            className="transition bg-sky-500 hover:bg-sky-700 rounded-lg text-white font-semibold py-2"
+          >
+            Open chat
+          </button>
+          <button
+            onClick={() => friendshipAction('remove')}
+            className="appear-fast mt-5 w-full font-semibold bg-red-700 hover:bg-red-800 transition text-white py-2 rounded-lg"
+          >
+            Remove friend
+          </button>
+        </div>
       );
     } else if (status === 'incoming') {
       return (

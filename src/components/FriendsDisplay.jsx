@@ -5,7 +5,7 @@ import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import UserProfile from './UserProfile';
 import { getCurrentUserFriends } from '../scripts/FriendshipsApiCalls';
 
-function FriendsDisplay() {
+function FriendsDisplay({ setMainDisplay }) {
   const [friends, setFriends] = useState(null);
   const [friendsLoader, setFriendsLoader] = useState(true);
   const [userProfile, setUserProfile] = useState(null);
@@ -27,7 +27,12 @@ function FriendsDisplay() {
   }, []);
 
   if (findFriends) {
-    return <FindFriends close={() => setFindFriends(false)} />;
+    return (
+      <FindFriends
+        setMainDisplay={setMainDisplay}
+        close={() => setFindFriends(false)}
+      />
+    );
   }
 
   function Friends({ friends }) {
@@ -71,7 +76,11 @@ function FriendsDisplay() {
   return (
     <div className="relative w-full h-full flex flex-col">
       {userProfile && (
-        <UserProfile profile={userProfile} close={() => setUserProfile(null)} />
+        <UserProfile
+          setMainDisplay={setMainDisplay}
+          profile={userProfile}
+          close={() => setUserProfile(null)}
+        />
       )}
       <div className="flex justify-between items-center px-5 pt-4 pb-2">
         <p className="text-3xl text-neutral-500 dark:text-neutral-300">
@@ -99,7 +108,7 @@ function FriendsDisplay() {
   );
 }
 
-function FindFriends({ close }) {
+function FindFriends({ setMainDisplay, close }) {
   const [userProfile, setUserProfile] = useState(null);
   const [profiles, setProfiles] = useState(null);
   const [loader, setLoader] = useState(false);
@@ -185,7 +194,11 @@ function FindFriends({ close }) {
   return (
     <div className="relative w-full h-full flex flex-col">
       {userProfile && (
-        <UserProfile profile={userProfile} close={() => setUserProfile(null)} />
+        <UserProfile
+          setMainDisplay={setMainDisplay}
+          profile={userProfile}
+          close={() => setUserProfile(null)}
+        />
       )}
       <div className="flex justify-between items-center px-5 pt-4 pb-2">
         <p className="text-3xl text-neutral-500 dark:text-neutral-300">

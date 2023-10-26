@@ -32,9 +32,11 @@ function Main({ setMainDisplay, mainDisplay }) {
   function switchResult() {
     switch (mainDisplay[0]) {
       case 'friends':
-        return <FriendsDisplay />;
+        return <FriendsDisplay setMainDisplay={setMainDisplay} />;
       case 'chat':
-        return <ChatDisplay chat={mainDisplay[1]} />;
+        return (
+          <ChatDisplay chat={mainDisplay[1]} setMainDisplay={setMainDisplay} />
+        );
       case 'groups':
         return <GroupsDisplay setMainDisplay={setMainDisplay} />;
       default:

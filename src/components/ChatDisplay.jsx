@@ -7,7 +7,7 @@ import en from 'javascript-time-ago/locale/en.json';
 import UserProfile from './UserProfile';
 TimeAgo.addDefaultLocale(en);
 
-function ChatDisplay({ chat }) {
+function ChatDisplay({ chat, setMainDisplay }) {
   const [userProfile, setUserProfile] = useState(null);
   const [messages, setMessages] = useState(null);
   const [chatOptions, setChatOptions] = useState(false);
@@ -200,7 +200,11 @@ function ChatDisplay({ chat }) {
   return (
     <div className="h-full w-full flex flex-col relative">
       {userProfile && (
-        <UserProfile profile={userProfile} close={() => setUserProfile(null)} />
+        <UserProfile
+          setMainDisplay={setMainDisplay}
+          profile={userProfile}
+          close={() => setUserProfile(null)}
+        />
       )}
       <div className="flex justify-between items-center px-5 pt-4 pb-2">
         <p className="text-3xl text-neutral-500 dark:text-neutral-300">
