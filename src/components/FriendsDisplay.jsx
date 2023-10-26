@@ -8,6 +8,7 @@ import { getCurrentUserFriends } from '../scripts/FriendshipsApiCalls';
 function FriendsDisplay() {
   const [friends, setFriends] = useState(null);
   const [friendsLoader, setFriendsLoader] = useState(true);
+  const [userProfile, setUserProfile] = useState(null);
   const [findFriends, setFindFriends] = useState(false);
   const { authorizationData } = useContext(AuthorizationDataContext);
 
@@ -30,8 +31,49 @@ function FriendsDisplay() {
     return <FindFriends close={() => setFindFriends(false)} />;
   }
 
+  function Friends({ friends }) {
+    function Friend({ friend }) {
+      return (
+        <div className="bg-slate-200 dark:bg-slate-700 dark:border-slate-600 border border-slate-300 rounded-lg py-2 px-4 flex gap-4 justify-around items-center max-[1180px]:w-[260px] max-[1000px]:w-full w-[220px]">
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="w-[60px] fill-sky-500"
+            >
+              <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
+            </svg>
+          </div>
+          <div>
+            <p className="font-semibold text-md mb-2 text-center">
+              {friend.username}
+            </p>
+            <button
+              onClick={() => setUserProfile(friend)}
+              className="bg-sky-500 rounded-lg whitespace-nowrap text-white py-1 px-2 hover:bg-sky-700 transition"
+            >
+              View profile
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    const displayedFriends = friends.map((friend) => (
+      <Friend key={friend.id} friend={friend} />
+    ));
+    return (
+      <div className="p-4 grid grid-cols-4 gap-4 max-[1420px]:grid-cols-3 max-[1180px]:grid-cols-2 max-[1000px]:grid-cols-1 overflow-y-scroll justify-items-center">
+        {displayedFriends}
+      </div>
+    );
+  }
+
   return (
-    <div className="h-full w-full">
+    <div className="relative w-full h-full flex flex-col">
+      {userProfile && (
+        <UserProfile profile={userProfile} close={() => setUserProfile(null)} />
+      )}
       <div className="flex justify-between items-center px-5 pt-4 pb-2">
         <p className="text-3xl text-neutral-500 dark:text-neutral-300">
           Friends
@@ -53,6 +95,7 @@ function FriendsDisplay() {
       <div className="px-5">
         <div className="h-[1px] w-full bg-slate-300 dark:bg-slate-600"></div>
       </div>
+      {friendsLoader ? <Loader /> : <Friends friends={friends} />}
     </div>
   );
 }
