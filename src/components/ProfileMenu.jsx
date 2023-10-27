@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import {
   changeDescription,
+  changeProfileImage,
   changeUsername,
   getCurrentUser,
 } from '../scripts/ProfileApiCalls';
@@ -62,9 +63,21 @@ function ProfileMenu({ toggleProfileMenu }) {
   function showImg(e) {
     const file = e.target.files[0];
     if (file) {
-      const fileSrc = URL.createObjectURL(file);
-      setImagePreview(fileSrc);
+      setImagePreview(file);
     }
+  }
+
+  async function uploadImage() {
+    const response = await changeProfileImage(
+      authorizationData.token,
+      imagePreview
+    );
+    if (response.ok) {
+      console.log('attached');
+    } else {
+      console.log(error);
+    }
+    console.log(await response.json());
   }
 
   return (
@@ -108,12 +121,20 @@ function ProfileMenu({ toggleProfileMenu }) {
                   hidden
                 ></input>
                 {imagePreview ? (
-                  <img
-                    src={imagePreview}
-                    className="w-[167px] h-[167px] rounded-full my-[16.5px]"
-                    alt="image"
-                    ref={imageRef}
-                  />
+                  <>
+                    <img
+                      src={URL.createObjectURL(imagePreview)}
+                      className="w-[167px] h-[167px] rounded-full my-[16.5px]"
+                      alt="image"
+                      ref={imageRef}
+                    />
+                    <button
+                      onClick={uploadImage}
+                      className="bg-sky-500 left-[50%] -translate-x-[50%] whitespace-nowrap w-fit absolute -bottom-[20px] text-sm hover:bg-sky-700 transition py-1 px-2 rounded-lg text-white"
+                    >
+                      Save image
+                    </button>
+                  </>
                 ) : (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
