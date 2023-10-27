@@ -40,13 +40,24 @@ function FriendsDisplay({ setMainDisplay }) {
       return (
         <div className="bg-slate-200 dark:bg-slate-700 dark:border-slate-600 border border-slate-300 rounded-lg py-2 px-4 flex gap-4 justify-around items-center max-[1180px]:w-[260px] max-[1000px]:w-full w-[220px]">
           <div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              className="w-[60px] fill-sky-500"
-            >
-              <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
-            </svg>
+            {friend.image ? (
+              <div className="relative flex align-middle justify-center">
+                <div className="bg-slate-400 dark:bg-slate-900 animate-pulse -z-0 w-[50px] h-[50px] rounded-full absolute"></div>
+                <img
+                  src={friend.image}
+                  alt="profile picture"
+                  className="w-[50px] h-[50px] rounded-full z-20"
+                />
+              </div>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                className="w-[60px] fill-sky-500"
+              >
+                <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
+              </svg>
+            )}
           </div>
           <div>
             <p className="font-semibold text-md mb-2 text-center">
@@ -165,16 +176,28 @@ function FindFriends({ setMainDisplay, close }) {
   }
 
   function Profile({ profile }) {
+    console.log(profile);
     return (
       <div className="bg-slate-200 dark:bg-slate-700 dark:border-slate-600 border border-slate-300 rounded-lg py-2 px-4 flex gap-4 justify-around items-center max-[1180px]:w-[260px] max-[1000px]:w-full w-[220px]">
         <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            className="w-[60px] fill-sky-500"
-          >
-            <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
-          </svg>
+          {profile.image ? (
+            <div className="relative flex align-middle justify-center">
+              <div className="bg-slate-400 dark:bg-slate-900 animate-pulse -z-0 w-[50px] h-[50px] rounded-full absolute"></div>
+              <img
+                src={profile.image}
+                alt="profile picture"
+                className="w-[50px] h-[50px] rounded-full z-20"
+              />
+            </div>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="w-[60px] fill-sky-500"
+            >
+              <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
+            </svg>
+          )}
         </div>
         <div>
           <p className="font-semibold text-md mb-2 text-center">

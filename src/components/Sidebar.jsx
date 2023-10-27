@@ -38,10 +38,10 @@ function TopMenu({ profileImage, setMainDisplay, toggleProfileMenu, logOut }) {
       <button onClick={toggleProfileMenu}>
         {profileImage ? (
           <div className="relative">
-            <div className="bg-neutral-200 -z-10 animate-pulse transition rounded-full top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] h-[54px] w-[54px] absolute"></div>
+            <div className="bg-neutral-200 -z-10 animate-pulse transition rounded-full top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] h-[53px] w-[53px] absolute"></div>
             <img
               src={profileImage}
-              className="w-[53px] h-[53px] m-[5.5px] rounded-full over:scale-105 transition"
+              className="w-[54px] h-[54px] m-[5.5px] rounded-full over:scale-105 transition"
               alt="profile picture"
             />
           </div>
