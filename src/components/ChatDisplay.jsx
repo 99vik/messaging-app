@@ -6,6 +6,7 @@ import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import UserProfile from './UserProfile';
 import { getChatParticipants } from '../scripts/ChatApiCalls';
+import ParticipantList from './ParticipantList';
 TimeAgo.addDefaultLocale(en);
 
 function ChatDisplay({ chat, setMainDisplay }) {
@@ -33,7 +34,7 @@ function ChatDisplay({ chat, setMainDisplay }) {
         authorizationData.token,
         chat.id
       );
-      console.log(response);
+      setChatParticipants(response);
     }
     setLoader(true);
     getMessages();
@@ -66,9 +67,6 @@ function ChatDisplay({ chat, setMainDisplay }) {
       return () => document.removeEventListener('click', listenForClick);
     }, []);
 
-    {
-      console.log(chat, authorizationData);
-    }
     return (
       <div
         ref={optionsDiv}
@@ -77,7 +75,10 @@ function ChatDisplay({ chat, setMainDisplay }) {
         <p className="text-sm text-neutral-500 dark:text-neutral-300 font-semibold">
           Options
         </p>
-        <button className="bg-sky-500 w-fit hover:bg-sky-700 transition py-1 px-2 rounded-lg text-white">
+        <button
+          onClick={() => setParticipantList(true)}
+          className="bg-sky-500 w-fit hover:bg-sky-700 transition py-1 px-2 rounded-lg text-white"
+        >
           See all participants
         </button>
         {chat.admin_id !== authorizationData.resource_owner.id ? (
@@ -252,6 +253,9 @@ function ChatDisplay({ chat, setMainDisplay }) {
 
   return (
     <div className="h-full w-full flex flex-col relative">
+      {participantList && (
+        <ParticipantList close={() => setParticipantList(false)} />
+      )}
       {userProfile && (
         <UserProfile
           setMainDisplay={setMainDisplay}
