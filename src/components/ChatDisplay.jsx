@@ -79,7 +79,7 @@ function ChatDisplay({ chat, setMainDisplay }) {
           onClick={() => setParticipantList(true)}
           className="bg-sky-500 w-fit hover:bg-sky-700 transition py-1 px-2 rounded-lg text-white"
         >
-          See all participants
+          Participants
         </button>
         {chat.admin_id !== authorizationData.resource_owner.id ? (
           <>
@@ -254,7 +254,13 @@ function ChatDisplay({ chat, setMainDisplay }) {
   return (
     <div className="h-full w-full flex flex-col relative">
       {participantList && (
-        <ParticipantList close={() => setParticipantList(false)} />
+        <>
+          <ParticipantList
+            setUserProfile={setUserProfile}
+            participants={chatParticipants}
+            close={() => setParticipantList(false)}
+          />
+        </>
       )}
       {userProfile && (
         <UserProfile

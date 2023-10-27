@@ -127,7 +127,7 @@ function UserProfile({ setMainDisplay, close, profile }) {
         onClick={close}
         className="h-screen w-screen -translate-x-[360px] absolute z-30 bg-gray-400/30 dark:bg-gray-900/30 appear-fast"
       ></div>
-      <div className="absolute user-profile rounded-lg right-0 z-40 bg-slate-100 dark:bg-slate-900 border-r flex flex-col border-slate-200 dark:border-slate-700 w-[360px] h-full transition-all">
+      <div className="absolute user-profile rounded-lg right-0 z-40 bg-slate-100 dark:bg-slate-900 border-l flex flex-col border-slate-200 dark:border-slate-700 w-[360px] h-full transition-all">
         <button onClick={close} className="absolute top-1 left-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
