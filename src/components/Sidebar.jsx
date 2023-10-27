@@ -2,14 +2,22 @@ import { useEffect, useRef, useState } from 'react';
 import ProfileMenu from './ProfileMenu';
 import Chats from './Chats';
 
-function Sidebar({ logOut, chats, setMainDisplay }) {
+function Sidebar({ user, refreshUser, logOut, chats, setMainDisplay }) {
   const [profileMenu, setProfileMenu] = useState(false);
+
   function toggleProfileMenu() {
     setProfileMenu(!profileMenu);
   }
+
   return (
     <div className="w-[360px] border-r-2 z-10 border-neutral-200 dark:border-slate-700 relative ">
-      {profileMenu && <ProfileMenu toggleProfileMenu={toggleProfileMenu} />}
+      {profileMenu && (
+        <ProfileMenu
+          refreshUser={refreshUser}
+          data={user}
+          toggleProfileMenu={toggleProfileMenu}
+        />
+      )}
       <TopMenu
         setMainDisplay={setMainDisplay}
         toggleProfileMenu={toggleProfileMenu}
@@ -21,6 +29,7 @@ function Sidebar({ logOut, chats, setMainDisplay }) {
 }
 
 function TopMenu({ setMainDisplay, toggleProfileMenu, logOut }) {
+  const [profileImage, setProfileImage] = useState(null);
   const [settingsPopup, setSettingsPopup] = useState(false);
   const settingsBtnRef = useRef(0);
 

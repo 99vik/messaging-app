@@ -5,9 +5,11 @@ import { refreshToken, revokeToken } from '../scripts/AuthorizationApiRequests';
 import { fetchUserChats } from '../scripts/ChatApiCalls';
 import Sidebar from './Sidebar';
 import Main from './Main';
+import { getCurrentUser } from '../scripts/ProfileApiCalls';
 
 function Home() {
   const [chats, setChats] = useState(null);
+  const [user, setUser] = useState(null);
   const [loader, setLoader] = useState(true);
   const [mainDisplay, setMainDisplay] = useState([]);
   const [authorizationLoader, setAuthorizationLoader] = useState(true);
@@ -43,13 +45,20 @@ function Home() {
   useEffect(() => {
     async function getData() {
       if (authorizationData) {
-        const data = await fetchUserChats(authorizationData.token);
-        setChats(data);
+        const chatsData = await fetchUserChats(authorizationData.token);
+        const userData = await getCurrentUser(authorizationData.token);
+        setChats(chatsData);
+        setUser(userData);
         setLoader(false);
       }
     }
     getData();
   }, [authorizationLoader]);
+
+  async function refreshUser() {
+    const newUserData = await getCurrentUser(authorizationData.token);
+    setUser(newUserData);
+  }
 
   function logOut() {
     if (authorizationData) {
@@ -71,6 +80,8 @@ function Home() {
     <>
       <div className="flex h-full rounded-lg overflow-hidden dark:bg-slate-900 dark:text-white ">
         <Sidebar
+          user={user}
+          refreshUser={refreshUser}
           logOut={logOut}
           chats={chats}
           setMainDisplay={setMainDisplay}
