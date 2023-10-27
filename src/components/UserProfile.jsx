@@ -143,13 +143,24 @@ function UserProfile({ setMainDisplay, close, profile }) {
         </h1>
         <div className="h-[1px] mt-1 mx-4 bg-neutral-300 dark:bg-slate-700"></div>
         <div className="flex flex-col flex-1 pt-5 items-center appear-fast">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            className="w-[200px] fill-sky-500"
-          >
-            <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
-          </svg>
+          {profile.image ? (
+            <div className="relative">
+              <div className="bg-neutral-200 -z-10 animate-pulse transition rounded-full top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] h-[167px] w-[167px] absolute"></div>
+              <img
+                src={profile.image}
+                className="w-[167px] h-[167px] rounded-full my-[16.5px]"
+                alt="profile picture"
+              />
+            </div>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="w-[200px] fill-sky-500"
+            >
+              <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
+            </svg>
+          )}
           <div className="w-full px-10 flex-1 flex flex-col pt-2 pb-4 justify-between">
             <div>
               <p className="text-sm text-neutral-500 dark:text-neutral-300">

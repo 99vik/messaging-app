@@ -176,7 +176,6 @@ function FindFriends({ setMainDisplay, close }) {
   }
 
   function Profile({ profile }) {
-    console.log(profile);
     return (
       <div className="bg-slate-200 dark:bg-slate-700 dark:border-slate-600 border border-slate-300 rounded-lg py-2 px-4 flex gap-4 justify-around items-center max-[1180px]:w-[260px] max-[1000px]:w-full w-[220px]">
         <div>
