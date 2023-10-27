@@ -19,6 +19,7 @@ function Sidebar({ user, refreshUser, logOut, chats, setMainDisplay }) {
         />
       )}
       <TopMenu
+        profileImage={user.image}
         setMainDisplay={setMainDisplay}
         toggleProfileMenu={toggleProfileMenu}
         logOut={logOut}
@@ -28,22 +29,32 @@ function Sidebar({ user, refreshUser, logOut, chats, setMainDisplay }) {
   );
 }
 
-function TopMenu({ setMainDisplay, toggleProfileMenu, logOut }) {
-  const [profileImage, setProfileImage] = useState(null);
+function TopMenu({ profileImage, setMainDisplay, toggleProfileMenu, logOut }) {
   const [settingsPopup, setSettingsPopup] = useState(false);
   const settingsBtnRef = useRef(0);
 
   return (
     <div className="flex items-center justify-between border-b-2 border-neutral-200 dark:border-slate-700 px-3 py-2">
       <button onClick={toggleProfileMenu}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          className="w-16 fill-sky-500 hover:scale-105 transition"
-        >
-          <title>Profile settings</title>
-          <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
-        </svg>
+        {1 ? (
+          <div className="relative">
+            <div className="bg-neutral-200 -z-10 animate-pulse transition rounded-full top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] h-[54px] w-[54px] absolute"></div>
+            <img
+              src={profileImage}
+              className="w-[53px] h-[53px] m-[5.5px] rounded-full over:scale-105 transition"
+              alt="profile picture"
+            />
+          </div>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="w-16 fill-sky-500 hover:scale-105 transition"
+          >
+            <title>Profile settings</title>
+            <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
+          </svg>
+        )}
       </button>
 
       <div className="flex gap-4">
