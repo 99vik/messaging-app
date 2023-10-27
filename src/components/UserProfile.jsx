@@ -50,6 +50,7 @@ function UserProfile({ setMainDisplay, close, profile }) {
     async function openChat() {
       setLoader(true);
       const data = await getDirectChat(authorizationData.token, profile.id);
+      close();
       setMainDisplay(['chat', data]);
     }
 

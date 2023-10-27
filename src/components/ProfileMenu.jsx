@@ -10,6 +10,7 @@ function ProfileMenu({ toggleProfileMenu }) {
   const [data, setData] = useState(null);
   const [usernameLoader, setUsernameLoader] = useState(false);
   const [descriptionLoader, setDescriptionLoader] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
   const { authorizationData } = useContext(AuthorizationDataContext);
 
   const usernameRef = useRef(0);
@@ -18,6 +19,7 @@ function ProfileMenu({ toggleProfileMenu }) {
   const descriptionRef = useRef(0);
   const descriptionLabelRef = useRef(0);
   const descriptionSubmitRef = useRef(0);
+  const imageRef = useRef(0);
 
   useEffect(() => {
     async function getData() {
@@ -57,6 +59,14 @@ function ProfileMenu({ toggleProfileMenu }) {
     setDescriptionLoader(false);
   }
 
+  function showImg(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const fileSrc = URL.createObjectURL(file);
+      setImagePreview(fileSrc);
+    }
+  }
+
   return (
     <>
       <div
@@ -81,13 +91,39 @@ function ProfileMenu({ toggleProfileMenu }) {
         {data && (
           <>
             <div className="flex flex-col gap-5 pt-5 items-center appear-fast">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                className="w-[200px] fill-sky-500"
-              >
-                <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
-              </svg>
+              <div className="relative">
+                <label htmlFor="image">
+                  <div className="bg-neutral-500/0 hover:bg-neutral-500/30 text-black/0 hover:text-black/100 flex rounded-full top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] h-[167px] w-[167px] z-50 absolute transition cursor-pointer items-center justify-center">
+                    <p className="text-md text-center font-semibold">
+                      Change profile <br /> picture
+                    </p>
+                  </div>
+                </label>
+                <input
+                  onChange={showImg}
+                  type="file"
+                  id="image"
+                  name="image"
+                  accept="image/*"
+                  hidden
+                ></input>
+                {imagePreview ? (
+                  <img
+                    src={imagePreview}
+                    className="w-[167px] h-[167px] rounded-full my-[16.5px]"
+                    alt="image"
+                    ref={imageRef}
+                  />
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    className="w-[200px] fill-sky-500"
+                  >
+                    <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
+                  </svg>
+                )}
+              </div>
               <div className="w-full px-10">
                 <p className="text-sm text-neutral-500 dark:text-neutral-300">
                   Your e-mail
