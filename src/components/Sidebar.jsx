@@ -36,7 +36,7 @@ function TopMenu({ profileImage, setMainDisplay, toggleProfileMenu, logOut }) {
   return (
     <div className="flex items-center justify-between border-b-2 border-neutral-200 dark:border-slate-700 px-3 py-2">
       <button onClick={toggleProfileMenu}>
-        {1 ? (
+        {profileImage ? (
           <div className="relative">
             <div className="bg-neutral-200 -z-10 animate-pulse transition rounded-full top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] h-[54px] w-[54px] absolute"></div>
             <img
