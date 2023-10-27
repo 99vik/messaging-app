@@ -5,7 +5,7 @@ import { GetChatMessages, SendMessage } from '../scripts/MessageApiCalls';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import UserProfile from './UserProfile';
-import { getChatParticipants } from '../scripts/ChatApiCalls';
+import { getChatParticipants, leaveChat } from '../scripts/ChatApiCalls';
 import ParticipantList from './ParticipantList';
 TimeAgo.addDefaultLocale(en);
 
@@ -47,6 +47,11 @@ function ChatDisplay({ chat, setMainDisplay }) {
     setChatOptions(!chatOptions);
   }
 
+  async function chatLeave() {
+    const response = await leaveChat(authorizationData.token, chat.id);
+    setMainDisplay([]);
+  }
+
   function Options({ optionsBtnRef, close }) {
     const optionsDiv = useRef(0);
 
@@ -83,7 +88,10 @@ function ChatDisplay({ chat, setMainDisplay }) {
         </button>
         {chat.admin_id !== authorizationData.resource_owner.id ? (
           <>
-            <button className="bg-red-500 w-fit hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-900 transition py-1 px-2 rounded-lg text-white">
+            <button
+              onClick={chatLeave}
+              className="bg-red-500 w-fit hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-900 transition py-1 px-2 rounded-lg text-white"
+            >
               Leave chat
             </button>
           </>

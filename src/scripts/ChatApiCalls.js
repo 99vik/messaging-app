@@ -73,6 +73,20 @@ async function joinPublicChat(access_token, id) {
   return response;
 }
 
+async function leaveChat(access_token, id) {
+  const response = await fetch(`${API_URL}/leave_chat`, {
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return response;
+}
+
 export {
   fetchUserChats,
   fetchAllPublicChats,
@@ -80,4 +94,5 @@ export {
   joinPublicChat,
   getDirectChat,
   getChatParticipants,
+  leaveChat,
 };
