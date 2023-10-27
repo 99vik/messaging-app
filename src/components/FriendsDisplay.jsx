@@ -42,11 +42,11 @@ function FriendsDisplay({ setMainDisplay }) {
           <div>
             {friend.image ? (
               <div className="relative flex align-middle justify-center">
-                <div className="bg-slate-400 dark:bg-slate-900 animate-pulse -z-0 w-[50px] h-[50px] rounded-full absolute"></div>
+                <div className="bg-slate-400 dark:bg-slate-900 animate-pulse -z-10 w-[50px] h-[50px] rounded-full absolute"></div>
                 <img
                   src={friend.image}
                   alt="profile picture"
-                  className="w-[50px] h-[50px] rounded-full z-20"
+                  className="w-[50px] h-[50px] rounded-full z-0"
                 />
               </div>
             ) : (
@@ -181,11 +181,11 @@ function FindFriends({ setMainDisplay, close }) {
         <div>
           {profile.image ? (
             <div className="relative flex align-middle justify-center">
-              <div className="bg-slate-400 dark:bg-slate-900 animate-pulse -z-0 w-[50px] h-[50px] rounded-full absolute"></div>
+              <div className="bg-slate-400 dark:bg-slate-900 animate-pulse -z-10 w-[50px] h-[50px] rounded-full absolute"></div>
               <img
                 src={profile.image}
                 alt="profile picture"
-                className="w-[50px] h-[50px] rounded-full z-20"
+                className="w-[50px] h-[50px] rounded-full z-0"
               />
             </div>
           ) : (

@@ -10,7 +10,7 @@ function Sidebar({ user, refreshUser, logOut, chats, setMainDisplay }) {
   }
 
   return (
-    <div className="w-[360px] border-r-2 z-10 border-neutral-200 dark:border-slate-700 relative ">
+    <div className="w-[360px] border-r-2 z-10 flex flex-col border-neutral-200 dark:border-slate-700 relative ">
       {profileMenu && (
         <ProfileMenu
           refreshUser={refreshUser}
@@ -136,7 +136,7 @@ function SettingsPopup({ settingsBtnRef, logOut, close }) {
   return (
     <div
       ref={settingsDiv}
-      className="absolute w-[220px] z-50 appear-fast bg-white dark:bg-slate-700 px-3 py-1 pb-2 -bottom-[250%] left-[100%] rounded-lg border border-sky-400 dark:border-sky-900 dark:shadow-[0_0_6px_3px_rgba(0,160,255,0.1)] shadow-[0_0_6px_3px_rgba(0,160,255,0.2)]"
+      className="absolute w-[220px] z-100 appear-fast bg-white dark:bg-slate-700 px-3 py-1 pb-2 -bottom-[250%] left-[100%] rounded-lg border border-sky-400 dark:border-sky-900 dark:shadow-[0_0_6px_3px_rgba(0,160,255,0.1)] shadow-[0_0_6px_3px_rgba(0,160,255,0.2)]"
     >
       <p className="text-sm text-neutral-500 dark:text-neutral-300 font-semibold mb-2">
         Settings

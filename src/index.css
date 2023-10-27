@@ -68,6 +68,14 @@
       100% {opacity: 1;}
     }
 
+    .chat-scrollbar {
+      scrollbar-width: 4px;
+    }
+
+    .chat-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+
     * {
       padding: 0;
       margin: 0;
