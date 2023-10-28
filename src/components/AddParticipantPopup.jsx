@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { addUserToChat, getAddableUsersToChat } from '../scripts/ChatApiCalls';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 
-function AddParticipantPopup({ chat, close }) {
+function AddParticipantPopup({ refreshParticipants, chat, close }) {
   const [loader, setLoader] = useState(true);
   const [users, setUsers] = useState(null);
   const { authorizationData } = useContext(AuthorizationDataContext);
@@ -17,6 +17,8 @@ function AddParticipantPopup({ chat, close }) {
       setUsers(response);
     }
     getUsers();
+
+    return () => refreshParticipants();
   }, []);
 
   function Users() {
@@ -51,7 +53,6 @@ function AddParticipantPopup({ chat, close }) {
       }
       setLoader(false);
     }
-
     return (
       <div className="bg-slate-200 dark:bg-slate-700 dark:border-slate-600 border border-slate-300 rounded-lg py-2 px-3 flex gap-4 justify-around items-center w-full">
         <div>

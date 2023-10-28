@@ -31,6 +31,7 @@ function ChatDisplay({ chat, setMainDisplay }) {
       }
       setLoader(false);
     }
+
     async function getParticipants() {
       const response = await getChatParticipants(
         authorizationData.token,
@@ -44,6 +45,14 @@ function ChatDisplay({ chat, setMainDisplay }) {
       getParticipants();
     }
   }, [chat]);
+
+  async function refreshParticipants() {
+    const response = await getChatParticipants(
+      authorizationData.token,
+      chat.id
+    );
+    setChatParticipants(response);
+  }
 
   function toggleOptions() {
     setChatOptions(!chatOptions);
@@ -276,6 +285,7 @@ function ChatDisplay({ chat, setMainDisplay }) {
       {addParticipantPopup && (
         <>
           <AddParticipantPopup
+            refreshParticipants={refreshParticipants}
             chat={chat}
             close={() => setAddParticipantPopup(false)}
           />
@@ -287,6 +297,7 @@ function ChatDisplay({ chat, setMainDisplay }) {
             chatID={chat.id}
             setUserProfile={setUserProfile}
             participants={chatParticipants}
+            refreshParticipants={refreshParticipants}
             close={() => setParticipantList(false)}
             admin={authorizationData.resource_owner.id === chat.admin_id}
           />

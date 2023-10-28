@@ -6,6 +6,7 @@ function ParticipantList({
   chatID,
   setUserProfile,
   participants,
+  refreshParticipants,
   close,
   admin,
 }) {
@@ -36,6 +37,7 @@ function ParticipantList({
       );
       if (response.ok) {
         setRemoved(true);
+        refreshParticipants();
         console.log('removed from chat');
       } else {
         console.log('error removing user');
