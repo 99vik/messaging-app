@@ -8,12 +8,14 @@ import UserProfile from './UserProfile';
 import { getChatParticipants, leaveChat } from '../scripts/ChatApiCalls';
 import ParticipantList from './ParticipantList';
 import AddParticipantPopup from './AddParticipantPopup';
+import ChatSettings from './ChatSettings';
 TimeAgo.addDefaultLocale(en);
 
 function ChatDisplay({ chat, setMainDisplay }) {
   const [userProfile, setUserProfile] = useState(null);
   const [participantList, setParticipantList] = useState(false);
   const [chatParticipants, setChatParticipants] = useState(null);
+  const [chatSettings, setChatSettings] = useState(false);
   const [addParticipantPopup, setAddParticipantPopup] = useState(false);
   const [messages, setMessages] = useState(null);
   const [chatOptions, setChatOptions] = useState(false);
@@ -86,7 +88,7 @@ function ChatDisplay({ chat, setMainDisplay }) {
     return (
       <div
         ref={optionsDiv}
-        className="absolute flex flex-col gap-2 w-[180px] z-50 appear-fast bg-white dark:bg-slate-700 px-3 py-1 pb-2 -left-[180px] rounded-lg border border-sky-400 dark:border-sky-900 dark:shadow-[0_0_6px_3px_rgba(0,160,255,0.1)] shadow-[0_0_6px_3px_rgba(0,160,255,0.2)]"
+        className="absolute flex flex-col items-end gap-2 w-[200px] z-50 appear-fast bg-white dark:bg-slate-700 px-3 py-1 pb-2 -left-[200px] top-[15px] rounded-lg border border-sky-400 dark:border-sky-900 dark:shadow-[0_0_6px_3px_rgba(0,160,255,0.1)] shadow-[0_0_6px_3px_rgba(0,160,255,0.2)]"
       >
         <p className="text-sm text-neutral-500 dark:text-neutral-300 font-semibold">
           Options
@@ -128,7 +130,10 @@ function ChatDisplay({ chat, setMainDisplay }) {
               </svg>
               Add participant
             </button>
-            <button className="bg-neutral-600 w-fit flex items-center justify-center gap-2 hover:bg-neutral-700 dark:bg-red-700 dark:hover:bg-red-900 transition py-1 px-2 rounded-lg text-white">
+            <button
+              onClick={() => setChatSettings(true)}
+              className="bg-neutral-600 w-fit flex items-center justify-center gap-2 hover:bg-neutral-700 dark:bg-red-700 dark:hover:bg-red-900 transition py-1 px-2 rounded-lg text-white"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -278,6 +283,10 @@ function ChatDisplay({ chat, setMainDisplay }) {
         </button>
       </div>
     );
+  }
+
+  if (chatSettings) {
+    return <ChatSettings chat={chat} close={() => setChatSettings(false)} />;
   }
 
   return (

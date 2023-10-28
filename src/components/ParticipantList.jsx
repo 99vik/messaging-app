@@ -1,6 +1,6 @@
 import { removeUserFromChat } from '../scripts/ChatApiCalls';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 function ParticipantList({
   chatID,
