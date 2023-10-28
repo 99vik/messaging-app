@@ -87,6 +87,17 @@ async function leaveChat(access_token, id) {
   return response;
 }
 
+async function getAddableUsersToChat(access_token, id) {
+  const response = await fetch(`${API_URL}/get_addable_users_to_chat/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return await response.json();
+}
+
 export {
   fetchUserChats,
   fetchAllPublicChats,
@@ -95,4 +106,5 @@ export {
   getDirectChat,
   getChatParticipants,
   leaveChat,
+  getAddableUsersToChat,
 };

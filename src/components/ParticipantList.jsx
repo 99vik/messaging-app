@@ -74,7 +74,13 @@ function ParticipantList({ setUserProfile, participants, close }) {
         </h1>
         <div className="h-[1px] mt-1 mx-4 bg-neutral-300 dark:bg-slate-700"></div>
         <div className="flex flex-col gap-3 px-8 py-4">
-          {displayedParticipants}
+          {displayedParticipants.length === 0 ? (
+            <p className="text-neutral-600 text-lg text-center mt-4">
+              No other participants.
+            </p>
+          ) : (
+            displayedParticipants
+          )}
         </div>
       </div>
     </>
