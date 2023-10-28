@@ -13,59 +13,50 @@ function AddParticipantPopup({ chat, close }) {
         authorizationData.token,
         chat.id
       );
-      console.log(response);
+      setLoader(false);
+      setUsers(response);
     }
     getUsers();
   }, []);
-  //   const displayedParticipants = participants.map((pariticipant) => (
-  //     <User
-  //       key={pariticipant.id}
-  //       participant={pariticipant}
-  //       setUserProfile={setUserProfile}
-  //       close={close}
-  //     />
-  //   ));
 
-  //   function User({ setUserProfile, participant, close }) {
+  function Users() {
+    const displayedUsers = users.map((user) => (
+      <User key={user.id} user={user} />
+    ));
+    return displayedUsers;
+  }
 
-  //     return (
-  //       <div className="bg-slate-200 dark:bg-slate-700 dark:border-slate-600 border border-slate-300 rounded-lg py-2 px-3 flex gap-4 justify-around items-center w-full">
-  //         <div>
-  //           {participant.image ? (
-  //             <div className="relative flex align-middle justify-center">
-  //               <div className="bg-slate-400 dark:bg-slate-900 animate-pulse -z-10 w-[50px] h-[50px] rounded-full absolute"></div>
-  //               <img
-  //                 src={participant.image}
-  //                 alt="profile picture"
-  //                 className="w-[50px] h-[50px] rounded-full z-0"
-  //               />
-  //             </div>
-  //           ) : (
-  //             <svg
-  //               xmlns="http://www.w3.org/2000/svg"
-  //               viewBox="0 0 24 24"
-  //               className="w-[60px] fill-sky-500"
-  //             >
-  //               <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
-  //             </svg>
-  //           )}
-  //         </div>
-  //         <div>
-  //           <p className="font-semibold text-md mb-2 text-center">
-  //             {participant.username}
-  //           </p>
-  //           <button
-  //             onClick={() => {
-  //               setUserProfile(participant);
-  //             }}
-  //             className="bg-sky-500 rounded-lg whitespace-nowrap text-white py-1 px-2 hover:bg-sky-700 transition"
-  //           >
-  //             View profile
-  //           </button>
-  //         </div>
-  //       </div>
-  //     );
-  //   }
+  function User({ user }) {
+    return (
+      <div className="bg-slate-200 dark:bg-slate-700 dark:border-slate-600 border border-slate-300 rounded-lg py-2 px-3 flex gap-4 justify-around items-center w-full">
+        <div>
+          {user.image ? (
+            <div className="relative flex align-middle justify-center">
+              <div className="bg-slate-400 dark:bg-slate-900 animate-pulse z-0 w-[50px] h-[50px] rounded-full absolute"></div>
+              <img
+                src={user.image}
+                alt="profile picture"
+                className="w-[50px] h-[50px] rounded-full z-0"
+              />
+            </div>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="w-[60px] fill-sky-500"
+            >
+              <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
+            </svg>
+          )}
+        </div>
+        <div>
+          <p className="font-semibold text-md mb-2 text-center">
+            {user.username}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -89,14 +80,16 @@ function AddParticipantPopup({ chat, close }) {
           Add participant
         </h1>
         <div className="h-[1px] mt-1 mx-4 bg-neutral-300 dark:bg-slate-700"></div>
-        <div className="flex flex-col gap-3 px-8 py-4">
-          {/* {displayedParticipants.length === 0 ? (
-            <p className="text-neutral-600 text-lg text-center mt-4">
-              Cannot add any other participant.
-            </p>
+        <div className="flex flex-col flex-1 gap-3 px-8 py-4">
+          {loader ? (
+            <div className="flex flex-1 justify-center items-center gap-2">
+              <div className="h-6 w-6 bg-sky-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+              <div className="h-6 w-6 bg-sky-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+              <div className="h-6 w-6 bg-sky-500 rounded-full animate-bounce"></div>
+            </div>
           ) : (
-            displayedParticipants
-          )} */}
+            <Users />
+          )}
         </div>
       </div>
     </>
