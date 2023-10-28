@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { getAddableUsersToChat } from '../scripts/ChatApiCalls';
+import { addUserToChat, getAddableUsersToChat } from '../scripts/ChatApiCalls';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 
 function AddParticipantPopup({ chat, close }) {
@@ -27,6 +27,19 @@ function AddParticipantPopup({ chat, close }) {
   }
 
   function User({ user }) {
+    async function addToChat() {
+      const response = await addUserToChat(
+        authorizationData.token,
+        chat.id,
+        user.id
+      );
+      if (response.ok) {
+        console.log('user added');
+      } else {
+        console.log('error adding user');
+      }
+    }
+
     return (
       <div className="bg-slate-200 dark:bg-slate-700 dark:border-slate-600 border border-slate-300 rounded-lg py-2 px-3 flex gap-4 justify-around items-center w-full">
         <div>
@@ -53,6 +66,12 @@ function AddParticipantPopup({ chat, close }) {
           <p className="font-semibold text-md mb-2 text-center">
             {user.username}
           </p>
+          <button
+            onClick={addToChat}
+            className="bg-sky-500 rounded-lg whitespace-nowrap text-white py-1 px-2 hover:bg-sky-700 transition"
+          >
+            Add to chat
+          </button>
         </div>
       </div>
     );

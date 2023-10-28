@@ -98,6 +98,22 @@ async function getAddableUsersToChat(access_token, id) {
   return await response.json();
 }
 
+async function addUserToChat(access_token, chat_id, user_id) {
+  const chat = { chat_id, user_id };
+
+  const response = await fetch(`${API_URL}/add_user_to_chat`, {
+    method: 'POST',
+    body: JSON.stringify({
+      chat,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return response;
+}
+
 export {
   fetchUserChats,
   fetchAllPublicChats,
@@ -107,4 +123,5 @@ export {
   getChatParticipants,
   leaveChat,
   getAddableUsersToChat,
+  addUserToChat,
 };
