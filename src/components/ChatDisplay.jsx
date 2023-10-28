@@ -284,9 +284,11 @@ function ChatDisplay({ chat, setMainDisplay }) {
       {participantList && (
         <>
           <ParticipantList
+            chatID={chat.id}
             setUserProfile={setUserProfile}
             participants={chatParticipants}
             close={() => setParticipantList(false)}
+            admin={authorizationData.resource_owner.id === chat.admin_id}
           />
         </>
       )}

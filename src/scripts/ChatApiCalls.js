@@ -114,6 +114,22 @@ async function addUserToChat(access_token, chat_id, user_id) {
   return response;
 }
 
+async function removeUserFromChat(access_token, chat_id, user_id) {
+  const chat = { chat_id, user_id };
+
+  const response = await fetch(`${API_URL}/remove_user_from_chat`, {
+    method: 'POST',
+    body: JSON.stringify({
+      chat,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return response;
+}
+
 export {
   fetchUserChats,
   fetchAllPublicChats,
@@ -124,4 +140,5 @@ export {
   leaveChat,
   getAddableUsersToChat,
   addUserToChat,
+  removeUserFromChat,
 };
