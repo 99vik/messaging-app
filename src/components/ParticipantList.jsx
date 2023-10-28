@@ -9,6 +9,9 @@ function ParticipantList({ setUserProfile, participants, close }) {
   ));
 
   function Participant({ setUserProfile, participant, close }) {
+    participant.userProfileMode = true;
+    participant.closeList = () => close();
+
     return (
       <div className="bg-slate-200 dark:bg-slate-700 dark:border-slate-600 border border-slate-300 rounded-lg py-2 px-3 flex gap-4 justify-around items-center w-full">
         <div>
@@ -38,7 +41,6 @@ function ParticipantList({ setUserProfile, participants, close }) {
           <button
             onClick={() => {
               setUserProfile(participant);
-              close();
             }}
             className="bg-sky-500 rounded-lg whitespace-nowrap text-white py-1 px-2 hover:bg-sky-700 transition"
           >

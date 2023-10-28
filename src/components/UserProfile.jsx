@@ -51,6 +51,9 @@ function UserProfile({ setMainDisplay, close, profile }) {
       setLoader(true);
       const data = await getDirectChat(authorizationData.token, profile.id);
       close();
+      if (profile.userProfileMode) {
+        profile.closeList();
+      }
       setMainDisplay(['chat', data]);
     }
 
@@ -124,19 +127,43 @@ function UserProfile({ setMainDisplay, close, profile }) {
   return (
     <>
       <div
-        onClick={close}
-        className="h-screen w-screen -translate-x-[360px] absolute z-30 bg-gray-400/30 dark:bg-gray-900/30 appear-fast"
+        onClick={() => {
+          close();
+          if (profile.userProfileMode) {
+            profile.closeList();
+          }
+        }}
+        className={`h-screen w-screen -translate-x-[360px] absolute z-30 ${
+          profile.userProfileMode
+            ? 'bg-white/0'
+            : 'bg-gray-400/30 dark:bg-gray-900/30'
+        }  appear-fast`}
       ></div>
-      <div className="absolute user-profile rounded-lg right-0 z-40 bg-slate-100 dark:bg-slate-900 border-l flex flex-col border-slate-200 dark:border-slate-700 w-[360px] h-full transition-all">
+      <div
+        className={`absolute ${
+          profile.userProfileMode ? '' : 'user-profile'
+        } rounded-lg right-0 z-40 bg-slate-100 dark:bg-slate-900 border-l flex flex-col border-slate-200 dark:border-slate-700 w-[360px] h-full transition-all`}
+      >
         <button onClick={close} className="absolute top-1 left-1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            className="fill-sky-500 w-12"
-          >
-            <title>close</title>
-            <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
-          </svg>
+          {profile.userProfileMode ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="fill-sky-500 w-10 mt-1"
+            >
+              <title>close</title>
+              <path d="M12.08,4.08L20,12L12.08,19.92L10.67,18.5L16.17,13H2V11H16.17L10.67,5.5L12.08,4.08M20,12V22H22V2H20V12Z" />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="fill-sky-500 w-12"
+            >
+              <title>close</title>
+              <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+            </svg>
+          )}
         </button>
         <h1 className="text-center mt-4 text-neutral-600 dark:text-neutral-300 text-3xl">
           {profile.username}
