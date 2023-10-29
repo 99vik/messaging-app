@@ -2,6 +2,7 @@ import { useContext, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 
 import CloseIcon from '../assets/icons/CloseIcon.svg';
+import { changeChatName } from '../scripts/ChatApiCalls';
 
 function ChatSettings({ chat, close }) {
   const [nameLoader, setNameLoader] = useState(false);
@@ -17,13 +18,16 @@ function ChatSettings({ chat, close }) {
     setNameLoader(true);
     const response = await changeChatName(
       authorizationData.token,
-      nameRef.current.value
+      nameRef.current.value,
+      chat.id
     );
 
     if (response.ok) {
+      chat.name = nameRef.current.value;
+      console.log('name changed');
       console.log(await response.json());
-      refreshUser();
     } else {
+      console.log('error changing name');
       console.log(await response.json());
     }
     setNameLoader(false);
@@ -142,7 +146,7 @@ function ChatSettings({ chat, close }) {
                 name="name"
                 id="name"
                 className="flex-1 font-semibold dark:text-black bg-slate-300 rounded-tl-md rounded-bl-md p-1 outline-none"
-                defaultValue={chat.username}
+                defaultValue={chat.name}
               />
 
               <label

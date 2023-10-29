@@ -130,6 +130,21 @@ async function removeUserFromChat(access_token, chat_id, user_id) {
   return response;
 }
 
+async function changeChatName(access_token, name, id) {
+  const chat = { name, id };
+  const response = await fetch(`${API_URL}/change_chat_name`, {
+    method: 'POST',
+    body: JSON.stringify({
+      chat,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return response;
+}
+
 export {
   fetchUserChats,
   fetchAllPublicChats,
@@ -141,4 +156,5 @@ export {
   getAddableUsersToChat,
   addUserToChat,
   removeUserFromChat,
+  changeChatName,
 };
