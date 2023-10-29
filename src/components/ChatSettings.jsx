@@ -2,7 +2,7 @@ import { useContext, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 
 import CloseIcon from '../assets/icons/CloseIcon.svg';
-import { changeChatName } from '../scripts/ChatApiCalls';
+import { changeChatImage, changeChatName } from '../scripts/ChatApiCalls';
 
 function ChatSettings({ chat, close }) {
   const [nameLoader, setNameLoader] = useState(false);
@@ -43,6 +43,7 @@ function ChatSettings({ chat, close }) {
   async function uploadImage() {
     const response = await changeChatImage(
       authorizationData.token,
+      chat.id,
       imagePreview
     );
     if (response.ok) {

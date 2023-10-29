@@ -145,6 +145,20 @@ async function changeChatName(access_token, name, id) {
   return response;
 }
 
+async function changeChatImage(access_token, id, image) {
+  const data = new FormData();
+  data.append('chat[id]', id);
+  data.append('chat[image]', image);
+  const response = await fetch(`${API_URL}/change_chat_image`, {
+    method: 'POST',
+    body: data,
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  return response;
+}
+
 export {
   fetchUserChats,
   fetchAllPublicChats,
@@ -157,4 +171,5 @@ export {
   addUserToChat,
   removeUserFromChat,
   changeChatName,
+  changeChatImage,
 };
