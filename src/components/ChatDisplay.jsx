@@ -24,6 +24,9 @@ function ChatDisplay({ chat, setMainDisplay }) {
   const optionsBtnRef = useRef(0);
 
   useEffect(() => {
+    setChatSettings(false);
+    setChatOptions(false);
+
     async function getMessages() {
       const response = await GetChatMessages(chat.id, authorizationData.token);
       if (response.ok) {
