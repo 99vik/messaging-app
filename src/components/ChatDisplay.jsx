@@ -22,15 +22,40 @@ function ChatDisplay({ chat, setMainDisplay }) {
   const [loader, setLoader] = useState(true);
   const { authorizationData } = useContext(AuthorizationDataContext);
   const optionsBtnRef = useRef(0);
+  const messagesRef = useRef(0);
 
   useEffect(() => {
-    setChatSettings(false);
-    setChatOptions(false);
+    const chatSocket = new WebSocket('ws://localhost:3000/cable');
+    chatSocket.onopen = () => {
+      console.log('Connected to websocket server');
+      chatSocket.send(
+        JSON.stringify({
+          command: 'subscribe',
+          identifier: JSON.stringify({
+            chat_id: chat.id,
+            channel: 'ChatChannel',
+          }),
+        })
+      );
+    };
+    chatSocket.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+      if (
+        data.type === 'ping' ||
+        data.type === 'welcome' ||
+        data.type === 'confirm_subscription'
+      )
+        return;
+      messagesRef.current = [...messagesRef.current, data.message];
+      setMessages(messagesRef.current);
+    };
 
     async function getMessages() {
       const response = await GetChatMessages(chat.id, authorizationData.token);
       if (response.ok) {
-        setMessages(await response.json());
+        const messagesData = await response.json();
+        setMessages(messagesData);
+        messagesRef.current = messagesData;
       } else {
         console.log('error');
       }
@@ -49,6 +74,7 @@ function ChatDisplay({ chat, setMainDisplay }) {
     if (chat.type !== 'direct') {
       getParticipants();
     }
+    return () => chatSocket.close();
   }, [chat]);
 
   async function refreshParticipants() {
@@ -242,9 +268,8 @@ function ChatDisplay({ chat, setMainDisplay }) {
         chat.id
       );
       if (!response.ok) {
+        console.log('error sending message');
         console.log(response);
-      } else {
-        messageRef.current.value = '';
       }
       setLoader(false);
     }

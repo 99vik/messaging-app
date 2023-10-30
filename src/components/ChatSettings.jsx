@@ -205,10 +205,10 @@ function ChatSettings({ chat, close }) {
                   <path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
                 </svg>
               </button>
-              <div hidden={!nameLoader} className="ml-3">
+              <div hidden={!nameLoader} className="relative">
                 <svg
                   aria-hidden="true"
-                  className="w-6 h-6 text-gray-400 animate-spin fill-sky-500"
+                  className="w-6 h-6 text-gray-400 animate-spin absolute -top-3 -right-7 fill-sky-500"
                   viewBox="0 0 100 101"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

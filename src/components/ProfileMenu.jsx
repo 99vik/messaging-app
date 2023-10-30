@@ -11,6 +11,7 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
   const [usernameLoader, setUsernameLoader] = useState(false);
   const [descriptionLoader, setDescriptionLoader] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
+  const [imageSubmitBtn, setImageSubmitBtn] = useState(false);
   const { authorizationData } = useContext(AuthorizationDataContext);
 
   const usernameRef = useRef(0);
@@ -19,6 +20,7 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
   const descriptionRef = useRef(0);
   const descriptionLabelRef = useRef(0);
   const descriptionSubmitRef = useRef(0);
+  const imageSubmitRef = useRef(0);
   const imageRef = useRef(0);
 
   async function handleUsernameUpdate() {
@@ -56,6 +58,7 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
   function showImg(e) {
     const file = e.target.files[0];
     if (file) {
+      setImageSubmitBtn(true);
       setImagePreview(file);
     }
   }
@@ -67,6 +70,7 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
     );
     if (response.ok) {
       console.log('attached');
+      setImageSubmitBtn(false);
       refreshUser();
     } else {
       console.log(error);
@@ -121,6 +125,8 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
                   ref={imageRef}
                 />
                 <button
+                  ref={imageSubmitRef}
+                  hidden={!imageSubmitBtn}
                   onClick={uploadImage}
                   className="bg-sky-500 left-[50%] -translate-x-[50%] whitespace-nowrap w-fit absolute -bottom-[20px] text-sm hover:bg-sky-700 transition py-1 px-2 rounded-lg text-white"
                 >
