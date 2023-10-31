@@ -66,6 +66,7 @@ function Home() {
         JSON.stringify({
           command: 'subscribe',
           identifier: JSON.stringify({
+            user_id: authorizationData.resource_owner.id,
             chat_ids: chatIDs,
             channel: 'UserChatsChannel',
           }),
@@ -80,11 +81,16 @@ function Home() {
         data.type === 'confirm_subscription'
       )
         return;
+      if (data.message.id) {
+        chatSocket.close();
+        connect([...chatIDs, data.message.id]);
+      }
       refreshChats();
     };
   }
 
   async function refreshChats() {
+    console.log('refreshing chats');
     const chatsData = await fetchUserChats(authorizationData.token);
     setChats(chatsData);
   }
