@@ -27,7 +27,6 @@ function ChatDisplay({ chat, setMainDisplay }) {
   useEffect(() => {
     const chatSocket = new WebSocket('ws://localhost:3000/cable');
     chatSocket.onopen = () => {
-      console.log('Connected to websocket server');
       chatSocket.send(
         JSON.stringify({
           command: 'subscribe',

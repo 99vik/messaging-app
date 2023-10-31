@@ -7,7 +7,7 @@ import {
 } from '../scripts/ChatApiCalls';
 import CloseIcon from '../assets/icons/CloseIcon.svg';
 
-function GroupsDisplay({ setMainDisplay }) {
+function GroupsDisplay({ setMainDisplay, refreshChats }) {
   const [loader, setLoader] = useState(true);
   const [publicChats, setPublicChats] = useState(null);
   const [createForm, setCreateForm] = useState(false);
@@ -25,6 +25,7 @@ function GroupsDisplay({ setMainDisplay }) {
   if (createForm) {
     return (
       <CreateChatForm
+        refreshChats={refreshChats}
         token={authorizationData.token}
         setMainDisplay={setMainDisplay}
         close={() => setCreateForm(false)}
@@ -59,6 +60,7 @@ function GroupsDisplay({ setMainDisplay }) {
         <Loader />
       ) : (
         <PublicChats
+          refreshChats={refreshChats}
           publicChats={publicChats}
           setMainDisplay={setMainDisplay}
           token={authorizationData.token}
@@ -68,13 +70,14 @@ function GroupsDisplay({ setMainDisplay }) {
   );
 }
 
-function PublicChats({ publicChats, setMainDisplay, token }) {
+function PublicChats({ refreshChats, publicChats, setMainDisplay, token }) {
   async function joinChat(id, resetLoader) {
     const response = await joinPublicChat(token, id);
     if (response.ok) {
       const chat = await response.json();
       console.log('added to chat');
       setMainDisplay(['chat', chat]);
+      refreshChats();
     } else {
       console.log('error adding to chat');
     }

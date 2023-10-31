@@ -50,10 +50,44 @@ function Home() {
         setChats(chatsData);
         setUser(userData);
         setLoader(false);
+
+        const chatIDs = chatsData.map((chat) => chat.id);
+        connect(chatIDs);
       }
     }
     getData();
   }, [authorizationLoader]);
+
+  function connect(chatIDs) {
+    const chatSocket = new WebSocket('ws://localhost:3000/cable');
+    chatSocket.onopen = () => {
+      console.log('connected to user messages channel');
+      chatSocket.send(
+        JSON.stringify({
+          command: 'subscribe',
+          identifier: JSON.stringify({
+            chat_ids: chatIDs,
+            channel: 'UserChatsChannel',
+          }),
+        })
+      );
+    };
+    chatSocket.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+      if (
+        data.type === 'ping' ||
+        data.type === 'welcome' ||
+        data.type === 'confirm_subscription'
+      )
+        return;
+      refreshChats();
+    };
+  }
+
+  async function refreshChats() {
+    const chatsData = await fetchUserChats(authorizationData.token);
+    setChats(chatsData);
+  }
 
   async function refreshUser() {
     const newUserData = await getCurrentUser(authorizationData.token);
@@ -86,7 +120,11 @@ function Home() {
           chats={chats}
           setMainDisplay={setMainDisplay}
         />
-        <Main setMainDisplay={setMainDisplay} mainDisplay={mainDisplay} />
+        <Main
+          setMainDisplay={setMainDisplay}
+          mainDisplay={mainDisplay}
+          refreshChats={refreshChats}
+        />
       </div>
     </>
   );

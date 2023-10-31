@@ -5,7 +5,7 @@ import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import { useContext, useEffect, useState } from 'react';
 import { getCurrentUser } from '../scripts/ProfileApiCalls';
 
-function Main({ setMainDisplay, mainDisplay }) {
+function Main({ setMainDisplay, mainDisplay, refreshChats }) {
   function Home() {
     const { authorizationData } = useContext(AuthorizationDataContext);
     const [username, setUsername] = useState(null);
@@ -38,7 +38,12 @@ function Main({ setMainDisplay, mainDisplay }) {
           <ChatDisplay chat={mainDisplay[1]} setMainDisplay={setMainDisplay} />
         );
       case 'groups':
-        return <GroupsDisplay setMainDisplay={setMainDisplay} />;
+        return (
+          <GroupsDisplay
+            setMainDisplay={setMainDisplay}
+            refreshChats={refreshChats}
+          />
+        );
       default:
         return <Home />;
     }
