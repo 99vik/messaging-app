@@ -59,9 +59,9 @@ function Home() {
   }, [authorizationLoader]);
 
   function connect(chatIDs) {
+    console.log(chatIDs);
     const chatSocket = new WebSocket('ws://localhost:3000/cable');
     chatSocket.onopen = () => {
-      console.log('connected to user messages channel');
       chatSocket.send(
         JSON.stringify({
           command: 'subscribe',
@@ -82,6 +82,7 @@ function Home() {
       )
         return;
       if (data.message.id) {
+        console.log(data.message.id);
         chatSocket.close();
         connect([...chatIDs, data.message.id]);
       }
@@ -90,7 +91,6 @@ function Home() {
   }
 
   async function refreshChats() {
-    console.log('refreshing chats');
     const chatsData = await fetchUserChats(authorizationData.token);
     setChats(chatsData);
   }

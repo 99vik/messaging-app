@@ -130,7 +130,7 @@ function PublicChats({ publicChats, setMainDisplay, token }) {
     );
   });
 
-  return chatsElement;
+  return <div className="overflow-y-scroll">{chatsElement}</div>;
 }
 
 function CreateChatForm({ close, setMainDisplay, token }) {

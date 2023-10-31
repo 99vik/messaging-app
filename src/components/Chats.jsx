@@ -64,7 +64,7 @@ function Chat({ chat, setMainDisplay }) {
       )}
 
       <div>
-        <h1>{chat.name}</h1>
+        <h1 className="">{chat.name}</h1>
         <h1>
           {chat.last_message ? chat.last_message.body : 'No messages yet.'}
         </h1>
