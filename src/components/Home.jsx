@@ -59,9 +59,9 @@ function Home() {
   }, [authorizationLoader]);
 
   function connect(chatIDs) {
-    console.log(chatIDs);
     const chatSocket = new WebSocket('ws://localhost:3000/cable');
-    chatSocket.onopen = () => {
+    chatSocket.onopen = (chats) => {
+      console.log(chats);
       chatSocket.send(
         JSON.stringify({
           command: 'subscribe',
@@ -82,9 +82,12 @@ function Home() {
       )
         return;
       if (data.message.id) {
-        console.log(data.message.id);
         chatSocket.close();
         connect([...chatIDs, data.message.id]);
+      } else if (data.message.remove_id) {
+        const newIDs = chatIDs.filter((id) => id !== data.message.remove_id);
+        chatSocket.close();
+        connect(newIDs);
       }
       refreshChats();
     };
