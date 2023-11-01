@@ -4,7 +4,7 @@ import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import CloseIcon from '../assets/icons/CloseIcon.svg';
 import { changeChatImage, changeChatName } from '../scripts/ChatApiCalls';
 
-function ChatSettings({ chat, close }) {
+function ChatSettings({ refreshChats, chat, close }) {
   const [nameLoader, setNameLoader] = useState(false);
   const [imageSubmitBtn, setImageSubmitBtn] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
@@ -26,6 +26,7 @@ function ChatSettings({ chat, close }) {
 
     if (response.ok) {
       chat.name = nameRef.current.value;
+      refreshChats();
       console.log('name changed');
       console.log(await response.json());
     } else {
@@ -51,6 +52,7 @@ function ChatSettings({ chat, close }) {
     );
     if (response.ok) {
       chat.image = imageRef.current.src;
+      refreshChats();
       setImageSubmitBtn(false);
       console.log('attached');
     } else {

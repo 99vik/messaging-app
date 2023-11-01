@@ -78,14 +78,14 @@ function Chat({ userID, chat, setMainDisplay }) {
         </svg>
       )}
       {chat.last_message && (
-        <p className="absolute top-0 right-0 text-xs text-neutral-600">
+        <p className="absolute mr-1 top-0 right-0 text-xs dark:text-neutral-300 text-neutral-600">
           {timeAgo.format(new Date(chat.last_message.created_at))}
         </p>
       )}
 
       <div>
         <h1 className="font-semibold">{chat.name}</h1>
-        <div className="flex text-neutral-600">
+        <div className="flex text-neutral-600 dark:text-neutral-300">
           {chat.last_message && chat.type !== 'direct' && (
             <p className="font-semibold mr-2">
               {userID === chat.last_message.user_id

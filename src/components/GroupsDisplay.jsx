@@ -114,7 +114,7 @@ function PublicChats({ publicChats, setMainDisplay, token }) {
           )}
           <div>
             <p className="font-semibold">{chat.name}</p>
-            <p className="text-sm text text-neutral-600">
+            <p className="text-sm text dark:text-neutral-400 text-neutral-600">
               Participants: {chat.participants}
             </p>
           </div>

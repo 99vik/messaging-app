@@ -11,7 +11,7 @@ import AddParticipantPopup from './AddParticipantPopup';
 import ChatSettings from './ChatSettings';
 TimeAgo.addDefaultLocale(en);
 
-function ChatDisplay({ chat, setMainDisplay }) {
+function ChatDisplay({ refreshChats, chat, setMainDisplay }) {
   const [userProfile, setUserProfile] = useState(null);
   const [participantList, setParticipantList] = useState(false);
   const [chatParticipants, setChatParticipants] = useState(null);
@@ -313,7 +313,13 @@ function ChatDisplay({ chat, setMainDisplay }) {
   }
 
   if (chatSettings) {
-    return <ChatSettings chat={chat} close={() => setChatSettings(false)} />;
+    return (
+      <ChatSettings
+        refreshChats={refreshChats}
+        chat={chat}
+        close={() => setChatSettings(false)}
+      />
+    );
   }
 
   return (

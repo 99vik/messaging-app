@@ -60,7 +60,7 @@ function Home() {
 
   function connect(chatIDs) {
     const chatSocket = new WebSocket('ws://localhost:3000/cable');
-    chatSocket.onopen = (chats) => {
+    chatSocket.onopen = () => {
       chatSocket.send(
         JSON.stringify({
           command: 'subscribe',
