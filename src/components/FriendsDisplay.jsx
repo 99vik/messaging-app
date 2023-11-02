@@ -3,13 +3,17 @@ import CloseIcon from '../assets/icons/CloseIcon.svg';
 import { searchForProfiles } from '../scripts/ProfileApiCalls';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import UserProfile from './UserProfile';
-import { getCurrentUserFriends } from '../scripts/FriendshipsApiCalls';
+import {
+  getCurrentUserFriends,
+  getFriendRequests,
+} from '../scripts/FriendshipsApiCalls';
 
 function FriendsDisplay({ setMainDisplay }) {
   const [friends, setFriends] = useState(null);
   const [friendsLoader, setFriendsLoader] = useState(true);
   const [userProfile, setUserProfile] = useState(null);
   const [friendRequests, setFriendRequests] = useState(false);
+  const [incomingFriendRequests, setIncomingFriendRequests] = useState(false);
   const [findFriends, setFindFriends] = useState(false);
   const { authorizationData } = useContext(AuthorizationDataContext);
 
@@ -24,12 +28,23 @@ function FriendsDisplay({ setMainDisplay }) {
       }
       setFriendsLoader(false);
     }
+    async function getFriendRequestsData() {
+      const response = await getFriendRequests(authorizationData.token);
+      if (response.ok) {
+        const data = await response.json();
+        setIncomingFriendRequests(data);
+      } else {
+        console.log('error loading friend requests');
+      }
+    }
     getFriends();
+    getFriendRequestsData();
   }, []);
 
   if (friendRequests) {
     return (
       <FriendRequests
+        incomingFriendRequests={incomingFriendRequests}
         setMainDisplay={setMainDisplay}
         close={() => setFriendRequests(false)}
       />
@@ -137,11 +152,12 @@ function FriendsDisplay({ setMainDisplay }) {
   );
 }
 
-function FriendRequests({ close }) {
+function FriendRequests({ incomingFriendRequests, close }) {
   const [userProfile, setUserProfile] = useState(null);
   const [profiles, setProfiles] = useState(null);
   const [loader, setLoader] = useState(false);
   const { authorizationData } = useContext(AuthorizationDataContext);
+  console.log(incomingFriendRequests);
 
   return (
     <div className="relative w-full h-full flex flex-col">
