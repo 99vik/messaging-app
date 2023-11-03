@@ -8,6 +8,10 @@ TimeAgo.addDefaultLocale(en);
 function Chats({ chats, setMainDisplay }) {
   const { authorizationData } = useContext(AuthorizationDataContext);
 
+  if (chats.length === 0) {
+    return <p className="text-lg text-center mt-5">No chats yet.</p>;
+  }
+
   const userChats = chats.map((chat, index) => (
     <Chat
       key={index}
