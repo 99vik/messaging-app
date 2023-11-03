@@ -2,24 +2,65 @@ import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
-import { useContext } from 'react';
+import { useContext, useRef, useState } from 'react';
 TimeAgo.addDefaultLocale(en);
 
 function Chats({ chats, setMainDisplay }) {
+  const [query, setQuery] = useState(null);
   const { authorizationData } = useContext(AuthorizationDataContext);
+  const searchDebounceRef = useRef(0);
 
-  if (chats.length === 0) {
-    return <p className="text-lg text-center mt-5">No chats yet.</p>;
+  async function handleSearch(searchValue) {
+    if (searchValue === '') {
+      setQuery(null);
+      return;
+    }
+    const query = new RegExp(searchValue, 'i');
+    setQuery(query);
   }
 
-  const userChats = chats.map((chat, index) => (
-    <Chat
-      key={index}
-      userID={authorizationData.resource_owner.id}
-      chat={chat}
-      setMainDisplay={setMainDisplay}
-    />
-  ));
+  const handleSearchChange = (e) => {
+    const searchValue = e.target.value;
+
+    if (searchDebounceRef.current) {
+      clearTimeout(searchDebounceRef.current);
+    }
+
+    searchDebounceRef.current = setTimeout(() => {
+      handleSearch(searchValue);
+    }, 500);
+  };
+
+  if (chats.length === 0) {
+    return <p className="text-lg text-center mt-5">No chats found.</p>;
+  }
+
+  function userChats() {
+    if (!query) {
+      return chats.map((chat, index) => (
+        <Chat
+          key={index}
+          userID={authorizationData.resource_owner.id}
+          chat={chat}
+          setMainDisplay={setMainDisplay}
+          setQuery={setQuery}
+        />
+      ));
+    } else {
+      return chats
+        .filter((chat) => query.test(chat.name))
+        .map((chat, index) => (
+          <Chat
+            key={index}
+            userID={authorizationData.resource_owner.id}
+            chat={chat}
+            setMainDisplay={setMainDisplay}
+            setQuery={setQuery}
+          />
+        ));
+    }
+  }
+
   return (
     <>
       <div className="flex justify-center">
@@ -36,6 +77,8 @@ function Chats({ chats, setMainDisplay }) {
           </svg>
         </label>
         <input
+          ref={searchDebounceRef}
+          onChange={handleSearchChange}
           name="search"
           id="search"
           type="text"
@@ -43,17 +86,23 @@ function Chats({ chats, setMainDisplay }) {
           className="bg-slate-200 outline-none dark:placeholder:text-white dark:text-white dark:bg-slate-600 placeholder:text-neutral-500 text-neutral-800 w-full p-1 pl-3 rounded-tr-lg rounded-br-lg mt-1 mr-3"
         />
       </div>
-      <div className="overflow-y-scroll flex-1 chat-scrollbar">{userChats}</div>
+      <div className="overflow-y-scroll flex-1 chat-scrollbar">
+        {userChats()}
+      </div>
     </>
   );
 }
 
-function Chat({ userID, chat, setMainDisplay }) {
+function Chat({ userID, chat, setMainDisplay, setQuery }) {
   const timeAgo = new TimeAgo('en-US');
   return (
     <div
       className="bg-slate-100 m-1 rounded-sm border flex dark:hover:bg-slate-700 dark:bg-slate-800 dark:border-slate-700 border-slate-200 p-1 relative hover:bg-slate-200 cursor-pointer transition"
-      onClick={() => setMainDisplay(['chat', chat])}
+      onClick={() => {
+        setQuery(null);
+        setMainDisplay(['chat', chat]);
+        document.querySelector('#search').value = '';
+      }}
     >
       {chat.image ? (
         <div className="relative flex align-middle justify-center items-center w-[48px] h-[48px]">
