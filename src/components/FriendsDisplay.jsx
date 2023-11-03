@@ -13,7 +13,6 @@ function FriendsDisplay({ setMainDisplay }) {
   const [friendsLoader, setFriendsLoader] = useState(true);
   const [userProfile, setUserProfile] = useState(null);
   const [friendRequests, setFriendRequests] = useState(false);
-  const [incomingFriendRequests, setIncomingFriendRequests] = useState(false);
   const [findFriends, setFindFriends] = useState(false);
   const { authorizationData } = useContext(AuthorizationDataContext);
 
@@ -28,23 +27,13 @@ function FriendsDisplay({ setMainDisplay }) {
       }
       setFriendsLoader(false);
     }
-    async function getFriendRequestsData() {
-      const response = await getFriendRequests(authorizationData.token);
-      if (response.ok) {
-        const data = await response.json();
-        setIncomingFriendRequests(data);
-      } else {
-        console.log('error loading friend requests');
-      }
-    }
+
     getFriends();
-    getFriendRequestsData();
   }, []);
 
   if (friendRequests) {
     return (
       <FriendRequests
-        incomingFriendRequests={incomingFriendRequests}
         setMainDisplay={setMainDisplay}
         close={() => setFriendRequests(false)}
       />
@@ -152,12 +141,72 @@ function FriendsDisplay({ setMainDisplay }) {
   );
 }
 
-function FriendRequests({ incomingFriendRequests, close }) {
+function FriendRequests({ setMainDisplay, close }) {
+  const [loader, setLoader] = useState(true);
+  const [friendRequests, setFriendRequests] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
-  const [profiles, setProfiles] = useState(null);
-  const [loader, setLoader] = useState(false);
   const { authorizationData } = useContext(AuthorizationDataContext);
-  console.log(incomingFriendRequests);
+
+  useEffect(() => {
+    async function getFriendRequestsData() {
+      const response = await getFriendRequests(authorizationData.token);
+      if (response.ok) {
+        const data = await response.json();
+        setFriendRequests(data);
+      } else {
+        console.log('error loading friend requests');
+      }
+      setLoader(false);
+    }
+    getFriendRequestsData();
+  }, []);
+
+  function Requests() {
+    const displayedRequests = friendRequests.map((request) => {
+      return <Request key={request.id} request={request} />;
+    });
+    return displayedRequests;
+  }
+
+  function Request({ request }) {
+    return (
+      <div className="flex items-center justify-between px-4 dark:bg-slate-700 transition bg-slate-200 border-slate-300 border dark:border-slate-600 my-2 mx-5 p-1 rounded">
+        <div className="flex gap-4">
+          {request.user.image ? (
+            <div className="relative flex align-middle justify-center items-center w-[48px] h-[48px]">
+              <div className="bg-slate-300 dark:bg-slate-900 animate-pulse -z-0 w-[40px] h-[40px] rounded-full absolute"></div>
+              <img
+                onClick={() => setUserProfile(request.user)}
+                src={request.user.image}
+                alt="profile picture"
+                className="w-[40px] h-[40px] rounded-full z-0 cursor-pointer"
+              />
+            </div>
+          ) : (
+            <svg
+              onClick={() => setUserProfile(request.user)}
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="w-12 fill-sky-500 cursor-pointer"
+            >
+              <path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" />
+            </svg>
+          )}
+          <div className="flex justify-center items-center">
+            <p
+              onClick={() => setUserProfile(request.user)}
+              className="font-semibold cursor-pointer"
+            >
+              {request.user.username}
+            </p>
+          </div>
+        </div>
+        <button className="bg-sky-500 hover:bg-sky-600 transition font-semibold h-fit px-8 py-1 rounded-lg text-white">
+          Accept
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="relative w-full h-full flex flex-col">
@@ -182,6 +231,15 @@ function FriendRequests({ incomingFriendRequests, close }) {
       >
         <img src={CloseIcon} alt="close" className="w-11" />
       </button>
+      {loader ? (
+        <Loader />
+      ) : friendRequests.length === 0 ? (
+        <p className="text-center text-lg mt-8 appear-fast">
+          No incoming friend requests.
+        </p>
+      ) : (
+        <Requests />
+      )}
     </div>
   );
 }
