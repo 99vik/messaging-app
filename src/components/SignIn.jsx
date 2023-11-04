@@ -23,6 +23,29 @@ function SignIn() {
     setNotification({ type, message, messagesList });
   }
 
+  function demoLogin(e) {
+    e.preventDefault();
+
+    const accounts = [
+      {
+        email: 'test.email1@mail.com',
+        password: 'password',
+      },
+      {
+        email: 'test.email2@mail.com',
+        password: 'password',
+      },
+      {
+        email: 'test.email3@mail.com',
+        password: 'password',
+      },
+    ];
+    const randomAccount = accounts[Math.floor(Math.random() * accounts.length)];
+    emailRef.current.value = randomAccount.email;
+    passwordRef.current.value = randomAccount.password;
+    handleSubmit(e);
+  }
+
   async function handleSubmit(e) {
     setLoginLoader(true);
     e.preventDefault();
@@ -117,6 +140,7 @@ function SignIn() {
             )}
           </button>
           <button
+            onClick={demoLogin}
             disabled={loginLoader}
             className="bg-white grid grid-cols-4 border border-sky-500 p-2 rounded-lg text-sky-500 font-semibold dark:hover:bg-slate-900 dark:bg-slate-800 hover:bg-neutral-200 transition"
           >
