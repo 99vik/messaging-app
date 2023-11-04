@@ -107,6 +107,19 @@ function Chats({ chats, setMainDisplay, mobileShowChats, setMobileShowChats }) {
 
 function Chat({ userID, chat, setMainDisplay, setQuery, setMobileShowChats }) {
   const timeAgo = new TimeAgo('en-US');
+  let displayedLastMessage;
+  let nameLength;
+  if (chat.last_message) {
+    if (chat.last_message.author) {
+      nameLength = chat.last_message.author.length;
+    }
+    if (chat.last_message.body.length > 35) {
+      displayedLastMessage =
+        chat.last_message.body.slice(0, 34 - nameLength) + '...';
+    } else {
+      displayedLastMessage = chat.last_message.body;
+    }
+  }
   return (
     <div
       className="bg-slate-100 mx-1 mb-1 rounded-sm border flex dark:hover:bg-slate-700 dark:bg-slate-800 dark:border-slate-700 border-slate-200 p-1 relative hover:bg-slate-200 cursor-pointer transition"
@@ -153,15 +166,15 @@ function Chat({ userID, chat, setMainDisplay, setQuery, setMobileShowChats }) {
         <h1 className="font-semibold">{chat.name}</h1>
         <div className="flex text-neutral-600 dark:text-neutral-300">
           {chat.last_message && chat.type !== 'direct' && (
-            <p className="font-semibold mr-2">
+            <p className="font-semibold mr-2 whitespace-nowrap">
               {userID === chat.last_message.user_id
                 ? 'You'
                 : chat.last_message.author}
               :
             </p>
           )}
-          <p>
-            {chat.last_message ? chat.last_message.body : 'No messages yet.'}
+          <p className="whitespace-nowrap">
+            {chat.last_message ? displayedLastMessage : 'No messages yet.'}
           </p>
         </div>
       </div>
