@@ -121,13 +121,18 @@ function Home() {
     );
   }
 
-  function showNotification() {
-    setNotification(true);
+  function showNotification(type, message, messagesList = null) {
+    setNotification({ type, message, messagesList });
   }
 
   return (
     <>
-      {notification && <Notification />}
+      {notification && (
+        <Notification
+          notification={notification}
+          close={() => setNotification(false)}
+        />
+      )}
       <NotificationContext.Provider value={{ showNotification }}>
         <div className="flex h-full rounded-lg overflow-hidden dark:bg-slate-900 dark:text-white ">
           <Sidebar

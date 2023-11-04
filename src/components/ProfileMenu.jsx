@@ -33,11 +33,11 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
     );
 
     if (response.ok) {
-      showNotification();
-      console.log(await response.json());
+      showNotification('success', 'Username changed.');
       refreshUser();
     } else {
-      console.log(await response.json());
+      const message = await response.json();
+      showNotification('fail', 'Error changing username.', message.username);
     }
     setUsernameLoader(false);
   }
@@ -50,10 +50,11 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
     );
 
     if (response.ok) {
-      console.log(await response.json());
+      showNotification('success', 'Description changed.');
       refreshUser();
     } else {
-      console.log(await response.json());
+      const data = await response.json();
+      showNotification('fail', 'Error changing description.', data.description);
     }
     setDescriptionLoader(false);
   }
@@ -72,13 +73,12 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
       imagePreview
     );
     if (response.ok) {
-      console.log('attached');
+      showNotification('success', 'Profile image changed.');
       setImageSubmitBtn(false);
       refreshUser();
     } else {
-      console.log(error);
+      showNotification('fail', 'Error changing profile image.');
     }
-    console.log(await response.json());
   }
 
   return (
