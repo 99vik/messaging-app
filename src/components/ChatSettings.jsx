@@ -1,5 +1,6 @@
 import { useContext, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
+import { NotificationContext } from '../scripts/NotificationContext';
 
 import CloseIcon from '../assets/icons/CloseIcon.svg';
 import { changeChatImage, changeChatName } from '../scripts/ChatApiCalls';
@@ -9,6 +10,7 @@ function ChatSettings({ refreshChats, chat, close }) {
   const [imageSubmitBtn, setImageSubmitBtn] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const { authorizationData } = useContext(AuthorizationDataContext);
+  const { showNotification } = useContext(NotificationContext);
 
   const nameRef = useRef(0);
   const nameLabelRef = useRef(0);
@@ -27,11 +29,10 @@ function ChatSettings({ refreshChats, chat, close }) {
     if (response.ok) {
       chat.name = nameRef.current.value;
       refreshChats();
-      console.log('name changed');
-      console.log(await response.json());
+      showNotification('success', 'Chat name changed.');
     } else {
-      console.log('error changing name');
-      console.log(await response.json());
+      const data = await response.json();
+      showNotification('fail', 'Error changing chat name.', data.name);
     }
     setNameLoader(false);
   }
@@ -54,9 +55,9 @@ function ChatSettings({ refreshChats, chat, close }) {
       chat.image = imageRef.current.src;
       refreshChats();
       setImageSubmitBtn(false);
-      console.log('attached');
+      showNotification('success', 'Chat image changed.');
     } else {
-      console.log('error');
+      showNotification('fail', 'Error changing chat image.');
     }
     console.log(await response.json());
   }

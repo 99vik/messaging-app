@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
+import { NotificationContext } from '../scripts/NotificationContext';
 import { GetChatMessages, SendMessage } from '../scripts/MessageApiCalls';
 
 import TimeAgo from 'javascript-time-ago';
@@ -21,6 +22,8 @@ function ChatDisplay({ refreshChats, chat, setMainDisplay }) {
   const [chatOptions, setChatOptions] = useState(false);
   const [loader, setLoader] = useState(true);
   const { authorizationData } = useContext(AuthorizationDataContext);
+  const { showNotification } = useContext(NotificationContext);
+
   const optionsBtnRef = useRef(0);
   const messagesRef = useRef(0);
 
@@ -89,6 +92,7 @@ function ChatDisplay({ refreshChats, chat, setMainDisplay }) {
   }
 
   async function chatLeave() {
+    showNotification('success', 'Left chat.');
     const response = await leaveChat(authorizationData.token, chat.id);
     setMainDisplay([]);
   }
@@ -260,6 +264,7 @@ function ChatDisplay({ refreshChats, chat, setMainDisplay }) {
     const messageRef = useRef(0);
 
     async function sendMessage() {
+      if (messageRef.current.value === '') return;
       setLoader(true);
       const response = await SendMessage(
         authorizationData.token,
@@ -267,8 +272,7 @@ function ChatDisplay({ refreshChats, chat, setMainDisplay }) {
         chat.id
       );
       if (!response.ok) {
-        console.log('error sending message');
-        console.log(response);
+        showNotification('fail', 'Error sending message.');
       }
       setLoader(false);
     }

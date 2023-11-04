@@ -4,14 +4,14 @@ function Notification({ notification, close }) {
   useEffect(() => {
     setTimeout(() => {
       close();
-    }, 1000000);
+    }, 4000);
   });
   return (
     <div
       className={`${
         notification.type === 'success'
-          ? 'bg-green-400/75 text-green-900'
-          : 'bg-red-400/75 text-red-900'
+          ? 'bg-green-400/80 text-green-950'
+          : 'bg-red-400/80 text-red-950'
       } absolute appear-fast top-1 left-[50%] min-w-[300px] -translate-x-[50%] px-3 py-5 rounded-lg z-50`}
     >
       <div className="absolute top-1 right-1">

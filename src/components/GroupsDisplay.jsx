@@ -1,5 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
+import { NotificationContext } from '../scripts/NotificationContext';
+
 import {
   createChat,
   fetchAllPublicChats,
@@ -12,6 +14,7 @@ function GroupsDisplay({ setMainDisplay }) {
   const [publicChats, setPublicChats] = useState(null);
   const [createForm, setCreateForm] = useState(false);
   const { authorizationData } = useContext(AuthorizationDataContext);
+  const { showNotification } = useContext(NotificationContext);
 
   useEffect(() => {
     async function fetchData() {
@@ -69,14 +72,16 @@ function GroupsDisplay({ setMainDisplay }) {
 }
 
 function PublicChats({ publicChats, setMainDisplay, token }) {
+  const { showNotification } = useContext(NotificationContext);
+
   async function joinChat(id, resetLoader) {
     const response = await joinPublicChat(token, id);
     if (response.ok) {
       const chat = await response.json();
-      console.log('added to chat');
+      showNotification('success', 'Joined chat.');
       setMainDisplay(['chat', chat]);
     } else {
-      console.log('error adding to chat');
+      showNotification('fail', 'Error joining chat.');
     }
     resetLoader();
   }
@@ -156,7 +161,10 @@ function PublicChats({ publicChats, setMainDisplay, token }) {
 }
 
 function CreateChatForm({ close, setMainDisplay, token }) {
+  const [errors, setErrors] = useState(null);
   const [loader, setLoader] = useState(false);
+  const { showNotification } = useContext(NotificationContext);
+
   const nameRef = useRef(0);
   const typeRef = useRef(0);
 
@@ -168,11 +176,11 @@ function CreateChatForm({ close, setMainDisplay, token }) {
 
     const response = await createChat(token, name, type);
     if (response.ok) {
+      showNotification('success', 'Chat created.');
       const chat = await response.json();
       setMainDisplay(['chat', chat]);
     } else {
-      console.log('error');
-      console.log(await response.json());
+      setErrors(await response.json());
     }
     setLoader(false);
   }
@@ -199,8 +207,16 @@ function CreateChatForm({ close, setMainDisplay, token }) {
           className="w-[280px] mx-5 mt-10 flex flex-col gap-4"
         >
           <div className="flex flex-col">
-            <label htmlFor="name" className="text-sky-600 font-semibold">
-              Name
+            <label
+              htmlFor="name"
+              className="text-sky-600 flex items-center gap-2 justify-start font-semibold"
+            >
+              <p>Name</p>
+              {errors && errors.name && (
+                <p className="text-sm text-red-600 whitespace-nowrap">
+                  - {errors.name[0]}
+                </p>
+              )}
             </label>
             <input
               ref={nameRef}
@@ -211,8 +227,16 @@ function CreateChatForm({ close, setMainDisplay, token }) {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="name" className="text-sky-600 font-semibold">
-              Type
+            <label
+              htmlFor="name"
+              className="text-sky-600 flex items-center gap-2 justify-start font-semibold"
+            >
+              <p>Type</p>
+              {errors && errors.type && (
+                <p className="text-sm text-red-600 whitespace-nowrap">
+                  - Select type
+                </p>
+              )}
             </label>
             <select
               ref={typeRef}
