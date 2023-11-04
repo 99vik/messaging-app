@@ -134,7 +134,7 @@ function ParticipantList({
         onClick={close}
         className="h-screen w-screen -translate-x-[360px] absolute z-30 bg-gray-400/30 dark:bg-gray-900/30 appear-fast"
       ></div>
-      <div className="absolute px-4 user-profile rounded-lg right-0 z-40 overflow-y-scroll bg-slate-100 dark:bg-slate-900 border-l flex flex-col border-slate-200 dark:border-slate-700 w-[360px] max-[500px]:w-full h-full transition-all">
+      <div className="absolute pl-4 pr-2 user-profile rounded-lg right-0 z-40 overflow-y-scroll bg-slate-100 dark:bg-slate-900 border-l flex flex-col border-slate-200 dark:border-slate-700 w-[360px] max-[500px]:w-full h-full transition-all">
         <button onClick={close} className="absolute top-1 left-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +150,7 @@ function ParticipantList({
           Participants
         </h1>
         <div className="h-[1px] mt-1 mx-4 bg-neutral-300 dark:bg-slate-700"></div>
-        <div className="flex flex-col gap-3 px-8 py-4">
+        <div className="flex flex-col gap-3 px-3 py-4">
           {displayedParticipants.length === 0 ? (
             <p className="text-neutral-600 text-lg text-center mt-4">
               No other participants.

@@ -113,13 +113,18 @@ function Chat({ userID, chat, setMainDisplay, setQuery, setMobileShowChats }) {
     if (chat.last_message.author) {
       nameLength = chat.last_message.author.length;
     }
-    if (chat.last_message.body.length > 35) {
+    if (chat.last_message.body.length + nameLength > 35) {
       displayedLastMessage =
         chat.last_message.body.slice(0, 34 - nameLength) + '...';
     } else {
-      displayedLastMessage = chat.last_message.body;
+      if (chat.last_message.body.length > 35) {
+        displayedLastMessage = chat.last_message.body.slice(0, 34) + '...';
+      } else {
+        displayedLastMessage = chat.last_message.body;
+      }
     }
   }
+
   return (
     <div
       className="bg-slate-100 mx-1 mb-1 rounded-sm border flex dark:hover:bg-slate-700 dark:bg-slate-800 dark:border-slate-700 border-slate-200 p-1 relative hover:bg-slate-200 cursor-pointer transition"
