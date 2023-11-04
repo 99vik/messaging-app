@@ -54,7 +54,7 @@ function Main({ setMainDisplay, mainDisplay, refreshChats }) {
 
   const display = switchResult();
   return (
-    <div className="bg-slate-50 relative dark:bg-slate-800 flex-1 rounded-tr-lg rounded-br-lg">
+    <div className="bg-slate-50 max-[850px]:-mr-[12px] max-[850px]:overflow-y-hidden relative dark:bg-slate-800 flex-1 flex flex-col rounded-tr-lg rounded-br-lg">
       {display}
     </div>
   );

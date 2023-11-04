@@ -336,7 +336,7 @@ function ChatDisplay({ refreshChats, chat, setMainDisplay }) {
   }
 
   return (
-    <div className="h-full w-full flex flex-col relative">
+    <div className="min-[850px]:h-full w-full flex flex-col max-[850px]:flex-1 max-[850px]:overflow-y-scroll relative">
       {addParticipantPopup && (
         <>
           <AddParticipantPopup
