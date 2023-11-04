@@ -2,10 +2,12 @@ import { useEffect } from 'react';
 
 function Notification({ notification, close }) {
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       close();
     }, 4000);
+    return () => clearTimeout(timer);
   });
+
   return (
     <div
       className={`${

@@ -93,6 +93,10 @@ function FriendsDisplay({ setMainDisplay }) {
     const displayedFriends = friends.map((friend) => (
       <Friend key={friend.id} friend={friend} />
     ));
+
+    if (displayedFriends.length === 0)
+      return <p className="text-lg text-center mt-8">No friends found.</p>;
+
     return (
       <div className="p-4 grid grid-cols-4 gap-4 max-[1420px]:grid-cols-3 max-[1180px]:grid-cols-2 max-[1000px]:grid-cols-1 overflow-y-scroll justify-items-center">
         {displayedFriends}
