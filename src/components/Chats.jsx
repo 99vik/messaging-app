@@ -10,6 +10,8 @@ function Chats({ chats, setMainDisplay, mobileShowChats, setMobileShowChats }) {
   const { authorizationData } = useContext(AuthorizationDataContext);
   const searchDebounceRef = useRef(0);
 
+  if (mobileShowChats) return;
+
   async function handleSearch(searchValue) {
     if (searchValue === '') {
       setQuery(null);
@@ -65,12 +67,6 @@ function Chats({ chats, setMainDisplay, mobileShowChats, setMobileShowChats }) {
 
   return (
     <>
-      <button
-        onClick={() => setMobileShowChats(!mobileShowChats)}
-        className="min-[850px]:hidden bg-sky-500 rounded-lg py-2 my-1 mx-4 text-white font-semibold"
-      >
-        Show chats
-      </button>
       <div
         className={`flex justify-center max-[850px]:${
           mobileShowChats ? 'hidden' : ''

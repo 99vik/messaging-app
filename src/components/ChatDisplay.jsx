@@ -328,7 +328,6 @@ function ChatDisplay({ refreshChats, chat, setMainDisplay }) {
 
   function showUser() {
     if (chat.type === 'direct') {
-      console.log(chat);
       setUserProfile(chat.user);
     } else {
       setParticipantList(true);

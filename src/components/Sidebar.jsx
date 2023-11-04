@@ -31,6 +31,12 @@ function Sidebar({ user, refreshUser, logOut, chats, setMainDisplay }) {
         logOut={logOut}
         setMobileShowChats={setMobileShowChats}
       />
+      <button
+        onClick={() => setMobileShowChats(!mobileShowChats)}
+        className="min-[850px]:hidden bg-sky-500 rounded-lg py-2 my-1 mx-4 text-white font-semibold"
+      >
+        Show chats
+      </button>
       <Chats
         chats={chats}
         setMainDisplay={setMainDisplay}
