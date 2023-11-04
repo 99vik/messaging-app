@@ -134,7 +134,7 @@ function Home() {
         />
       )}
       <NotificationContext.Provider value={{ showNotification }}>
-        <div className="flex h-full rounded-lg overflow-hidden dark:bg-slate-900 dark:text-white ">
+        <div className="flex max-[850px]:-z-20 h-full rounded-lg overflow-hidden dark:bg-slate-900 dark:text-white max-[850px]:flex-col">
           <Sidebar
             user={user}
             refreshUser={refreshUser}

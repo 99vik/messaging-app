@@ -5,7 +5,7 @@ import en from 'javascript-time-ago/locale/en.json';
 import { useContext, useRef, useState } from 'react';
 TimeAgo.addDefaultLocale(en);
 
-function Chats({ chats, setMainDisplay }) {
+function Chats({ chats, setMainDisplay, mobileShowChats, setMobileShowChats }) {
   const [query, setQuery] = useState(null);
   const { authorizationData } = useContext(AuthorizationDataContext);
   const searchDebounceRef = useRef(0);
@@ -44,6 +44,7 @@ function Chats({ chats, setMainDisplay }) {
           chat={chat}
           setMainDisplay={setMainDisplay}
           setQuery={setQuery}
+          setMobileShowChats={setMobileShowChats}
         />
       ));
     } else {
@@ -56,6 +57,7 @@ function Chats({ chats, setMainDisplay }) {
             chat={chat}
             setMainDisplay={setMainDisplay}
             setQuery={setQuery}
+            setMobileShowChats={setMobileShowChats}
           />
         ));
     }
@@ -63,7 +65,17 @@ function Chats({ chats, setMainDisplay }) {
 
   return (
     <>
-      <div className="flex justify-center">
+      <button
+        onClick={() => setMobileShowChats(!mobileShowChats)}
+        className="min-[850px]:hidden bg-sky-500 rounded-lg py-2 my-1 mx-4 text-white font-semibold"
+      >
+        Show chats
+      </button>
+      <div
+        className={`flex justify-center max-[850px]:${
+          mobileShowChats ? 'hidden' : ''
+        } none -z-10`}
+      >
         <label
           htmlFor="search"
           className="p-1 pl-3 flex justify-center items-center bg-slate-200 dark:bg-slate-600 rounded-tl-lg rounded-bl-lg mt-1 ml-3"
@@ -86,20 +98,25 @@ function Chats({ chats, setMainDisplay }) {
           className="bg-slate-200 outline-none dark:placeholder:text-white dark:text-white dark:bg-slate-600 placeholder:text-neutral-500 text-neutral-800 w-full p-1 pl-3 rounded-tr-lg rounded-br-lg mt-1 mr-3"
         />
       </div>
-      <div className="overflow-y-scroll my-1 flex-1 chat-scrollbar">
+      <div
+        className={`overflow-y-scroll -z-10 my-1 flex-1 chat-scrollbar max-[850px]:${
+          mobileShowChats ? 'hidden' : ''
+        }`}
+      >
         {userChats()}
       </div>
     </>
   );
 }
 
-function Chat({ userID, chat, setMainDisplay, setQuery }) {
+function Chat({ userID, chat, setMainDisplay, setQuery, setMobileShowChats }) {
   const timeAgo = new TimeAgo('en-US');
   return (
     <div
       className="bg-slate-100 mx-1 mb-1 rounded-sm border flex dark:hover:bg-slate-700 dark:bg-slate-800 dark:border-slate-700 border-slate-200 p-1 relative hover:bg-slate-200 cursor-pointer transition"
       onClick={() => {
         setQuery(null);
+        setMobileShowChats(true);
         setMainDisplay(['chat', chat]);
         document.querySelector('#search').value = '';
       }}

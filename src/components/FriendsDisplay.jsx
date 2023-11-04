@@ -113,7 +113,7 @@ function FriendsDisplay({ setMainDisplay }) {
           close={() => setUserProfile(null)}
         />
       )}
-      <div className="flex justify-between items-center px-5 pt-4 pb-2">
+      <div className="flex max-[500px]:flex-col max-[500px]:gap-2 justify-between items-center px-5 pt-4 pb-2">
         <p className="text-3xl text-neutral-500 dark:text-neutral-300">
           Friends
         </p>

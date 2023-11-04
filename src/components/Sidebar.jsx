@@ -9,8 +9,14 @@ function Sidebar({ user, refreshUser, logOut, chats, setMainDisplay }) {
     setProfileMenu(!profileMenu);
   }
 
+  const [mobileShowChats, setMobileShowChats] = useState(false);
+
   return (
-    <div className="w-[360px] border-r-2 z-10 flex flex-col border-neutral-200 dark:border-slate-700 relative ">
+    <div
+      className={`w-[360px] ${
+        !mobileShowChats ? 'max-[850px]:h-full' : ''
+      } max-[850px]:w-full max-[850px]:z-10 border-r-2 z-10 flex flex-col border-neutral-200 dark:border-slate-700 relative`}
+    >
       {profileMenu && (
         <ProfileMenu
           refreshUser={refreshUser}
@@ -23,13 +29,25 @@ function Sidebar({ user, refreshUser, logOut, chats, setMainDisplay }) {
         setMainDisplay={setMainDisplay}
         toggleProfileMenu={toggleProfileMenu}
         logOut={logOut}
+        setMobileShowChats={setMobileShowChats}
       />
-      <Chats chats={chats} setMainDisplay={setMainDisplay} />
+      <Chats
+        chats={chats}
+        setMainDisplay={setMainDisplay}
+        mobileShowChats={mobileShowChats}
+        setMobileShowChats={setMobileShowChats}
+      />
     </div>
   );
 }
 
-function TopMenu({ profileImage, setMainDisplay, toggleProfileMenu, logOut }) {
+function TopMenu({
+  profileImage,
+  setMainDisplay,
+  toggleProfileMenu,
+  logOut,
+  setMobileShowChats = { setMobileShowChats },
+}) {
   const [settingsPopup, setSettingsPopup] = useState(false);
   const settingsBtnRef = useRef(0);
 
@@ -58,7 +76,12 @@ function TopMenu({ profileImage, setMainDisplay, toggleProfileMenu, logOut }) {
       </button>
 
       <div className="flex gap-4">
-        <button onClick={() => setMainDisplay(['friends'])}>
+        <button
+          onClick={() => {
+            setMobileShowChats(true);
+            setMainDisplay(['friends']);
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -68,7 +91,12 @@ function TopMenu({ profileImage, setMainDisplay, toggleProfileMenu, logOut }) {
             <path d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z" />
           </svg>
         </button>
-        <button onClick={() => setMainDisplay(['groups'])}>
+        <button
+          onClick={() => {
+            setMobileShowChats(true);
+            setMainDisplay(['groups']);
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -136,7 +164,7 @@ function SettingsPopup({ settingsBtnRef, logOut, close }) {
   return (
     <div
       ref={settingsDiv}
-      className="absolute w-[220px] z-100 appear-fast bg-white dark:bg-slate-700 px-3 py-1 pb-2 -bottom-[250%] left-[100%] rounded-lg border border-sky-400 dark:border-sky-900 dark:shadow-[0_0_6px_3px_rgba(0,160,255,0.1)] shadow-[0_0_6px_3px_rgba(0,160,255,0.2)]"
+      className="absolute w-[220px] appear-fast bg-white dark:bg-slate-700 px-3 py-1 pb-2 -bottom-[250%] left-[100%] max-[850px]:-left-[220px] rounded-lg border border-sky-400 dark:border-sky-900 dark:shadow-[0_0_6px_3px_rgba(0,160,255,0.1)] shadow-[0_0_6px_3px_rgba(0,160,255,0.2)]"
     >
       <p className="text-sm text-neutral-500 dark:text-neutral-300 font-semibold mb-2">
         Settings

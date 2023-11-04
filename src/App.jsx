@@ -20,8 +20,8 @@ export default function App() {
   });
 
   return (
-    <div className="bg-neutral-200 dark:bg-slate-950 w-screen h-screen p-7 max-[920px]:p-5 max-sm:p-0 transition-colors">
-      <div className="bg-white w-full h-full rounded-lg shadow-[0_0_15px_5px_rgba(0,160,255,0.2)]">
+    <div className="bg-neutral-200 dark:bg-slate-950 flex justify-center items-center w-screen h-screen p-7 max-[920px]:p-5 max-sm:p-0 transition-colors">
+      <div className="bg-white dark:bg-slate-900 max-w-[1800px] w-full h-full rounded-lg shadow-[0_0_15px_5px_rgba(0,160,255,0.2)]">
         <AuthorizationDataContext.Provider
           value={{ authorizationData, authorization }}
         >

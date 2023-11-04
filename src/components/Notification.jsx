@@ -14,7 +14,7 @@ function Notification({ notification, close }) {
         notification.type === 'success'
           ? 'bg-green-400/80 text-green-950'
           : 'bg-red-400/80 text-red-950'
-      } absolute appear-fast top-1 left-[50%] min-w-[300px] -translate-x-[50%] px-3 py-5 rounded-lg z-50`}
+      } absolute z-50 appear-fast max-[700px]:top-[20px] top-1 left-[50%] min-w-[300px] -translate-x-[50%] px-3 py-5 rounded-lg`}
     >
       <div className="absolute top-1 right-1">
         <svg

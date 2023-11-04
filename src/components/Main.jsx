@@ -19,11 +19,15 @@ function Main({ setMainDisplay, mainDisplay, refreshChats }) {
     }, []);
 
     return (
-      <div className="h-full w-full flex flex-col justify-center dark:home-background-animated-dark home-background-animated">
+      <div className="h-full w-full max-[850px]:z-0 flex flex-col justify-center dark:home-background-animated-dark home-background-animated">
         {username && (
           <>
-            <p className="ml-[35%] font-bold mb-2 text-3xl appear">Welcome,</p>
-            <p className="ml-[35%] font-bold text-6xl appear">{username}</p>
+            <p className="ml-[50%] -translate-x-[40%] font-bold mb-2 text-3xl appear">
+              Welcome,
+            </p>
+            <p className="ml-[50%] -translate-x-[40%] font-bold text-6xl appear">
+              {username}
+            </p>
           </>
         )}
       </div>

@@ -87,7 +87,7 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
         onClick={toggleProfileMenu}
         className="h-screen w-screen absolute dark:bg-gray-900/30 bg-gray-400/30 appear-fast z-10"
       ></div>
-      <div className="absolute z-20 bg-slate-100 dark:bg-slate-900 border-r flex flex-col border-slate-200 dark:border-slate-700 w-full h-full profile-menu transition-all">
+      <div className="absolute z-20 h-screen bg-slate-100 dark:bg-slate-900 border-r flex flex-col border-slate-200 dark:border-slate-700 w-full profile-menu transition-all">
         <button onClick={toggleProfileMenu} className="absolute top-1 right-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +102,7 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
           Profile
         </h1>
         <div className="h-[1px] mt-1 mx-4 bg-neutral-300 dark:bg-slate-700"></div>
-        <div className="flex flex-col gap-5 pt-5 items-center appear-fast">
+        <div className="flex flex-col flex-1 bg-slate-100 dark:bg-slate-900 gap-5 pt-5 items-center appear-fast">
           <div className="relative">
             <label htmlFor="image">
               <div className="bg-neutral-500/0 hover:bg-neutral-500/30 text-black/0 hover:text-black/100 flex rounded-full top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] h-[167px] w-[167px] z-50 absolute transition cursor-pointer items-center justify-center">
@@ -159,13 +159,13 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
               </>
             )}
           </div>
-          <div className="w-full px-10">
+          <div className="w-full px-10 max-[600px]:px-5">
             <p className="text-sm text-neutral-500 dark:text-neutral-300">
               Your e-mail
             </p>
             <p className="font-semibold">{data.email}</p>
           </div>
-          <div className="w-full px-10">
+          <div className="w-full px-10 max-[600px]:px-5">
             <p className="text-sm text-neutral-500 dark:text-neutral-300">
               Your username
             </p>
@@ -237,7 +237,7 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
               </div>
             </div>
           </div>
-          <div className="w-full px-10">
+          <div className="w-full px-10 max-[600px]:px-5">
             <p className="text-sm text-neutral-500 dark:text-neutral-300">
               Description
             </p>

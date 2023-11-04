@@ -142,7 +142,7 @@ function UserProfile({ setMainDisplay, close, profile }) {
       <div
         className={`absolute ${
           profile.userProfileMode ? '' : 'user-profile'
-        } rounded-lg right-0 z-40 bg-slate-100 dark:bg-slate-900 border-l flex flex-col border-slate-200 dark:border-slate-700 w-[360px] h-full transition-all`}
+        } rounded-lg right-0 z-40 bg-slate-100 dark:bg-slate-900 border-l flex flex-col border-slate-200 dark:border-slate-700 w-[360px] max-[500px]:w-full h-full transition-all`}
       >
         <button onClick={close} className="absolute top-1 left-1">
           {profile.userProfileMode ? (
