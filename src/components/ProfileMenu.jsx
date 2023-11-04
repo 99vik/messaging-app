@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
+import { NotificationContext } from '../scripts/NotificationContext';
 import {
   changeDescription,
   changeProfileImage,
@@ -13,6 +14,7 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
   const [imagePreview, setImagePreview] = useState(null);
   const [imageSubmitBtn, setImageSubmitBtn] = useState(false);
   const { authorizationData } = useContext(AuthorizationDataContext);
+  const { showNotification } = useContext(NotificationContext);
 
   const usernameRef = useRef(0);
   const usernameLabelRef = useRef(0);
@@ -31,6 +33,7 @@ function ProfileMenu({ refreshUser, data, toggleProfileMenu }) {
     );
 
     if (response.ok) {
+      showNotification();
       console.log(await response.json());
       refreshUser();
     } else {

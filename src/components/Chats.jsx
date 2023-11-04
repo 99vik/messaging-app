@@ -86,7 +86,7 @@ function Chats({ chats, setMainDisplay }) {
           className="bg-slate-200 outline-none dark:placeholder:text-white dark:text-white dark:bg-slate-600 placeholder:text-neutral-500 text-neutral-800 w-full p-1 pl-3 rounded-tr-lg rounded-br-lg mt-1 mr-3"
         />
       </div>
-      <div className="overflow-y-scroll flex-1 chat-scrollbar">
+      <div className="overflow-y-scroll my-1 flex-1 chat-scrollbar">
         {userChats()}
       </div>
     </>
@@ -97,7 +97,7 @@ function Chat({ userID, chat, setMainDisplay, setQuery }) {
   const timeAgo = new TimeAgo('en-US');
   return (
     <div
-      className="bg-slate-100 m-1 rounded-sm border flex dark:hover:bg-slate-700 dark:bg-slate-800 dark:border-slate-700 border-slate-200 p-1 relative hover:bg-slate-200 cursor-pointer transition"
+      className="bg-slate-100 mx-1 mb-1 rounded-sm border flex dark:hover:bg-slate-700 dark:bg-slate-800 dark:border-slate-700 border-slate-200 p-1 relative hover:bg-slate-200 cursor-pointer transition"
       onClick={() => {
         setQuery(null);
         setMainDisplay(['chat', chat]);

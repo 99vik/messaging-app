@@ -91,7 +91,7 @@ function PublicChats({ publicChats, setMainDisplay, token }) {
     return (
       <div
         key={chat.id}
-        className="flex items-center justify-between px-4 dark:bg-slate-700 transition bg-slate-200 border-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 cursor-pointer border dark:border-slate-600 my-2 mx-5 p-1 rounded"
+        className="flex items-center justify-between px-4 dark:bg-slate-700 transition bg-slate-200 border-slate-300 border dark:border-slate-600 my-2 mx-5 p-1 rounded"
       >
         <div className="flex gap-4">
           {chat.image ? (

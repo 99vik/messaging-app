@@ -1,13 +1,16 @@
 import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
+import { NotificationContext } from '../scripts/NotificationContext';
 import { useNavigate } from 'react-router-dom';
 import { refreshToken, revokeToken } from '../scripts/AuthorizationApiRequests';
 import { fetchUserChats } from '../scripts/ChatApiCalls';
 import Sidebar from './Sidebar';
 import Main from './Main';
 import { getCurrentUser } from '../scripts/ProfileApiCalls';
+import Notification from './Notification';
 
 function Home() {
+  const [notification, setNotification] = useState(false);
   const [chats, setChats] = useState(null);
   const [user, setUser] = useState(null);
   const [loader, setLoader] = useState(true);
@@ -118,22 +121,29 @@ function Home() {
     );
   }
 
+  function showNotification() {
+    setNotification(true);
+  }
+
   return (
     <>
-      <div className="flex h-full rounded-lg overflow-hidden dark:bg-slate-900 dark:text-white ">
-        <Sidebar
-          user={user}
-          refreshUser={refreshUser}
-          logOut={logOut}
-          chats={chats}
-          setMainDisplay={setMainDisplay}
-        />
-        <Main
-          setMainDisplay={setMainDisplay}
-          mainDisplay={mainDisplay}
-          refreshChats={refreshChats}
-        />
-      </div>
+      {notification && <Notification />}
+      <NotificationContext.Provider value={{ showNotification }}>
+        <div className="flex h-full rounded-lg overflow-hidden dark:bg-slate-900 dark:text-white ">
+          <Sidebar
+            user={user}
+            refreshUser={refreshUser}
+            logOut={logOut}
+            chats={chats}
+            setMainDisplay={setMainDisplay}
+          />
+          <Main
+            setMainDisplay={setMainDisplay}
+            mainDisplay={mainDisplay}
+            refreshChats={refreshChats}
+          />
+        </div>
+      </NotificationContext.Provider>
     </>
   );
 }
