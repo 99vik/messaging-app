@@ -69,7 +69,7 @@ function Chats({ chats, setMainDisplay, mobileShowChats, setMobileShowChats }) {
     <>
       <div
         className={`flex justify-center max-[850px]:${
-          mobileShowChats ? 'hidden' : ''
+          !mobileShowChats ? 'hidden' : ''
         } none -z-10`}
       >
         <label
@@ -112,7 +112,7 @@ function Chat({ userID, chat, setMainDisplay, setQuery, setMobileShowChats }) {
       className="bg-slate-100 mx-1 mb-1 rounded-sm border flex dark:hover:bg-slate-700 dark:bg-slate-800 dark:border-slate-700 border-slate-200 p-1 relative hover:bg-slate-200 cursor-pointer transition"
       onClick={() => {
         setQuery(null);
-        setMobileShowChats(true);
+        if (screen.width <= 850) setMobileShowChats(true);
         setMainDisplay(['chat', chat]);
         document.querySelector('#search').value = '';
       }}

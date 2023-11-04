@@ -84,7 +84,7 @@ function TopMenu({
       <div className="flex gap-4">
         <button
           onClick={() => {
-            setMobileShowChats(true);
+            if (screen.width <= 850) setMobileShowChats(true);
             setMainDisplay(['friends']);
           }}
         >
@@ -99,7 +99,7 @@ function TopMenu({
         </button>
         <button
           onClick={() => {
-            setMobileShowChats(true);
+            if (screen.width <= 850) setMobileShowChats(true);
             setMainDisplay(['groups']);
           }}
         >
