@@ -3,7 +3,6 @@ import { API_URL } from './apiLinks';
 async function getCurrentUser(access_token) {
   const response = await fetch(`${API_URL}/current_user_profile`, {
     method: 'GET',
-    mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${access_token}`,
@@ -16,7 +15,6 @@ async function changeUsername(access_token, username) {
   const profile = { username };
   const response = await fetch(`${API_URL}/change_username`, {
     method: 'POST',
-    mode: 'cors',
     body: JSON.stringify({
       profile,
     }),
@@ -32,7 +30,6 @@ async function changeDescription(access_token, description) {
   const profile = { description };
   const response = await fetch(`${API_URL}/change_description`, {
     method: 'POST',
-    mode: 'cors',
     body: JSON.stringify({
       profile,
     }),
@@ -49,7 +46,6 @@ async function changeProfileImage(access_token, image) {
   data.append('profile[image]', image);
   const response = await fetch(`${API_URL}/change_profile_image`, {
     method: 'POST',
-    mode: 'cors',
     body: data,
     headers: {
       Authorization: `Bearer ${access_token}`,
@@ -61,7 +57,6 @@ async function changeProfileImage(access_token, image) {
 async function searchForProfiles(access_token, query) {
   const response = await fetch(`${API_URL}/search_profiles/${query}`, {
     method: 'GET',
-    mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${access_token}`,
