@@ -3,6 +3,7 @@ import { AUTHORIZATION_API_URL } from './apiLinks';
 async function refreshToken(refresh_token) {
   const response = await fetch(`${AUTHORIZATION_API_URL}/refresh`, {
     method: 'POST',
+    mode: 'no-cors',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${refresh_token}`,
@@ -14,6 +15,7 @@ async function refreshToken(refresh_token) {
 async function revokeToken(access_token) {
   const response = await fetch(`${AUTHORIZATION_API_URL}/revoke`, {
     method: 'POST',
+    mode: 'no-cors',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${access_token}`,
@@ -25,6 +27,7 @@ async function revokeToken(access_token) {
 async function signUpToken(email, username, password) {
   const response = await fetch(`${AUTHORIZATION_API_URL}/sign_up`, {
     method: 'POST',
+    mode: 'no-cors',
     body: JSON.stringify({
       email,
       username,
@@ -38,6 +41,7 @@ async function signUpToken(email, username, password) {
 async function signInToken(email, password) {
   const response = await fetch(`${AUTHORIZATION_API_URL}/sign_in`, {
     method: 'POST',
+    mode: 'no-cors',
     body: JSON.stringify({
       email,
       password,
