@@ -115,7 +115,7 @@ function Chat({ userID, chat, setMainDisplay, setQuery, setMobileShowChats }) {
     }
     if (chat.last_message.body.length + nameLength > 35) {
       displayedLastMessage =
-        chat.last_message.body.slice(0, 34 - nameLength) + '...';
+        chat.last_message.body.slice(0, 31 - nameLength) + '...';
     } else {
       if (chat.last_message.body.length > 35) {
         displayedLastMessage = chat.last_message.body.slice(0, 34) + '...';
