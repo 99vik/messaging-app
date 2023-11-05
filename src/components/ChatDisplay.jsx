@@ -203,7 +203,7 @@ function ChatDisplay({ refreshChats, chat, setMainDisplay }) {
                 <div className="w-[40px] h-[40px] rounded-full absolute bg-slate-400 animate-pulse -z-0"></div>
                 <img
                   src={message.user.image}
-                  className="w-[40px] h-[40px] rounded-full z-10"
+                  className="w-[40px] h-[40px] rounded-full z-0"
                   alt="profile picture"
                 />
               </div>
