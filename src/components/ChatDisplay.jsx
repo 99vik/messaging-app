@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import { NotificationContext } from '../scripts/NotificationContext';
 import { GetChatMessages, SendMessage } from '../scripts/MessageApiCalls';
-
+import { WS_URL } from '../scripts/apiLinks';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import UserProfile from './UserProfile';
@@ -28,7 +28,7 @@ function ChatDisplay({ refreshChats, chat, setMainDisplay }) {
   const messagesRef = useRef(0);
 
   useEffect(() => {
-    const chatSocket = new WebSocket('ws://localhost:3000/cable');
+    const chatSocket = new WebSocket(`${WS_URL}`);
     chatSocket.onopen = () => {
       chatSocket.send(
         JSON.stringify({

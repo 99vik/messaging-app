@@ -8,6 +8,7 @@ import Sidebar from './Sidebar';
 import Main from './Main';
 import { getCurrentUser } from '../scripts/ProfileApiCalls';
 import Notification from './Notification';
+import { WS_URL } from '../scripts/apiLinks';
 
 function Home() {
   const [notification, setNotification] = useState(false);
@@ -53,23 +54,20 @@ function Home() {
         setChats(chatsData);
         setUser(userData);
         setLoader(false);
-
-        const chatIDs = chatsData.map((chat) => chat.id);
-        connect(chatIDs);
+        connect();
       }
     }
     getData();
   }, [authorizationLoader]);
 
-  function connect(chatIDs) {
-    const chatSocket = new WebSocket('ws://localhost:3000/cable');
+  function connect() {
+    const chatSocket = new WebSocket(`${WS_URL}`);
     chatSocket.onopen = () => {
       chatSocket.send(
         JSON.stringify({
           command: 'subscribe',
           identifier: JSON.stringify({
             user_id: authorizationData.resource_owner.id,
-            chat_ids: chatIDs,
             channel: 'UserChatsChannel',
           }),
         })
@@ -81,17 +79,12 @@ function Home() {
         data.type === 'ping' ||
         data.type === 'welcome' ||
         data.type === 'confirm_subscription'
-      )
+      ) {
         return;
-      if (data.message.id) {
-        chatSocket.close();
-        connect([...chatIDs, data.message.id]);
-      } else if (data.message.remove_id) {
-        const newIDs = chatIDs.filter((id) => id !== data.message.remove_id);
-        chatSocket.close();
-        connect(newIDs);
+      } else {
+        console.log(data.message);
+        refreshChats();
       }
-      refreshChats();
     };
   }
 
