@@ -3,7 +3,7 @@ import { AuthorizationDataContext } from '../scripts/AuthorizationDataContext';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import { useContext, useRef, useState } from 'react';
-TimeAgo.addDefaultLocale(en);
+TimeAgo.addLocale(en);
 
 function Chats({ chats, setMainDisplay, mobileShowChats, setMobileShowChats }) {
   const [query, setQuery] = useState(null);
